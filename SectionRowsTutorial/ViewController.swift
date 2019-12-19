@@ -46,6 +46,8 @@ class ViewController: UITableViewController {
     
     @objc func addWorkout() {
         var textField = UITextField()
+        var containsDay = false
+        var counter = 0
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
@@ -54,31 +56,25 @@ class ViewController: UITableViewController {
             //if day doesn't exist, create a day and append workout to newly created day object.
             
             //First, we have to create an initial days object...
+            //Need to check if ANY of the weekdays == picked day, only execute then.
             
-            
-//                        let dow = Days()
-//                        let newWorkout = Workouts()
-//                        dow.weekday = self.daysOfWeek[self.picker.selectedRow(inComponent: 0)]
-//                        newWorkout.title = textField.text!
-//                        dow.workout.append(newWorkout)
-//
-//                        self.save(newDay: dow)
-                        
-            
-            for i in 0...(self.days!.count) {
-                if self.days?.isEmpty == false {
-                    if self.days?[i].weekday != self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
-                        let dow = Days()
-                        let newWorkout = Workouts()
-                        dow.weekday = self.daysOfWeek[self.picker.selectedRow(inComponent: 0)]
-                        newWorkout.title = textField.text!
-                        dow.workout.append(newWorkout)
-
-                        self.save(newDay: dow)
-                    } else {
-                        let newWorkout = Workouts()
-                        newWorkout.title = textField.text!
-                        self.days?[i].workout.append(newWorkout)
+            if self.days?.isEmpty == false {
+                for i in 0...(self.days!.count - 1) {
+                    
+                    if self.days?[i].weekday == self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
+                        containsDay = true
+                        counter = i
+                        break
+                    }
+                }
+                
+                if containsDay == true {
+                    let newWorkout = Workouts()
+                    newWorkout.title = textField.text!
+                    
+                    try! self.realm.write {
+                        self.days?[counter].workout.append(newWorkout)
+                        self.loadDays()
                     }
                 } else {
                     let dow = Days()
@@ -86,12 +82,18 @@ class ViewController: UITableViewController {
                     dow.weekday = self.daysOfWeek[self.picker.selectedRow(inComponent: 0)]
                     newWorkout.title = textField.text!
                     dow.workout.append(newWorkout)
-
                     self.save(newDay: dow)
                 }
+            } else {
+                let dow = Days()
+                let newWorkout = Workouts()
+                dow.weekday = self.daysOfWeek[self.picker.selectedRow(inComponent: 0)]
+                newWorkout.title = textField.text!
+                dow.workout.append(newWorkout)
+                
+                self.save(newDay: dow)
             }
         }
-        
         
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Muscle Group"
@@ -100,9 +102,7 @@ class ViewController: UITableViewController {
         }
         
         alert.addAction(addAction)
-        
         present(alert, animated: true, completion: nil)
-        
     }
     
     
@@ -145,7 +145,7 @@ class ViewController: UITableViewController {
                 realm.add(newDay)
             }
         } catch {
-            print("Error saving workout \(error)")
+            print("Error saving day \(error)")
         }
         self.loadDays()
     }
