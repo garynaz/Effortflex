@@ -133,6 +133,32 @@ class ViewController: UITableViewController {
     }
     
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            try! realm.write {
+                realm.delete((days?[indexPath.section].workout[indexPath.row])!)
+                                
+                tableView.beginUpdates()
+                
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                
+                if days?[indexPath.section].workout.isEmpty == true {
+                    realm.delete((days?[indexPath.section])!)
+                    let indexSet = IndexSet(arrayLiteral: indexPath.section)
+                    tableView.deleteSections(indexSet, with: .automatic)
+                }
+                
+                tableView.endUpdates()
+            }
+        }
+    }
+    
+    
     
     func loadDays() {
         days = realm.objects(Days.self)
