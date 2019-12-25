@@ -23,7 +23,7 @@ class ViewController: UITableViewController {
     var indexCheck : Int = 0
     
     let picker = UIPickerView()
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,15 +39,16 @@ class ViewController: UITableViewController {
         
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
         self.navigationItem.rightBarButtonItem = addBarButton
+
         
         loadDays()
-        
     }
     
     @objc func addWorkout() {
         var textField = UITextField()
         var containsDay = false
         var counter = 0
+        
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
@@ -57,7 +58,6 @@ class ViewController: UITableViewController {
             
             //First, we have to create an initial days object...
             //Need to check if ANY of the weekdays == picked day, only execute then.
-            
             if self.days?.isEmpty == false {
                 for i in 0...(self.days!.count - 1) {
                     
