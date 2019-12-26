@@ -11,7 +11,7 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UITableViewController {
+class ViewController: UITableViewController, UITextFieldDelegate {
     
     let realm = try! Realm()
     
@@ -23,7 +23,8 @@ class ViewController: UITableViewController {
     var indexCheck : Int = 0
     
     let picker = UIPickerView()
-
+    var textField1 = UITextField()
+    var textField2 = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,9 @@ class ViewController: UITableViewController {
         
         picker.delegate = self
         picker.dataSource = self
+        
+        textField1.delegate = self
+        textField2.delegate = self
         
         navigationItem.title = "Workouts"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -45,9 +49,10 @@ class ViewController: UITableViewController {
     }
     
     @objc func addWorkout() {
-        var textField = UITextField()
+
         var containsDay = false
         var counter = 0
+
         
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
@@ -70,7 +75,7 @@ class ViewController: UITableViewController {
                 
                 if containsDay == true {
                     let newWorkout = Workouts()
-                    newWorkout.title = textField.text!
+                    newWorkout.title = self.textField2.text!
                     
                     try! self.realm.write {
                         self.days?[counter].workout.append(newWorkout)
@@ -80,7 +85,7 @@ class ViewController: UITableViewController {
                     let dow = Days()
                     let newWorkout = Workouts()
                     dow.weekday = self.daysOfWeek[self.picker.selectedRow(inComponent: 0)]
-                    newWorkout.title = textField.text!
+                    newWorkout.title = self.textField2.text!
                     dow.workout.append(newWorkout)
                     self.save(newDay: dow)
                 }
@@ -88,18 +93,27 @@ class ViewController: UITableViewController {
                 let dow = Days()
                 let newWorkout = Workouts()
                 dow.weekday = self.daysOfWeek[self.picker.selectedRow(inComponent: 0)]
-                newWorkout.title = textField.text!
+                newWorkout.title = self.textField2.text!
                 dow.workout.append(newWorkout)
                 
                 self.save(newDay: dow)
             }
         }
         
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Muscle Group"
-            textField = alertTextField
-            alertTextField.inputView = self.picker
+        alert.addTextField { (alertTextField1) in
+            alertTextField1.placeholder = "Day of Week"
+            alertTextField1.text = self.textField1.text
+            self.textField1 = alertTextField1
+            alertTextField1.inputView = self.picker
+            
         }
+        
+        alert.addTextField { (alertTextField2) in
+            alertTextField2.placeholder = "Muscle Group"
+            self.textField2 = alertTextField2
+            alertTextField2.inputView = nil
+        }
+        
         
         alert.addAction(addAction)
         present(alert, animated: true, completion: nil)
@@ -193,6 +207,11 @@ extension ViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return daysOfWeek[row]
     }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        textField1.text = daysOfWeek[row]
+    }
+    
 }
 
 
