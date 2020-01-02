@@ -11,25 +11,26 @@ import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         do { _ = try Realm()
-        } catch { print("Error initializing new realm, \(error)") }
+        } catch {
+            print("Error initializing new realm, \(error)")
+        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
+        
         if let window = window {
-            let navController = UINavigationController(rootViewController: ViewController())
+            let navController = UINavigationController(rootViewController: FirstViewController())
             window.backgroundColor = UIColor.white
             window.rootViewController = navController
             window.makeKeyAndVisible()
         }
         return true
     }
-
-
 }
 

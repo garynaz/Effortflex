@@ -1,17 +1,15 @@
 //
-//  ViewController.swift
+//  FirstViewController.swift
 //  SectionRowsTutorial
 //
-//  Created by Gary Naz on 12/8/19.
+//  Created by Gary Naz on 12/29/19.
 //  Copyright © 2019 Gari Nazarian. All rights reserved.
 //
-
-//Pushing to repository
 
 import UIKit
 import RealmSwift
 
-class ViewController: UITableViewController, UITextFieldDelegate {
+class FirstViewController: UITableViewController {
     
     let realm = try! Realm()
     
@@ -26,6 +24,9 @@ class ViewController: UITableViewController, UITextFieldDelegate {
     var textField1 = UITextField()
     var textField2 = UITextField()
     
+    
+    
+    //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -33,8 +34,6 @@ class ViewController: UITableViewController, UITextFieldDelegate {
         picker.delegate = self
         picker.dataSource = self
         
-        textField1.delegate = self
-        textField2.delegate = self
         
         navigationItem.title = "Workouts"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -43,16 +42,16 @@ class ViewController: UITableViewController, UITextFieldDelegate {
         
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
         self.navigationItem.rightBarButtonItem = addBarButton
-
+        
         
         loadDays()
     }
     
+    //MARK: - Add a New Workout
     @objc func addWorkout() {
-
+        
         var containsDay = false
         var counter = 0
-
         
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
@@ -105,7 +104,6 @@ class ViewController: UITableViewController, UITextFieldDelegate {
             alertTextField1.text = self.textField1.text
             self.textField1 = alertTextField1
             alertTextField1.inputView = self.picker
-            
         }
         
         alert.addTextField { (alertTextField2) in
@@ -120,6 +118,7 @@ class ViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
+    //MARK: - TableView DataSource and Delegate Methods
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = days?[section].weekday ?? "Section Header"
@@ -140,13 +139,14 @@ class ViewController: UITableViewController, UITextFieldDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
         let workout = days?[indexPath.section].workout[indexPath.row].title ?? "Workout"
-                
+        
         cell.textLabel?.text = "\(workout)  Section:\(indexPath.section) Row:\(indexPath.row)"
         
         return cell
     }
     
     
+    //MARK: - Swipe To Delete
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -156,7 +156,7 @@ class ViewController: UITableViewController, UITextFieldDelegate {
         if editingStyle == .delete {
             try! realm.write {
                 realm.delete((days?[indexPath.section].workout[indexPath.row])!)
-                                
+                
                 tableView.beginUpdates()
                 
                 tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -173,12 +173,13 @@ class ViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
-    
+    //MARK: - Load Data
     func loadDays() {
         days = realm.objects(Days.self)
         tableView.reloadData()
     }
     
+    //MARK: - Save Data
     func save(newDay : Days) {
         do {
             try realm.write {
@@ -189,12 +190,27 @@ class ViewController: UITableViewController, UITextFieldDelegate {
         }
         self.loadDays()
     }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        let vc = SecondViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        let destinationVC = segue.destination as! SecondViewController
+
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedWorkout = days?[indexPath.section].workout[indexPath.row]
+        }
+    }
 }
 
 
-
-extension ViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+//MARK: - PickerView Delegate Methods
+extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -213,5 +229,3 @@ extension ViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
 }
-
-

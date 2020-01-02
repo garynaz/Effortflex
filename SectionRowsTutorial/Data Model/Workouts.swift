@@ -14,4 +14,5 @@ class Workouts : Object {
     @objc dynamic var title : String = ""
     var parentDay = LinkingObjects(fromType: Days.self, property: "workout")
     
+    let exercise = List<Exercises>()
 }
