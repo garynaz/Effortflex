@@ -14,4 +14,6 @@ class Exercises : Object {
     @objc dynamic var exerciseName : String = ""
     
     var parentWorkout = LinkingObjects(fromType: Workouts.self, property: "exercise")
+    
+    let wsr = List<WeightSetsReps>()
 }

@@ -12,6 +12,7 @@ import RealmSwift
 class Days : Object {
     
     @objc dynamic var weekday : String = ""
+   
     let workout = List<Workouts>()
     
 }

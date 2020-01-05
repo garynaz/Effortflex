@@ -19,8 +19,10 @@ class FirstViewController: UITableViewController {
     var daysOfWeek : [String] = ["Monday", "Tuesday", "Wednsday", "Thursday", "Friday", "Saturday", "Sunday"]
     
     var indexCheck : Int = 0
+    let cellID = "WorkoutCell"
     
     let picker = UIPickerView()
+    
     var textField1 = UITextField()
     var textField2 = UITextField()
     
@@ -34,18 +36,22 @@ class FirstViewController: UITableViewController {
         picker.delegate = self
         picker.dataSource = self
         
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        
+        navConAcc()
+        loadDays()
+    }
+    
+    
+    //MARK: - Navigation Bar Setup
+    func navConAcc() {
+        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
+        navigationItem.rightBarButtonItem = addBarButton
         
         navigationItem.title = "Workouts"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        
-        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
-        self.navigationItem.rightBarButtonItem = addBarButton
-        
-        
-        loadDays()
     }
+    
     
     //MARK: - Add a New Workout
     @objc func addWorkout() {
@@ -134,15 +140,22 @@ class FirstViewController: UITableViewController {
         return days?[section].workout.count ?? 0
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let workout = days?[indexPath.section].workout[indexPath.row].title ?? "Workout"
         
         cell.textLabel?.text = "\(workout)  Section:\(indexPath.section) Row:\(indexPath.row)"
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let destinationVC = SecondViewController()
+        destinationVC.selectedWorkout = days?[indexPath.section].workout[indexPath.row]
+        
+        self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     
@@ -191,21 +204,6 @@ class FirstViewController: UITableViewController {
         self.loadDays()
     }
     
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        let vc = SecondViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        let destinationVC = segue.destination as! SecondViewController
-
-        if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedWorkout = days?[indexPath.section].workout[indexPath.row]
-        }
-    }
 }
 
 

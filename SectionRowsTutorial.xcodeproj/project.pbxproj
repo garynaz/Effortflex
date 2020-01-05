@@ -11,6 +11,8 @@
 		DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119023B93ACA00C5D995 /* FirstViewController.swift */; };
 		DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119423B9481300C5D995 /* SecondViewController.swift */; };
 		DD19119823B94C2900C5D995 /* Exercises.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119723B94C2900C5D995 /* Exercises.swift */; };
+		DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2E807323C15E120081C1A8 /* ThirdViewController.swift */; };
+		DD2E807623C1824D0081C1A8 /* WeightSetsReps.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */; };
 		DD319C8823A30B7900222847 /* Days.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8723A30B7900222847 /* Days.swift */; };
 		DD319C8A23A30B8200222847 /* Workouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8923A30B8200222847 /* Workouts.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
@@ -24,6 +26,8 @@
 		DD19119023B93ACA00C5D995 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		DD19119423B9481300C5D995 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		DD19119723B94C2900C5D995 /* Exercises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercises.swift; sourceTree = "<group>"; };
+		DD2E807323C15E120081C1A8 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSetsReps.swift; sourceTree = "<group>"; };
 		DD319C8723A30B7900222847 /* Days.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Days.swift; sourceTree = "<group>"; };
 		DD319C8923A30B8200222847 /* Workouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workouts.swift; sourceTree = "<group>"; };
 		DD3B9CF8239D85E400095B05 /* SectionRowsTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SectionRowsTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +72,7 @@
 			children = (
 				DD19119023B93ACA00C5D995 /* FirstViewController.swift */,
 				DD19119423B9481300C5D995 /* SecondViewController.swift */,
+				DD2E807323C15E120081C1A8 /* ThirdViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -78,6 +83,7 @@
 				DD319C8723A30B7900222847 /* Days.swift */,
 				DD319C8923A30B8200222847 /* Workouts.swift */,
 				DD19119723B94C2900C5D995 /* Exercises.swift */,
+				DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -227,9 +233,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD2E807623C1824D0081C1A8 /* WeightSetsReps.swift in Sources */,
 				DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */,
 				DD19119823B94C2900C5D995 /* Exercises.swift in Sources */,
 				DD319C8823A30B7900222847 /* Days.swift in Sources */,
+				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
 				DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */,
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
 				DD319C8A23A30B8200222847 /* Workouts.swift in Sources */,
