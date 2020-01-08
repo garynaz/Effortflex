@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/owner1/Desktop/SectionRowsTutorial/SectionRowsTutorial/ImageAssets.xcassets">
+   </FileRef>
+   <FileRef
       location = "group:SectionRowsTutorial.xcodeproj">
    </FileRef>
    <FileRef
