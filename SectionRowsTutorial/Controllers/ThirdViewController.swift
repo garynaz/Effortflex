@@ -106,8 +106,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
         nextExcersise.setTitle("Next Exercise", for: .normal)
         nextExcersise.setTitleColor(.black, for: .normal)
         
-        [weightTextField, repsTextField, notesTextView, nextSet, nextExcersise].forEach{view.addSubview($0)}
-
+        [weightTextField, repsTextField, notesTextView].forEach{view.addSubview($0)}
     }
     
     
@@ -137,12 +136,12 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
     @objc func dismissKeyboard(){
         view.endEditing(true)
     }
-        
+    
     
     //MARK: - TextField Constrainst
     func setTextFieldConstraints(){
-        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 20, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 50))
-        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 30, left: 40, bottom: 0, right: -40) ,size: .init(width: 0, height: 50))
+        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 20, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 50))
+        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30, left: 40, bottom: 0, right: -40) ,size: .init(width: 0, height: 50))
     }
     
     
@@ -153,21 +152,21 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - UIButton Constrainst
     func setButtonConstraints(){
-        nextSet.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: nextExcersise.leadingAnchor, size: .init(width: 120, height: 70))
-        nextExcersise.anchor(top: nil, leading: nextSet.trailingAnchor, bottom: nextSet.bottomAnchor, trailing: view.trailingAnchor, size: .init(width: 120, height: 70))
-       }
-    
+        let butonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
+        butonStackView.distribution = .fillEqually
+        view.addSubview(butonStackView)
+        butonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, size: .init(width: 0, height: 60))
+    }
     
     //MARK: - ImageView Constraints
     func setImageViewConstraints(){
-//        timerImage.anchor(top: repsTextField.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 100, height: 100))
+        timerImage.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 80))
     }
     
     //MARK: - TextView Constraints
     func setTextViewConstraints(){
-//        notesTextView.anchor(top: timerImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 100, height: 110))
+        notesTextView.anchor(top: timerImage.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 120))
     }
-    
     
     //MARK: - Navigation Bar Setup
     func navConAcc(){
