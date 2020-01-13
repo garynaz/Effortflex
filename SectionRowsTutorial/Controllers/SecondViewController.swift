@@ -28,6 +28,7 @@ class SecondViewController: UITableViewController {
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ExerciseCell")
         navConAcc()
+        
     }
     
     //MARK: - Navigation Bar Setup
@@ -54,15 +55,14 @@ class SecondViewController: UITableViewController {
         
         return cell
     }
-    
+  
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let destinationVC = ThirdViewController()
         destinationVC.selectedExercise = exercises![indexPath.row]
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
-    
+
     
     //MARK: - Add a New Exercise
     

@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ThirdViewController: UIViewController {
+class ThirdViewController: UIViewController, UITextViewDelegate {
     
     let realm = try! Realm()
     
@@ -39,6 +39,8 @@ class ThirdViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        notesTextView.delegate = self
+        
         timeClock()
         navConAcc()
         labelConfig()
@@ -46,6 +48,9 @@ class ThirdViewController: UIViewController {
         setImageViewConstraints()
         setTextViewConstraints()
         setButtonConstraints()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     
@@ -78,8 +83,9 @@ class ThirdViewController: UIViewController {
         notesTextView.backgroundColor = .white
         notesTextView.layer.cornerRadius = 25
         notesTextView.layer.borderColor = UIColor.lightGray.cgColor
-        notesTextView.text = "Notes"
-        notesTextView.textAlignment = .center
+        notesTextView.text = "  Notes..."
+        notesTextView.textColor = UIColor.lightGray
+        notesTextView.returnKeyType = .done
         
         
         repsTextField.leftView = repsLabel
@@ -91,6 +97,7 @@ class ThirdViewController: UIViewController {
         nextSet.layer.borderColor = UIColor.lightGray.cgColor
         nextSet.setTitle("Next Set", for: .normal)
         nextSet.setTitleColor(.black, for: .normal)
+        nextSet.addTarget(self, action: #selector(addNewSet), for: .touchUpInside)
         
         nextExcersise.layer.borderWidth = 1
         nextExcersise.backgroundColor = .white
@@ -103,27 +110,62 @@ class ThirdViewController: UIViewController {
 
     }
     
+    
+    //MARK: - TextView Delegates
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "  Notes..." {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == ""{
+            notesTextView.text = "  Notes..."
+            notesTextView.layer.borderColor = UIColor.lightGray.cgColor
+        }
+    }
+    
+    //MARK: - Dismiss Keyboard Function
+    @objc func dismissKeyboard(){
+        view.endEditing(true)
+    }
+        
+    
     //MARK: - TextField Constrainst
     func setTextFieldConstraints(){
         weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 20, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 50))
         repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 30, left: 40, bottom: 0, right: -40) ,size: .init(width: 0, height: 50))
     }
     
+    
+    //MARK: - UIButton Functions
+    @objc func addNewSet(){
+        print("It Works")
+    }
+    
     //MARK: - UIButton Constrainst
     func setButtonConstraints(){
-        nextSet.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 40, bottom: 0, right: -150), size: .init(width: 120, height: 70))
-        nextExcersise.anchor(top: nil, leading: nextSet.trailingAnchor, bottom: nextSet.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 85, bottom: 0, right: -40), size: .init(width: 120, height: 70))
+        nextSet.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: nextExcersise.leadingAnchor, size: .init(width: 120, height: 70))
+        nextExcersise.anchor(top: nil, leading: nextSet.trailingAnchor, bottom: nextSet.bottomAnchor, trailing: view.trailingAnchor, size: .init(width: 120, height: 70))
        }
     
     
     //MARK: - ImageView Constraints
     func setImageViewConstraints(){
-        timerImage.anchor(top: repsTextField.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 100, height: 100))
+//        timerImage.anchor(top: repsTextField.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 100, height: 100))
     }
     
     //MARK: - TextView Constraints
     func setTextViewConstraints(){
-        notesTextView.anchor(top: timerImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 100, height: 110))
+//        notesTextView.anchor(top: timerImage.bottomAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 100, height: 110))
     }
     
     
@@ -138,6 +180,7 @@ class ThirdViewController: UIViewController {
         let image1 = UIImage(named: "stopwatch")
         timerImage = UIImageView(image: image1)
         timerImage.contentMode = .scaleAspectFit
+        
         self.view.addSubview(timerImage)
     }
     
