@@ -30,7 +30,6 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     var nextSet = UIButton()
     var nextExcersise = UIButton()
                 
-    var counter = 0
     
     var selectedExercise : Exercises? {
         didSet{
@@ -71,9 +70,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
         let wsr = selectedExercise?.wsr[indexPath.row]
-        counter = (selectedExercise?.wsr[indexPath.row].counter)!
-        counter += 1
-        cell.textLabel?.text = "Set \(wsr!.sets + 1)   \(wsr!.weight) lbs - \(wsr!.reps) Reps"
+        cell.textLabel?.text = "Set \(indexPath.row)   \(wsr!.weight) lbs - \(wsr!.reps) Reps"
         
         return cell
     }
@@ -195,8 +192,6 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     //MARK: - UIButton Functions
     @objc func addNewSet(){
         let newSet = WeightSetsReps()
-        newSet.counter = counter
-        newSet.sets = newSet.counter
         newSet.weight = Int(weightTextField.text!) ?? 0
         newSet.reps = Int(repsTextField.text!) ?? 0
         try! realm.write {
