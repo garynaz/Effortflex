@@ -12,10 +12,10 @@ import RealmSwift
 
 class WeightSetsReps : Object {
     
-    @objc dynamic var weight = ""
-    @objc dynamic var sets = ""
-    @objc dynamic var reps = ""
-
+    @objc dynamic var weight = 0
+    @objc dynamic var sets = 0
+    @objc dynamic var reps = 0
+    @objc dynamic var counter = 0
     var parentExercise = LinkingObjects(fromType: Exercises.self, property: "wsr")
 
 }

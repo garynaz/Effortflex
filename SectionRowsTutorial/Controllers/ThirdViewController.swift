@@ -9,11 +9,13 @@
 import UIKit
 import RealmSwift
 
-class ThirdViewController: UIViewController, UITextViewDelegate {
+class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
     let realm = try! Realm()
     
     var stats : Results<WeightSetsReps>?
+    
+    var historyTableView = UITableView()
     
     var weightTextField = UITextField()
     var weightLabel = UILabel()
@@ -27,6 +29,8 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
     
     var nextSet = UIButton()
     var nextExcersise = UIButton()
+                
+    var counter = 0
     
     var selectedExercise : Exercises? {
         didSet{
@@ -38,8 +42,12 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
     //MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         notesTextView.delegate = self
+        
+        historyTableView.delegate = self
+        historyTableView.dataSource = self
         
         timeClock()
         navConAcc()
@@ -49,8 +57,25 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
         setTextViewConstraints()
         setButtonConstraints()
         
+        historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+    }
+    
+    //MARK: - TableView Delegate Methods
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return stats?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
+        let wsr = selectedExercise?.wsr[indexPath.row]
+        counter = (selectedExercise?.wsr[indexPath.row].counter)!
+        counter += 1
+        cell.textLabel?.text = "Set \(wsr!.sets)   \(wsr!.weight) lbs - \(wsr!.reps) Reps"
+        
+        return cell
     }
     
     
@@ -105,8 +130,12 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
         nextExcersise.layer.borderColor = UIColor.lightGray.cgColor
         nextExcersise.setTitle("Next Exercise", for: .normal)
         nextExcersise.setTitleColor(.black, for: .normal)
+        nextExcersise.addTarget(self, action: #selector(goToNextExercise), for: .touchUpInside)
         
-        [weightTextField, repsTextField, notesTextView].forEach{view.addSubview($0)}
+        historyTableView.backgroundColor = .white
+        historyTableView.separatorStyle = .none
+        
+        [weightTextField, repsTextField, notesTextView, historyTableView].forEach{view.addSubview($0)}
     }
     
     
@@ -144,18 +173,32 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
         repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30, left: 40, bottom: 0, right: -40) ,size: .init(width: 0, height: 50))
     }
     
-    
     //MARK: - UIButton Functions
     @objc func addNewSet(){
-        print("It Works")
+        let newSet = WeightSetsReps()
+        newSet.counter = counter
+        newSet.sets = newSet.counter
+        newSet.weight = Int(weightTextField.text!) ?? 0
+        newSet.reps = Int(repsTextField.text!) ?? 0
+        try! realm.write {
+            selectedExercise?.wsr.append(newSet)
+            loadWsr()
+        }
     }
     
-    //MARK: - UIButton Constrainst
+    @objc func goToNextExercise(){
+        print("Goes to next exercise...eventually")
+    }
+    
+    //MARK: - UIButton and UITableView Constrainst
     func setButtonConstraints(){
-        let butonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
-        butonStackView.distribution = .fillEqually
-        view.addSubview(butonStackView)
-        butonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, size: .init(width: 0, height: 60))
+        let buttonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.spacing = 10
+        view.addSubview(buttonStackView)
+        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, size: .init(width: 0, height: 60))
+        
+        historyTableView.anchor(top: notesTextView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20, left: 20, bottom: -20, right: -20))
     }
     
     //MARK: - ImageView Constraints
@@ -185,7 +228,9 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - Load Data
     func loadWsr() {
-        stats = selectedExercise?.wsr.sorted(byKeyPath: "sets", ascending: true)
+        
+        stats = selectedExercise?.wsr.filter("TRUEPREDICATE")
+        historyTableView.reloadData()
     }
     
     //MARK: - Save Data
@@ -197,6 +242,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate {
         } catch {
             print("Error saving wsr data \(error)")
         }
+        self.loadWsr()
     }
     
 }
