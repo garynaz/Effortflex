@@ -29,7 +29,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     
     var nextSet = UIButton()
     var nextExcersise = UIButton()
-                
+    
     
     var selectedExercise : Exercises? {
         didSet{
@@ -70,8 +70,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
         let wsr = selectedExercise?.wsr[indexPath.row]
-        cell.textLabel?.text = "Set \(indexPath.row)   \(wsr!.weight) lbs - \(wsr!.reps) Reps"
-        
+        cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr!.weight) lbs - \(wsr!.reps) Reps"
         return cell
     }
     
@@ -85,9 +84,8 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         if editingStyle == .delete {
             try! realm.write {
                 realm.delete(((selectedExercise?.wsr[indexPath.row])!))
-                tableView.beginUpdates()
                 tableView.deleteRows(at: [indexPath], with: .automatic)
-                tableView.endUpdates()
+                historyTableView.reloadData()
             }
         }
     }
