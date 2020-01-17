@@ -73,9 +73,26 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         let wsr = selectedExercise?.wsr[indexPath.row]
         counter = (selectedExercise?.wsr[indexPath.row].counter)!
         counter += 1
-        cell.textLabel?.text = "Set \(wsr!.sets)   \(wsr!.weight) lbs - \(wsr!.reps) Reps"
+        cell.textLabel?.text = "Set \(wsr!.sets + 1)   \(wsr!.weight) lbs - \(wsr!.reps) Reps"
         
         return cell
+    }
+    
+    //MARK: - Swipe To Delete Functionality
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            try! realm.write {
+                realm.delete(((selectedExercise?.wsr[indexPath.row])!))
+                tableView.beginUpdates()
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.endUpdates()
+            }
+        }
     }
     
     
@@ -86,6 +103,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         weightTextField.backgroundColor = .white
         weightTextField.layer.cornerRadius = 25
         weightTextField.layer.borderColor = UIColor.lightGray.cgColor
+        weightTextField.textColor = .black
         
         weightLabel.text = "  Weight (lbs): "
         weightLabel.textColor = .black
@@ -99,6 +117,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         repsTextField.backgroundColor = .white
         repsTextField.layer.cornerRadius = 25
         repsTextField.layer.borderColor = UIColor.lightGray.cgColor
+        repsTextField.textColor = .black
         
         
         repsLabel.text = "  Repetitions: "
@@ -109,7 +128,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         notesTextView.layer.cornerRadius = 25
         notesTextView.layer.borderColor = UIColor.lightGray.cgColor
         notesTextView.text = "  Notes..."
-        notesTextView.textColor = UIColor.lightGray
+        notesTextView.textColor = .black
         notesTextView.returnKeyType = .done
         
         
