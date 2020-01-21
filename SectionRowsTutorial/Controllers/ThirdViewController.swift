@@ -25,11 +25,16 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     var repsTextField = UITextField()
     var repsLabel = UILabel()
     
-    var timerImage = UIImageView()
+    var timerImage = UIButton()
+    var timer = Timer()
+    var timerDisplayed = 0
+    let image1 = UIImage(named: "stopwatch")
+    let timePicker = UIPickerView()
+    let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
     
     var nextSet = UIButton()
     var nextExcersise = UIButton()
-    
+
     
     var selectedExercise : Exercises? {
         didSet{
@@ -48,9 +53,12 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         historyTableView.delegate = self
         historyTableView.dataSource = self
         
-        timeClock()
+        timePicker.delegate = self
+        timePicker.dataSource = self
+        
         navConAcc()
         labelConfig()
+        createToolBar()
         setTextFieldConstraints()
         setImageViewConstraints()
         setTextViewConstraints()
@@ -149,7 +157,12 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         historyTableView.backgroundColor = .white
         historyTableView.separatorStyle = .none
         
-        [weightTextField, repsTextField, notesTextView, historyTableView].forEach{view.addSubview($0)}
+        timerImage.setImage(image1, for: .normal)
+        timerImage.imageView?.contentMode = .scaleAspectFit
+        timerImage.addTarget(self, action: #selector(timeClock), for: .touchUpInside)
+                
+
+        [weightTextField, repsTextField, notesTextView, historyTableView, timerImage].forEach{view.addSubview($0)}
     }
     
     
@@ -216,11 +229,37 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     //MARK: - ImageView Constraints
     func setImageViewConstraints(){
         timerImage.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 80))
+        timerImage.imageView?.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 80))
+        timerImage.titleLabel?.centerXAnchor.constraint(equalTo: self.timerImage.centerXAnchor).isActive = true
+        timerImage.titleLabel?.centerYAnchor.constraint(equalTo: self.timerImage.centerYAnchor).isActive = true
     }
     
     //MARK: - TextView Constraints
     func setTextViewConstraints(){
         notesTextView.anchor(top: timerImage.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 120))
+    }
+    
+    //MARK: - UIPickerView Constraints
+    func pickerViewConstraints(){
+        timePicker.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor)
+//        toolBar.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: timePicker.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor)
+    }
+    
+    //MARK: - UIToolBar
+    func createToolBar(){
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
+        
+        toolBar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(ThirdViewController.dismissKeyboard))
+    
+        toolBar.setItems([doneButton], animated: true)
+        toolBar.isTranslucent = false
+        toolBar.isUserInteractionEnabled = true
+        toolBar.barStyle = .default
+        
+        timePicker.addSubview(toolBar)
+        self.view.bringSubviewToFront(toolBar)
+
     }
     
     //MARK: - Navigation Bar Setup
@@ -229,18 +268,29 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    
     //MARK: - Stopwatch
-    func timeClock(){
-        let image1 = UIImage(named: "stopwatch")
-        timerImage = UIImageView(image: image1)
-        timerImage.contentMode = .scaleAspectFit
-        
-        self.view.addSubview(timerImage)
+    @objc func timeClock(){
+        view.addSubview(timePicker)
+        pickerViewConstraints()
+        timePicker.backgroundColor = .white
+
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.Action), userInfo: nil, repeats: true)
+            self.timerImage.setImage(nil, for: .normal)
+        }
+    }
+    
+    @objc func Action(){
+        DispatchQueue.main.async {
+            self.timerDisplayed -= 1
+            self.timerImage.setTitle(String(self.timerDisplayed), for: .normal)
+            self.timerImage.setTitleColor(UIColor.black, for: .normal)
+        }
     }
     
     //MARK: - Load Data
     func loadWsr() {
-        
         stats = selectedExercise?.wsr.filter("TRUEPREDICATE")
         historyTableView.reloadData()
     }
@@ -288,4 +338,24 @@ extension UIView {
             heightAnchor.constraint(equalToConstant: size.height).isActive = true
         }
     }
+}
+
+extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return timeSelect.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return timeSelect[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        timerDisplayed = Int(timeSelect[row])!
+    }
+    
 }
