@@ -103,7 +103,6 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         if editingStyle == .delete {
             
             try! realm.write {
-   
                 tableView.performBatchUpdates({
                     self.realm.delete((self.selectedExercise?.wsr[indexPath.row])!)
                     tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -120,7 +119,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         weightTextField.placeholder = "Total weight..."
         weightTextField.layer.borderWidth = 1
         weightTextField.backgroundColor = .white
-        weightTextField.layer.cornerRadius = 25
+        weightTextField.layer.cornerRadius = 10
         weightTextField.layer.borderColor = UIColor.lightGray.cgColor
         weightTextField.textColor = .black
         weightTextField.keyboardType = .decimalPad
@@ -135,7 +134,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         repsTextField.placeholder = "Number of Reps..."
         repsTextField.layer.borderWidth = 1
         repsTextField.backgroundColor = .white
-        repsTextField.layer.cornerRadius = 25
+        repsTextField.layer.cornerRadius = 10
         repsTextField.layer.borderColor = UIColor.lightGray.cgColor
         repsTextField.textColor = .black
         repsTextField.keyboardType = .decimalPad
@@ -158,7 +157,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         
         nextSet.layer.borderWidth = 1
         nextSet.backgroundColor = .white
-        nextSet.layer.cornerRadius = 25
+        nextSet.layer.cornerRadius = 10
         nextSet.layer.borderColor = UIColor.lightGray.cgColor
         nextSet.setTitle("Next Set", for: .normal)
         nextSet.setTitleColor(.black, for: .normal)
@@ -166,7 +165,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         
         nextExcersise.layer.borderWidth = 1
         nextExcersise.backgroundColor = .white
-        nextExcersise.layer.cornerRadius = 25
+        nextExcersise.layer.cornerRadius = 10
         nextExcersise.layer.borderColor = UIColor.lightGray.cgColor
         nextExcersise.setTitle("Next Exercise", for: .normal)
         nextExcersise.setTitleColor(.black, for: .normal)
@@ -217,14 +216,6 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         }
     }
     
-    func resetTimer(){
-        DispatchQueue.main.async {
-            self.timer.invalidate()
-            self.timerDisplayed = 0
-            self.timerTextField.text = nil
-            self.timerTextField.placeholder = " Timer"
-        }
-    }
     
     //MARK: - TextView Delegates
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -388,6 +379,16 @@ extension ThirdViewController : UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        func resetTimer(){
+            DispatchQueue.main.async {
+                self.timer.invalidate()
+                self.timerDisplayed = 0
+                self.timerTextField.text = nil
+                self.timerTextField.placeholder = " Timer"
+            }
+        }
+        
         if textField == timerTextField {
             resetTimer()
         }
