@@ -1,4 +1,4 @@
-framework module Pods_SectionRowsTutorial {
+module Pods_SectionRowsTutorial {
   umbrella header "Pods-SectionRowsTutorial-umbrella.h"
 
   export *

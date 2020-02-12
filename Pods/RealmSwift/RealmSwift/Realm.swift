@@ -203,19 +203,23 @@ public struct Realm {
                          notified for the changes made in this write transaction.
 
      - parameter block: The block containing actions to perform.
+     - returns: The value returned from the block, if any.
 
      - throws: An `NSError` if the transaction could not be completed successfully.
                If `block` throws, the function throws the propagated `ErrorType` instead.
      */
-    public func write(withoutNotifying tokens: [NotificationToken] = [], _ block: (() throws -> Void)) throws {
+    @discardableResult
+    public func write<Result>(withoutNotifying tokens: [NotificationToken] = [], _ block: (() throws -> Result)) throws -> Result {
         beginWrite()
+        var ret: Result!
         do {
-            try block()
+            ret = try block()
         } catch let error {
             if isInWriteTransaction { cancelWrite() }
             throw error
         }
         if isInWriteTransaction { try commitWrite(withoutNotifying: tokens) }
+        return ret
     }
 
     /**
@@ -764,7 +768,7 @@ public struct Realm {
         rlmRealm.invalidate()
     }
 
-    // MARK: Writing a Copy
+    // MARK: File Management
 
     /**
      Writes a compacted and optionally encrypted copy of the Realm to the given local URL.
@@ -781,6 +785,43 @@ public struct Realm {
      */
     public func writeCopy(toFile fileURL: URL, encryptionKey: Data? = nil) throws {
         try rlmRealm.writeCopy(to: fileURL, encryptionKey: encryptionKey)
+    }
+
+    /**
+     Checks if the Realm file for the given configuration exists locally on disk.
+
+     For non-synchronized, non-in-memory Realms, this is equivalent to
+     `FileManager.default.fileExists(atPath:)`. For synchronized Realms, it
+     takes care of computing the actual path on disk based on the server,
+     virtual path, and user as is done when opening the Realm.
+
+     @param config A Realm configuration to check the existence of.
+     @return true if the Realm file for the given configuration exists on disk, false otherwise.
+     */
+    public static func fileExists(for config: Configuration) -> Bool {
+        return RLMRealm.fileExists(for: config.rlmConfiguration)
+    }
+
+    /**
+     Deletes the local Realm file and associated temporary files for the given configuration.
+
+     This deletes the ".realm", ".note" and ".management" files which would be
+     created by opening the Realm with the given configuration. It does not
+     delete the ".lock" file (which contains no persisted data and is recreated
+     from scratch every time the Realm file is opened).
+
+     The Realm must not be currently open on any thread or in another process.
+     If it is, this will throw the error .alreadyOpen. Attempting to open the
+     Realm on another thread while the deletion is happening will block, and
+     then create a new Realm and open that afterwards.
+
+     If the Realm already does not exist this will return `false`.
+
+     @param config A Realm configuration identifying the Realm to be deleted.
+     @return true if any files were deleted, false otherwise.
+     */
+    public static func deleteFiles(for config: Configuration) throws -> Bool {
+        return try RLMRealm.deleteFiles(for: config.rlmConfiguration)
     }
 
     // MARK: Internal

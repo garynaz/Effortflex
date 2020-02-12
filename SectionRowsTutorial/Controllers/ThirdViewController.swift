@@ -99,9 +99,9 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
+        
         if editingStyle == .delete {
-
+            
             try! realm.write {
                 tableView.performBatchUpdates({
                     self.realm.delete((self.selectedExercise?.wsr[indexPath.row])!)
@@ -109,6 +109,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
                 }) { (done) in
                     tableView.reloadData()
                 }
+                
             }
         }
     }
@@ -196,7 +197,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     
     //MARK: - Stopwatch
     @objc func timeClock(){
-        
+        self.timerTextField.text = ("  \(String(self.timerDisplayed))")
         dismissKeyboard()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.Action), userInfo: nil, repeats: true)
@@ -358,7 +359,7 @@ extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        timerDisplayed = Int(timeSelect[row])! + 1
+        timerDisplayed = Int(timeSelect[row])!
     }
     
 }

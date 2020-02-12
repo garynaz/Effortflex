@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB294C0191F00012ED17F69B /* libPods-SectionRowsTutorial.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36DB496100EF4D599FBA4C15 /* libPods-SectionRowsTutorial.a */; };
 		DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119023B93ACA00C5D995 /* FirstViewController.swift */; };
 		DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119423B9481300C5D995 /* SecondViewController.swift */; };
 		DD19119823B94C2900C5D995 /* Exercises.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119723B94C2900C5D995 /* Exercises.swift */; };
@@ -17,10 +18,10 @@
 		DD319C8A23A30B8200222847 /* Workouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8923A30B8200222847 /* Workouts.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
-		DD8D826C23F480860076BA3A /* Pods_SectionRowsTutorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7A0FAC87EF6EC116C8D4863 /* Pods_SectionRowsTutorial.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		36DB496100EF4D599FBA4C15 /* libPods-SectionRowsTutorial.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SectionRowsTutorial.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58CE3CA1628F69D62D0F0496 /* Pods-SectionRowsTutorial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SectionRowsTutorial.release.xcconfig"; path = "Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial.release.xcconfig"; sourceTree = "<group>"; };
 		84E9EB26F531EEE001FF57BE /* Pods-SectionRowsTutorial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SectionRowsTutorial.debug.xcconfig"; path = "Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial.debug.xcconfig"; sourceTree = "<group>"; };
 		DD19119023B93ACA00C5D995 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -37,7 +38,6 @@
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7A0FAC87EF6EC116C8D4863 /* Pods_SectionRowsTutorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SectionRowsTutorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD8D826C23F480860076BA3A /* Pods_SectionRowsTutorial.framework in Frameworks */,
+				AB294C0191F00012ED17F69B /* libPods-SectionRowsTutorial.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,7 +57,7 @@
 			children = (
 				DD8D826923F480130076BA3A /* RealmSwift.framework */,
 				DD8D826523F4800D0076BA3A /* Realm.framework */,
-				E7A0FAC87EF6EC116C8D4863 /* Pods_SectionRowsTutorial.framework */,
+				36DB496100EF4D599FBA4C15 /* libPods-SectionRowsTutorial.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -134,7 +134,6 @@
 				DD3B9CF4239D85E400095B05 /* Sources */,
 				DD3B9CF5239D85E400095B05 /* Frameworks */,
 				DD3B9CF6239D85E400095B05 /* Resources */,
-				B76DB6818F9A00A67D85A60F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -211,23 +210,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B76DB6818F9A00A67D85A60F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
