@@ -18,6 +18,8 @@ class FirstViewController: UITableViewController {
     
     var daysOfWeek : [String] = ["Monday", "Tuesday", "Wednsday", "Thursday", "Friday", "Saturday", "Sunday"]
     
+    weak var buttonActionToEnable: UIAlertAction?
+    
     var indexCheck : Int = 0
     let cellID = "WorkoutCell"
     
@@ -32,11 +34,11 @@ class FirstViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         picker.delegate = self
         picker.dataSource = self
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.tableFooterView = UIView()
         
         navConAcc()
         loadDays()
@@ -60,7 +62,9 @@ class FirstViewController: UITableViewController {
         var counter = 0
         
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
-        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: nil)
+        }
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
             //Add day and workout to database
             //if day exists, append workout to the existing day.
@@ -106,21 +110,35 @@ class FirstViewController: UITableViewController {
         }
         
         alert.addTextField { (alertTextField1) in
+            alertTextField1.delegate = self
             alertTextField1.placeholder = "Day of Week"
             alertTextField1.text = self.textField1.text
             self.textField1 = alertTextField1
             alertTextField1.inputView = self.picker
+            alertTextField1.addTarget(self, action: #selector(self.textFieldChanged), for: .editingChanged)
         }
         
         alert.addTextField { (alertTextField2) in
+            alertTextField2.delegate = self
             alertTextField2.placeholder = "Muscle Group"
             self.textField2 = alertTextField2
             alertTextField2.inputView = nil
+            
+            alertTextField2.addTarget(self, action: #selector(self.textFieldChanged), for: .editingChanged)
+            
         }
         
+        self.buttonActionToEnable = addAction
+        addAction.isEnabled = false
         
         alert.addAction(addAction)
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func textFieldChanged(_ sender: Any) {
+        let textfield = sender as! UITextField
+        self.buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
     }
     
     
@@ -144,8 +162,8 @@ class FirstViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let workout = days?[indexPath.section].workout[indexPath.row].title ?? "Workout"
-        
-        cell.textLabel?.text = "\(workout)  Section:\(indexPath.section) Row:\(indexPath.row)"
+        cell.textLabel?.textAlignment = .center
+        cell.textLabel?.text = "\(workout)"
         
         return cell
     }
@@ -167,8 +185,24 @@ class FirstViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
+            
             try! realm.write {
-                realm.delete((days?[indexPath.section].workout[indexPath.row])!)
+                
+                if days?[indexPath.section].workout[indexPath.row].exercise.isEmpty == false {
+                    
+                    if let selectedWorkout = days?[indexPath.section].workout[indexPath.row] {
+                        let thisWorkoutsExercises = realm.objects(Exercises.self).filter("ANY parentWorkout == %@", selectedWorkout)
+                        // Filter function to get all wsr's associated with the selected workout...
+                        let thisWorkoutsWsr = realm.objects(WeightSetsReps.self).filter("ANY parentExercise IN %@", thisWorkoutsExercises)
+                        
+                        realm.delete(thisWorkoutsWsr)
+                        realm.delete(thisWorkoutsExercises)
+                        realm.delete((days?[indexPath.section].workout[indexPath.row])!)
+                    }
+                } else {
+                    realm.delete((days?[indexPath.section].workout[indexPath.row])!)
+                }
+                
                 
                 tableView.beginUpdates()
                 
@@ -226,4 +260,21 @@ extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
         textField1.text = daysOfWeek[row]
     }
     
+}
+
+//MARK: - Textfield Delegate Methods
+extension FirstViewController : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+        let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+        let typedCharsSet = CharacterSet(charactersIn: string)
+        if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
+            return true
+        }
+        return false
+    }
 }

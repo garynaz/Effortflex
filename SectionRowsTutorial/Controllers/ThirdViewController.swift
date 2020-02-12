@@ -25,10 +25,14 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     var repsTextField = UITextField()
     var repsLabel = UILabel()
     
-    var timerImage = UIButton()
+    var timerTextField = UITextField()
+    var timerImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+    let image1 = UIImage(named: "stopwatch")
+    
+
     var timer = Timer()
     var timerDisplayed = 0
-    let image1 = UIImage(named: "stopwatch")
+    
     let timePicker = UIPickerView()
     let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
     
@@ -56,11 +60,12 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         timePicker.delegate = self
         timePicker.dataSource = self
         
+        PickerToolBar()
+        
         navConAcc()
         labelConfig()
-        createToolBar()
         setTextFieldConstraints()
-        setImageViewConstraints()
+        setTimerTextfieldConstraints()
         setTextViewConstraints()
         setButtonConstraints()
         
@@ -90,12 +95,18 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
+            
             try! realm.write {
-                realm.delete(((selectedExercise?.wsr[indexPath.row])!))
+                tableView.beginUpdates()
+                
+                self.realm.delete((self.selectedExercise?.wsr[indexPath.row])!)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
-                historyTableView.reloadData()
+                
+                tableView.endUpdates()
             }
+
         }
+        
     }
     
     
@@ -107,6 +118,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         weightTextField.layer.cornerRadius = 25
         weightTextField.layer.borderColor = UIColor.lightGray.cgColor
         weightTextField.textColor = .black
+        weightTextField.keyboardType = .decimalPad
         
         weightLabel.text = "  Weight (lbs): "
         weightLabel.textColor = .black
@@ -121,6 +133,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         repsTextField.layer.cornerRadius = 25
         repsTextField.layer.borderColor = UIColor.lightGray.cgColor
         repsTextField.textColor = .black
+        repsTextField.keyboardType = .decimalPad
         
         
         repsLabel.text = "  Repetitions: "
@@ -157,12 +170,30 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         historyTableView.backgroundColor = .white
         historyTableView.separatorStyle = .none
         
-        timerImage.setImage(image1, for: .normal)
-        timerImage.imageView?.contentMode = .scaleAspectFit
-        timerImage.addTarget(self, action: #selector(timeClock), for: .touchUpInside)
                 
+        timerImageView.image = image1
+        timerTextField.text = ""
+        timerTextField.leftViewMode = .always
+        timerTextField.leftView = timerImageView
+        timerTextField.textColor = .black
+        timerTextField.tintColor = UIColor.clear
+        
+            
+        [weightTextField, repsTextField, notesTextView, historyTableView, timerTextField, timerImageView].forEach{view.addSubview($0)}
+    }
+    
+    //MARK: - UIPickerView ToolBar
+    func PickerToolBar(){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.sizeToFit()
 
-        [weightTextField, repsTextField, notesTextView, historyTableView, timerImage].forEach{view.addSubview($0)}
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
+        toolBar.setItems([doneButton], animated: false)
+
+        timerTextField.inputView = timePicker
+        timerTextField.inputAccessoryView = toolBar
+        
     }
     
     
@@ -221,46 +252,21 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         buttonStackView.distribution = .fillEqually
         buttonStackView.spacing = 10
         view.addSubview(buttonStackView)
-        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, size: .init(width: 0, height: 60))
+        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 0, left: 15, bottom: 0, right: -15) ,size: .init(width: 0, height: 60))
         
         historyTableView.anchor(top: notesTextView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20, left: 20, bottom: -20, right: -20))
     }
     
-    //MARK: - ImageView Constraints
-    func setImageViewConstraints(){
-        timerImage.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 80))
-        timerImage.imageView?.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 80))
-        timerImage.titleLabel?.centerXAnchor.constraint(equalTo: self.timerImage.centerXAnchor).isActive = true
-        timerImage.titleLabel?.centerYAnchor.constraint(equalTo: self.timerImage.centerYAnchor).isActive = true
+    //MARK: - TimerTextField Constraints
+    func setTimerTextfieldConstraints(){
+        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 160, bottom: 0, right: -150), size: .init(width: 0, height: 50))
     }
     
     //MARK: - TextView Constraints
     func setTextViewConstraints(){
-        notesTextView.anchor(top: timerImage.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 120))
+        notesTextView.anchor(top: timerTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 120))
     }
-    
-    //MARK: - UIPickerView Constraints
-    func pickerViewConstraints(){
-        timePicker.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor)
-//        toolBar.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: timePicker.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor)
-    }
-    
-    //MARK: - UIToolBar
-    func createToolBar(){
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
-        
-        toolBar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(ThirdViewController.dismissKeyboard))
-    
-        toolBar.setItems([doneButton], animated: true)
-        toolBar.isTranslucent = false
-        toolBar.isUserInteractionEnabled = true
-        toolBar.barStyle = .default
-        
-        timePicker.addSubview(toolBar)
-        self.view.bringSubviewToFront(toolBar)
 
-    }
     
     //MARK: - Navigation Bar Setup
     func navConAcc(){
@@ -271,21 +277,16 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     
     //MARK: - Stopwatch
     @objc func timeClock(){
-        view.addSubview(timePicker)
-        pickerViewConstraints()
-        timePicker.backgroundColor = .white
-
+        dismissKeyboard()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.Action), userInfo: nil, repeats: true)
-            self.timerImage.setImage(nil, for: .normal)
         }
     }
     
     @objc func Action(){
         DispatchQueue.main.async {
             self.timerDisplayed -= 1
-            self.timerImage.setTitle(String(self.timerDisplayed), for: .normal)
-            self.timerImage.setTitleColor(UIColor.black, for: .normal)
+            self.timerTextField.text = ("  \(String(self.timerDisplayed))")
         }
     }
     
@@ -359,3 +360,4 @@ extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
 }
+

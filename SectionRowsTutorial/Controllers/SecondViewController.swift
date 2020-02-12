@@ -10,10 +10,14 @@ import UIKit
 import RealmSwift
 
 class SecondViewController: UITableViewController {
-
+    
     let realm = try! Realm()
     
+    var textField1 = UITextField()
+    
     var exercises : Results<Exercises>?
+    
+    weak var buttonActionToEnable: UIAlertAction?
     
     var selectedWorkout : Workouts? {
         didSet{
@@ -25,8 +29,9 @@ class SecondViewController: UITableViewController {
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ExerciseCell")
+        tableView.tableFooterView = UIView()
         navConAcc()
         
     }
@@ -38,44 +43,46 @@ class SecondViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = addBarButton
     }
-
+    
     // MARK: - TableView Data Source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return exercises?.count ?? 0
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseCell", for: indexPath)
         
         let exercise = selectedWorkout?.exercise[indexPath.row]
         
-        cell.textLabel?.text = "\(exercise!.exerciseName)  Section:\(indexPath.section) Row:\(indexPath.row)"
+        cell.textLabel?.text = "\(exercise!.exerciseName)"
         
         return cell
     }
-  
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = ThirdViewController()
         destinationVC.selectedExercise = exercises![indexPath.row]
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
-
+    
     
     //MARK: - Add a New Exercise
     
     @objc func addExercise() {
-        var textField = UITextField()
         
         let alert = UIAlertController(title: "New Exercise", message: "Please name your Exercise...", preferredStyle: .alert)
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: nil)
+        }
         let addAction = UIAlertAction(title: "Add Exercise", style: .default) { (UIAlertAction) in
             //Add Exercise to database.
             //Append exercise to selected workout object.
             let exercise = Exercises()
-            exercise.exerciseName = textField.text!
+            exercise.exerciseName = self.textField1.text!
             try! self.realm.write {
                 self.selectedWorkout?.exercise.append(exercise)
                 self.loadExercises()
@@ -83,17 +90,29 @@ class SecondViewController: UITableViewController {
         }
         
         alert.addTextField { (alertTextField1) in
+            alertTextField1.delegate = self
             alertTextField1.placeholder = "Bench Press"
-            alertTextField1.text = textField.text
-            textField = alertTextField1
+            self.textField1 = alertTextField1
+            alertTextField1.inputView = nil
+            
+            alertTextField1.addTarget(self, action: #selector(self.textFieldChanged), for: .editingChanged)
         }
         
+        self.buttonActionToEnable = addAction
+        addAction.isEnabled = false
+        
+        
         alert.addAction(addAction)
+        alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
         
     }
     
+    @objc func textFieldChanged(_ sender: Any) {
+        let textfield = sender as! UITextField
+        self.buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
+    }
     
     //MARK: - Swipe to Delete
     
@@ -105,6 +124,7 @@ class SecondViewController: UITableViewController {
         
         if editingStyle == .delete {
             try! realm.write {
+                realm.delete((selectedWorkout?.exercise[indexPath.row].wsr)!)
                 realm.delete((selectedWorkout?.exercise[indexPath.row])!)
                 
                 tableView.beginUpdates()
@@ -117,7 +137,7 @@ class SecondViewController: UITableViewController {
     
     //MARK: - Load Data
     func loadExercises() {
-        exercises = selectedWorkout?.exercise.sorted(byKeyPath: "exerciseName", ascending: true)
+        exercises = selectedWorkout?.exercise.filter(("TRUEPREDICATE"))
         tableView.reloadData()
     }
     
@@ -132,6 +152,23 @@ class SecondViewController: UITableViewController {
         }
         self.loadExercises()
     }
-   
+    
+    
+}
 
+//MARK: - Textfield Delegate Methods
+extension SecondViewController : UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        
+        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+        let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+        let typedCharsSet = CharacterSet(charactersIn: string)
+        if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
+            return true
+        }
+        return false
+    }
 }
