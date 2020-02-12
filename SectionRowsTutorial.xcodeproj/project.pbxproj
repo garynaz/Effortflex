@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		60ED816A25BFC7075E36B337 /* Pods_SectionRowsTutorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7A0FAC87EF6EC116C8D4863 /* Pods_SectionRowsTutorial.framework */; };
 		DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119023B93ACA00C5D995 /* FirstViewController.swift */; };
 		DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119423B9481300C5D995 /* SecondViewController.swift */; };
 		DD19119823B94C2900C5D995 /* Exercises.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119723B94C2900C5D995 /* Exercises.swift */; };
@@ -18,6 +17,7 @@
 		DD319C8A23A30B8200222847 /* Workouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8923A30B8200222847 /* Workouts.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
+		DD8D826C23F480860076BA3A /* Pods_SectionRowsTutorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7A0FAC87EF6EC116C8D4863 /* Pods_SectionRowsTutorial.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +35,8 @@
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7A0FAC87EF6EC116C8D4863 /* Pods_SectionRowsTutorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SectionRowsTutorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60ED816A25BFC7075E36B337 /* Pods_SectionRowsTutorial.framework in Frameworks */,
+				DD8D826C23F480860076BA3A /* Pods_SectionRowsTutorial.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +55,8 @@
 		3C930DB10F53CE7553236789 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD8D826923F480130076BA3A /* RealmSwift.framework */,
+				DD8D826523F4800D0076BA3A /* Realm.framework */,
 				E7A0FAC87EF6EC116C8D4863 /* Pods_SectionRowsTutorial.framework */,
 			);
 			name = Frameworks;

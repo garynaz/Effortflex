@@ -99,9 +99,9 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
+
         if editingStyle == .delete {
-            
+
             try! realm.write {
                 tableView.performBatchUpdates({
                     self.realm.delete((self.selectedExercise?.wsr[indexPath.row])!)

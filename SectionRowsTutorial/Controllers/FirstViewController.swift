@@ -37,6 +37,8 @@ class FirstViewController: UITableViewController {
         picker.delegate = self
         picker.dataSource = self
         
+//        print(Realm.Configuration.defaultConfiguration.fileURL)
+        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
         
