@@ -26,7 +26,7 @@ class SecondViewController: UITableViewController {
     }
     
     
-    //MARK: - viewDidLoad()
+//MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,7 +36,7 @@ class SecondViewController: UITableViewController {
         
     }
     
-    //MARK: - Navigation Bar Setup
+//MARK: - Navigation Bar Setup
     func navConAcc(){
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addExercise))
         navigationItem.title = selectedWorkout?.title
@@ -44,8 +44,7 @@ class SecondViewController: UITableViewController {
         navigationItem.rightBarButtonItem = addBarButton
     }
     
-    // MARK: - TableView Data Source
-    
+// MARK: - TableView Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return exercises?.count ?? 0
     }
@@ -69,8 +68,7 @@ class SecondViewController: UITableViewController {
     }
     
     
-    //MARK: - Add a New Exercise
-    
+//MARK: - Add a New Exercise
     @objc func addExercise() {
         
         let alert = UIAlertController(title: "New Exercise", message: "Please name your Exercise...", preferredStyle: .alert)
@@ -114,8 +112,7 @@ class SecondViewController: UITableViewController {
         self.buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
     }
     
-    //MARK: - Swipe to Delete
-    
+//MARK: - Swipe to Delete
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -135,13 +132,13 @@ class SecondViewController: UITableViewController {
     }
     
     
-    //MARK: - Load Data
+//MARK: - Load Data
     func loadExercises() {
         exercises = selectedWorkout?.exercise.filter(("TRUEPREDICATE"))
         tableView.reloadData()
     }
     
-    //MARK: - Save Data
+//MARK: - Save Data
     func save(newExercise : Exercises) {
         do {
             try realm.write {
@@ -157,18 +154,18 @@ class SecondViewController: UITableViewController {
 }
 
 //MARK: - Textfield Delegate Methods
-extension SecondViewController : UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        guard let text = textField.text else { return true }
-        let newLength = text.count + string.count - range.length
-        
-        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-        let allowedCharSet = CharacterSet(charactersIn: allowedChars)
-        let typedCharsSet = CharacterSet(charactersIn: string)
-        if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
-            return true
+    extension SecondViewController : UITextFieldDelegate {
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            
+            let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+            let typedCharsSet = CharacterSet(charactersIn: string)
+            if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
+                return true
+            }
+            return false
         }
-        return false
     }
-}

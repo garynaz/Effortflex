@@ -30,15 +30,13 @@ class FirstViewController: UITableViewController {
     
     
     
-    //MARK: - viewDidLoad()
+//MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
         picker.delegate = self
         picker.dataSource = self
-        
-//        print(Realm.Configuration.defaultConfiguration.fileURL)
-        
+                
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
         
@@ -47,7 +45,7 @@ class FirstViewController: UITableViewController {
     }
     
     
-    //MARK: - Navigation Bar Setup
+//MARK: - Navigation Bar Setup
     func navConAcc() {
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
         navigationItem.rightBarButtonItem = addBarButton
@@ -57,7 +55,7 @@ class FirstViewController: UITableViewController {
     }
     
     
-    //MARK: - Add a New Workout
+//MARK: - Add a New Workout
     @objc func addWorkout() {
         
         var containsDay = false
@@ -68,12 +66,7 @@ class FirstViewController: UITableViewController {
             alert.dismiss(animated: true, completion: nil)
         }
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
-            //Add day and workout to database
-            //if day exists, append workout to the existing day.
-            //if day doesn't exist, create a day and append workout to newly created day object.
-            
-            //First, we have to create an initial days object...
-            //Need to check if ANY of the weekdays == picked day, only execute then.
+
             if self.days?.isEmpty == false {
                 for i in 0...(self.days!.count - 1) {
                     
@@ -144,7 +137,7 @@ class FirstViewController: UITableViewController {
     }
     
     
-    //MARK: - TableView DataSource and Delegate Methods
+//MARK: - TableView DataSource and Delegate Methods
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = days?[section].weekday ?? "Section Header"
@@ -179,7 +172,7 @@ class FirstViewController: UITableViewController {
     }
     
     
-    //MARK: - Swipe To Delete
+//MARK: - Swipe To Delete
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -222,13 +215,13 @@ class FirstViewController: UITableViewController {
     }
     
     
-    //MARK: - Load Data
+//MARK: - Load Data
     func loadDays() {
         days = realm.objects(Days.self)
         tableView.reloadData()
     }
     
-    //MARK: - Save Data
+//MARK: - Save Data
     func save(newDay : Days) {
         do {
             try realm.write {
@@ -244,39 +237,39 @@ class FirstViewController: UITableViewController {
 
 
 //MARK: - PickerView Delegate Methods
-extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+    extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+        
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return daysOfWeek.count
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return daysOfWeek[row]
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            textField1.text = daysOfWeek[row]
+        }
+        
     }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return daysOfWeek.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return daysOfWeek[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        textField1.text = daysOfWeek[row]
-    }
-    
-}
 
 //MARK: - Textfield Delegate Methods
-extension FirstViewController : UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        guard let text = textField.text else { return true }
-        let newLength = text.count + string.count - range.length
-        
-        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-        let allowedCharSet = CharacterSet(charactersIn: allowedChars)
-        let typedCharsSet = CharacterSet(charactersIn: string)
-        if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
-            return true
+    extension FirstViewController : UITextFieldDelegate {
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            
+            let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+            let typedCharsSet = CharacterSet(charactersIn: string)
+            if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
+                return true
+            }
+            return false
         }
-        return false
     }
-}

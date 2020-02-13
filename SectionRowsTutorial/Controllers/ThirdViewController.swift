@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class ThirdViewController: UIViewController {
     
     let realm = try! Realm()
     
@@ -18,29 +18,26 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     var historyTableView = UITableView()
     
     var weightTextField = UITextField()
-    var weightLabel = UILabel()
-    
+    var repsTextField = UITextField()
+    var timerTextField = UITextField()
+
     var notesTextView = UITextView()
     
-    var repsTextField = UITextField()
+    var weightLabel = UILabel()
     var repsLabel = UILabel()
-    
-    var timerTextField = UITextField()
-    var timerImageView = UIImageView()
-    let image1 = UIImage(named: "stopwatch")
-    
-    let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
-    let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
-    
-    
-    var timer = Timer()
-    var timerDisplayed = 0
-    
-    let timePicker = UIPickerView()
-    let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
     
     var nextSet = UIButton()
     var nextExcersise = UIButton()
+    
+    var timer = Timer()
+    var timerDisplayed = 0
+    let timePicker = UIPickerView()
+    let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
+    let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
+    let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
+
+    var timerImageView = UIImageView()
+    let image1 = UIImage(named: "stopwatch")
     
     
     var selectedExercise : Exercises? {
@@ -50,11 +47,27 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     }
     
     
-    //MARK: - ViewDidLoad()
+//MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         
+        conformance()
+        classConstraints()
+        navConAcc()
+        labelConfig()
+        
+        historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    
+    
+//MARK: - Conforming the Delegate and Datasource
+    func conformance(){
         notesTextView.delegate = self
         
         historyTableView.delegate = self
@@ -67,55 +80,9 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         repsTextField.delegate = self
         
         timerTextField.delegate = self
-        
-        navConAcc()
-        labelConfig()
-        setTextFieldConstraints()
-        setTextViewConstraints()
-        setButtonConstraints()
-        
-        historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
     }
     
-    //MARK: - TableView Delegate Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stats?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
-        let wsr = selectedExercise?.wsr[indexPath.row]
-        
-        cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr!.weight.removeZerosFromEnd()) lbs - \(wsr!.reps.removeZerosFromEnd()) Reps"
-        return cell
-    }
-    
-    //MARK: - Swipe To Delete Functionality
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            
-            try! realm.write {
-                tableView.performBatchUpdates({
-                    self.realm.delete((self.selectedExercise?.wsr[indexPath.row])!)
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                }) { (done) in
-                    tableView.reloadData()
-                }
-                
-            }
-        }
-    }
-    
-    
-    //MARK: - UILabel
+//MARK: - UILabel
     func labelConfig(){
         weightTextField.placeholder = "Total weight..."
         weightTextField.layer.borderWidth = 1
@@ -195,7 +162,7 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     }
     
     
-    //MARK: - Stopwatch
+//MARK: - Stopwatch Functionality
     @objc func timeClock(){
         self.timerTextField.text = ("  \(String(self.timerDisplayed))")
         dismissKeyboard()
@@ -218,42 +185,13 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     }
     
     
-    //MARK: - TextView Delegates
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "  Notes..." {
-            textView.text = ""
-            textView.textColor = UIColor.black
-        }
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-        }
-        return true
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == ""{
-            notesTextView.text = "  Notes..."
-            notesTextView.layer.borderColor = UIColor.lightGray.cgColor
-        }
-    }
-    
-    //MARK: - Dismiss Keyboard Function
+//MARK: - Dismiss Keyboard Function
     @objc func dismissKeyboard(){
         view.endEditing(true)
     }
     
     
-    //MARK: - TextField Constrainst
-    func setTextFieldConstraints(){
-        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 20, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 50))
-        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30, left: 40, bottom: 0, right: -40) ,size: .init(width: 0, height: 50))
-        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 160, bottom: 0, right: -150), size: .init(width: 0, height: 50))
-    }
-    
-    //MARK: - UIButton Functions
+//MARK: - UIButton Functions
     @objc func addNewSet(){
         let newSet = WeightSetsReps()
         newSet.weight = Double(weightTextField.text!) ?? 0
@@ -268,38 +206,42 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
         print("Goes to next exercise...eventually")
     }
     
-    //MARK: - UIButton and UITableView Constrainst
-    func setButtonConstraints(){
+    
+//MARK: Third VC Constraints
+    func classConstraints(){
+        
+        // UIButton and UITableView Constrainst
         let buttonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
         buttonStackView.distribution = .fillEqually
         buttonStackView.spacing = 10
         view.addSubview(buttonStackView)
         buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 0, left: 15, bottom: 0, right: -15) ,size: .init(width: 0, height: 60))
-        
         historyTableView.anchor(top: notesTextView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20, left: 20, bottom: -20, right: -20))
-    }
-    
-    
-    //MARK: - TextView Constraints
-    func setTextViewConstraints(){
+        
+        //UITextField Constrainst
+        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 20, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 50))
+        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30, left: 40, bottom: 0, right: -40) ,size: .init(width: 0, height: 50))
+        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 160, bottom: 0, right: -150), size: .init(width: 0, height: 50))
+        
+        //UITextView Constraints
         notesTextView.anchor(top: timerTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 120))
     }
     
     
-    //MARK: - Navigation Bar Setup
+//MARK: - UINavigation Bar Setup
     func navConAcc(){
         navigationItem.title = selectedExercise?.exerciseName
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     
-    //MARK: - Load Data
+//MARK: - Load Data
     func loadWsr() {
         stats = selectedExercise?.wsr.filter("TRUEPREDICATE")
         historyTableView.reloadData()
     }
     
-    //MARK: - Save Data
+//MARK: - Save Data
     func save(wsr : WeightSetsReps){
         do {
             try realm.write {
@@ -313,95 +255,166 @@ class ThirdViewController: UIViewController, UITextViewDelegate, UITableViewDele
     
 }
 
-extension UIView {
-    func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero){
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        if let top = top {
-            topAnchor.constraint(equalTo: top, constant: padding.top).isActive = true
-        }
-        
-        if let leading = leading {
-            leadingAnchor.constraint(equalTo: leading, constant: padding.left).isActive = true
-        }
-        
-        if let bottom = bottom {
-            bottomAnchor.constraint(equalTo: bottom, constant: padding.bottom).isActive = true
-        }
-        
-        if let trailing = trailing {
-            trailingAnchor.constraint(equalTo: trailing, constant: padding.right).isActive = true
-        }
-        
-        if size.width != 0 {
-            widthAnchor.constraint(equalToConstant: size.width).isActive = true
-        }
-        
-        if size.height != 0 {
-            heightAnchor.constraint(equalToConstant: size.height).isActive = true
-        }
-    }
-}
 
-extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+//MARK: - UIView Constraints Extension
+    extension UIView {
+        func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero){
+            
+            translatesAutoresizingMaskIntoConstraints = false
+            
+            if let top = top {
+                topAnchor.constraint(equalTo: top, constant: padding.top).isActive = true
+            }
+            
+            if let leading = leading {
+                leadingAnchor.constraint(equalTo: leading, constant: padding.left).isActive = true
+            }
+            
+            if let bottom = bottom {
+                bottomAnchor.constraint(equalTo: bottom, constant: padding.bottom).isActive = true
+            }
+            
+            if let trailing = trailing {
+                trailingAnchor.constraint(equalTo: trailing, constant: padding.right).isActive = true
+            }
+            
+            if size.width != 0 {
+                widthAnchor.constraint(equalToConstant: size.width).isActive = true
+            }
+            
+            if size.height != 0 {
+                heightAnchor.constraint(equalToConstant: size.height).isActive = true
+            }
+        }
     }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return timeSelect.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return timeSelect[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        timerDisplayed = Int(timeSelect[row])!
-    }
-    
-}
 
-extension ThirdViewController : UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+//MARK: - UIPickerView Methods
+    extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
         
-        guard let text = textField.text else { return true }
-        let newLength = text.count + string.count - range.length
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+        }
         
-        let allowedChars = "1234567890. "
-        let allowedCharSet = CharacterSet(charactersIn: allowedChars)
-        let typedCharsSet = CharacterSet(charactersIn: string)
-        if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 10 {
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return timeSelect.count
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return timeSelect[row]
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            timerDisplayed = Int(timeSelect[row])!
+        }
+        
+    }
+
+
+//MARK: - UITextField Delegate Methods
+    extension ThirdViewController : UITextFieldDelegate {
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+            
+            let allowedChars = "1234567890. "
+            let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+            let typedCharsSet = CharacterSet(charactersIn: string)
+            if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 10 {
+                return true
+            }
+            return false
+        }
+        
+        func textFieldDidBeginEditing(_ textField: UITextField) {
+            
+            func resetTimer(){
+                DispatchQueue.main.async {
+                    self.timer.invalidate()
+                    self.timerDisplayed = 0
+                    self.timerTextField.text = nil
+                    self.timerTextField.placeholder = " Timer"
+                }
+            }
+            
+            if textField == timerTextField {
+                resetTimer()
+            }
+        }
+    }
+
+
+//MARK: - Extension for Double (Remove Trailing Zeroes)
+    extension Double {
+        func removeZerosFromEnd() -> String {
+            let formatter = NumberFormatter()
+            let number = NSNumber(value: self)
+            formatter.minimumFractionDigits = 0
+            formatter.maximumFractionDigits = 16 //maximum digits in Double after dot (maximum precision)
+            return String(formatter.string(from: number) ?? "")
+        }
+    }
+
+
+//MARK: - TableView Methods
+    extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
+        
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return stats?.count ?? 0
+        }
+        
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
+            let wsr = selectedExercise?.wsr[indexPath.row]
+            
+            cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr!.weight.removeZerosFromEnd()) lbs - \(wsr!.reps.removeZerosFromEnd()) Reps"
+            return cell
+        }
+        
+        //Swipe To Delete Functionality
+        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
             return true
         }
-        return false
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        func resetTimer(){
-            DispatchQueue.main.async {
-                self.timer.invalidate()
-                self.timerDisplayed = 0
-                self.timerTextField.text = nil
-                self.timerTextField.placeholder = " Timer"
+        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            
+            if editingStyle == .delete {
+                
+                try! realm.write {
+                    tableView.performBatchUpdates({
+                        self.realm.delete((self.selectedExercise?.wsr[indexPath.row])!)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }) { (done) in
+                        tableView.reloadData()
+                    }
+                    
+                }
+            }
+        }
+    }
+
+
+//MARK: - TextView Delegates
+    extension ThirdViewController: UITextViewDelegate {
+        func textViewDidBeginEditing(_ textView: UITextView) {
+            if textView.text == "  Notes..." {
+                textView.text = ""
+                textView.textColor = UIColor.black
             }
         }
         
-        if textField == timerTextField {
-            resetTimer()
+        func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            if text == "\n" {
+                textView.resignFirstResponder()
+            }
+            return true
+        }
+        
+        func textViewDidEndEditing(_ textView: UITextView) {
+            if textView.text == ""{
+                notesTextView.text = "  Notes..."
+                notesTextView.layer.borderColor = UIColor.lightGray.cgColor
+            }
         }
     }
-}
-
-extension Double {
-    func removeZerosFromEnd() -> String {
-        let formatter = NumberFormatter()
-        let number = NSNumber(value: self)
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 16 //maximum digits in Double after dot (maximum precision)
-        return String(formatter.string(from: number) ?? "")
-    }
-}
