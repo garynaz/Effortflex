@@ -14,6 +14,10 @@ class ThirdViewController: UIViewController {
     let realm = try! Realm()
     
     var stats : Results<WeightSetsReps>?
+    var allExercises : Results<Exercises>?
+
+    // Exercise Index value needs to equal Index value of selected workout exercise...
+    var exerciseIndex : Int = 1
     
     var historyTableView = UITableView()
     
@@ -46,6 +50,7 @@ class ThirdViewController: UIViewController {
         }
     }
     
+
     
 //MARK: - ViewDidLoad()
     override func viewDidLoad() {
@@ -54,10 +59,10 @@ class ThirdViewController: UIViewController {
         view.backgroundColor = .white
         
         conformance()
-        classConstraints()
         navConAcc()
         labelConfig()
-        
+        classConstraints()
+
         historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -203,13 +208,25 @@ class ThirdViewController: UIViewController {
     }
     
     @objc func goToNextExercise(){
-        print("Goes to next exercise...eventually")
+        exerciseIndex = Int(allExercises!.index(of: selectedExercise!)! + 1)
+
+        if  exerciseIndex <= allExercises!.count - 1 {
+            selectedExercise = allExercises![exerciseIndex]
+            exerciseIndex += 1
+        } else {
+            let alert = UIAlertController(title: "Workout Completed", message: "Great job! Time to hit the showers!", preferredStyle: .alert)
+            
+            let finishedAction = UIAlertAction(title: "Done", style: .default)
+            
+            alert.addAction(finishedAction)
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     
 //MARK: Third VC Constraints
     func classConstraints(){
-        
+
         // UIButton and UITableView Constrainst
         let buttonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
         buttonStackView.distribution = .fillEqually
@@ -230,7 +247,6 @@ class ThirdViewController: UIViewController {
     
 //MARK: - UINavigation Bar Setup
     func navConAcc(){
-        navigationItem.title = selectedExercise?.exerciseName
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
@@ -239,6 +255,7 @@ class ThirdViewController: UIViewController {
     func loadWsr() {
         stats = selectedExercise?.wsr.filter("TRUEPREDICATE")
         historyTableView.reloadData()
+        navigationItem.title = selectedExercise?.exerciseName
     }
     
 //MARK: - Save Data
