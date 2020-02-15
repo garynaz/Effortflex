@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import AVFoundation
 
 class ThirdViewController: UIViewController {
     
@@ -43,6 +44,9 @@ class ThirdViewController: UIViewController {
     var timerImageView = UIImageView()
     let image1 = UIImage(named: "stopwatch")
     
+    var audioPlayer : AVAudioPlayer?
+    let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
+
     
     var selectedExercise : Exercises? {
         didSet{
@@ -169,6 +173,9 @@ class ThirdViewController: UIViewController {
     
 //MARK: - Stopwatch Functionality
     @objc func timeClock(){
+        
+        
+        
         self.timerTextField.text = ("  \(String(self.timerDisplayed))")
         dismissKeyboard()
         DispatchQueue.main.async {
@@ -183,6 +190,12 @@ class ThirdViewController: UIViewController {
                 self.timerTextField.text = ("  \(String(self.timerDisplayed))")
             }
         } else {
+            if timerDisplayed == 0 {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL!)
+                    audioPlayer?.play()
+                } catch { print(error) }
+            }
             self.timer.invalidate()
             self.timerTextField.text = nil
             self.timerTextField.placeholder = " Timer"
@@ -435,3 +448,5 @@ class ThirdViewController: UIViewController {
             }
         }
     }
+
+
