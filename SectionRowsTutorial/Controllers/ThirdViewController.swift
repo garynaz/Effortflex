@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import AVFoundation
+import UserNotifications
 
 class ThirdViewController: UIViewController {
     
@@ -34,12 +35,16 @@ class ThirdViewController: UIViewController {
     var nextSet = UIButton()
     var nextExcersise = UIButton()
     
+    
     var timer = Timer()
     var timerDisplayed = 0
     let timePicker = UIPickerView()
-    let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
-    let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
+    let toolBar1 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
+    let doneButton1 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
     let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
+    
+    let toolBar2 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
+    let doneButton2 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissKeyboard))
 
     var timerImageView = UIImageView()
     let image1 = UIImage(named: "stopwatch")
@@ -66,7 +71,6 @@ class ThirdViewController: UIViewController {
         navConAcc()
         labelConfig()
         classConstraints()
-
         historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -99,6 +103,7 @@ class ThirdViewController: UIViewController {
         weightTextField.layer.cornerRadius = 10
         weightTextField.layer.borderColor = UIColor.lightGray.cgColor
         weightTextField.textColor = .black
+        weightTextField.inputAccessoryView = toolBar2
         weightTextField.keyboardType = .decimalPad
         
         weightLabel.text = "  Weight (lbs): "
@@ -114,6 +119,7 @@ class ThirdViewController: UIViewController {
         repsTextField.layer.cornerRadius = 10
         repsTextField.layer.borderColor = UIColor.lightGray.cgColor
         repsTextField.textColor = .black
+        repsTextField.inputAccessoryView = toolBar2
         repsTextField.keyboardType = .decimalPad
         
         
@@ -159,22 +165,35 @@ class ThirdViewController: UIViewController {
         timerTextField.textColor = .black
         timerTextField.tintColor = UIColor.clear
         
-        toolBar.sizeToFit()
-        toolBar.setItems([doneButton], animated: false)
-        toolBar.barStyle = .default
-        
+
         timerTextField.inputView = timePicker
-        timerTextField.inputAccessoryView = toolBar
+        timerTextField.inputAccessoryView = toolBar1
         timerTextField.placeholder = " Timer"
+        
+        toolBar1.sizeToFit()
+        toolBar1.setItems([doneButton1], animated: false)
+        toolBar1.barStyle = .default
+        
+        toolBar2.sizeToFit()
+        toolBar2.setItems([doneButton2], animated: false)
+        toolBar2.barStyle = .default
         
         [weightTextField, repsTextField, notesTextView, historyTableView, timerTextField, timerImageView].forEach{view.addSubview($0)}
     }
     
+
     
 //MARK: - Stopwatch Functionality
     @objc func timeClock(){
         
-        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (didAllow, error) in }
+        let content = UNMutableNotificationContent()
+        content.title = "Time is up!"
+        content.badge = 1
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timerDisplayed), repeats: false)
+        print(TimeInterval(timerDisplayed))
+        let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
         self.timerTextField.text = ("  \(String(self.timerDisplayed))")
         dismissKeyboard()
