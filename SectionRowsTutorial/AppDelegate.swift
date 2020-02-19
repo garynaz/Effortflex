@@ -33,10 +33,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        
-        
+    var backgroundUpdateTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier(rawValue: 0)
+
+
+    func applicationWillResignActive(_ application: UIApplication) {
+        self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            self.endBackgroundUpdateTask()
+        })
     }
+
+    func endBackgroundUpdateTask() {
+        UIApplication.shared.endBackgroundTask(self.backgroundUpdateTask)
+        self.backgroundUpdateTask = UIBackgroundTaskIdentifier.invalid
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        self.endBackgroundUpdateTask()
+    }
+    
     
 }
 

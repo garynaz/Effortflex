@@ -190,10 +190,12 @@ class ThirdViewController: UIViewController {
         let content = UNMutableNotificationContent()
         content.title = "Time is up!"
         content.badge = 1
+        content.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "note1.wav"))
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timerDisplayed), repeats: false)
         print(TimeInterval(timerDisplayed))
         let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
         
         self.timerTextField.text = ("  \(String(self.timerDisplayed))")
         dismissKeyboard()
@@ -208,13 +210,8 @@ class ThirdViewController: UIViewController {
                 self.timerDisplayed -= 1
                 self.timerTextField.text = ("  \(String(self.timerDisplayed))")
             }
-        } else {
-            if timerDisplayed == 0 {
-                do {
-                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL!)
-                    audioPlayer?.play()
-                } catch { print(error) }
-            }
+        }
+        else {
             self.timer.invalidate()
             self.timerTextField.text = nil
             self.timerTextField.placeholder = " Timer"
@@ -437,8 +434,8 @@ class ThirdViewController: UIViewController {
                     }) { (done) in
                         tableView.reloadData()
                     }
-                    
                 }
+                
             }
         }
     }
