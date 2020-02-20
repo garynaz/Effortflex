@@ -164,6 +164,7 @@ class ThirdViewController: UIViewController {
         timerTextField.leftView = timerImageView
         timerTextField.textColor = .black
         timerTextField.tintColor = UIColor.clear
+        timerTextField.layer.borderWidth = 1
         
 
         timerTextField.inputView = timePicker
@@ -259,18 +260,18 @@ class ThirdViewController: UIViewController {
         // UIButton and UITableView Constrainst
         let buttonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
         buttonStackView.distribution = .fillEqually
-        buttonStackView.spacing = 10
+        buttonStackView.spacing = 10.adjusted
         view.addSubview(buttonStackView)
-        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 0, left: 15, bottom: 0, right: -15) ,size: .init(width: 0, height: 60))
-        historyTableView.anchor(top: notesTextView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20, left: 20, bottom: -20, right: -20))
+        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 0, left: 15.adjusted, bottom: 0, right: -15.adjusted) ,size: .init(width: 0, height: 60.adjusted))
+        historyTableView.anchor(top: notesTextView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 20.adjusted, bottom: -20.adjusted, right: -20.adjusted))
         
         //UITextField Constrainst
-        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 20, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 50))
-        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30, left: 40, bottom: 0, right: -40) ,size: .init(width: 0, height: 50))
-        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 160, bottom: 0, right: -150), size: .init(width: 0, height: 50))
+        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: -40.adjusted), size: .init(width: 0, height: 50.adjusted))
+        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30.adjusted, left: 40.adjusted, bottom: 0, right: -40.adjusted) ,size: .init(width: 0, height: 50.adjusted))
+        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 160.adjusted, bottom: 0, right: -150.adjusted), size: .init(width: 0, height: 50.adjusted))
         
         //UITextView Constraints
-        notesTextView.anchor(top: timerTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40, left: 40, bottom: 0, right: -40), size: .init(width: 0, height: 120))
+        notesTextView.anchor(top: timerTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 40.adjusted, bottom: 0, right: -40.adjusted), size: .init(width: 0, height: 120.adjusted))
     }
     
     
@@ -302,7 +303,7 @@ class ThirdViewController: UIViewController {
 }
 
 
-//MARK: - UIView Constraints Extension
+//MARK: - Constraints Extensions
     extension UIView {
         func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero){
             
@@ -333,6 +334,7 @@ class ThirdViewController: UIViewController {
             }
         }
     }
+
 
 
 //MARK: - UIPickerView Methods

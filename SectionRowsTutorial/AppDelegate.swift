@@ -24,12 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        if let window = window {
+       if let window = window {
             let navController = UINavigationController(rootViewController: FirstViewController())
             window.backgroundColor = UIColor.white
             window.rootViewController = navController
             window.makeKeyAndVisible()
         }
+        
+        
         return true
     }
 
@@ -50,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         self.endBackgroundUpdateTask()
     }
+    
     
     
 }
