@@ -17,9 +17,9 @@
 		DD2E807623C1824D0081C1A8 /* WeightSetsReps.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */; };
 		DD319C8823A30B7900222847 /* Days.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8723A30B7900222847 /* Days.swift */; };
 		DD319C8A23A30B8200222847 /* Workouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8923A30B8200222847 /* Workouts.swift */; };
-		DD39D0FA23FF13C500451ED9 /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD39D0F923FF13C500451ED9 /* AdjustForScreenSize.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
+		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,11 +35,11 @@
 		DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSetsReps.swift; sourceTree = "<group>"; };
 		DD319C8723A30B7900222847 /* Days.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Days.swift; sourceTree = "<group>"; };
 		DD319C8923A30B8200222847 /* Workouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workouts.swift; sourceTree = "<group>"; };
-		DD39D0F923FF13C500451ED9 /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AdjustForScreenSize.swift; path = "SectionRowsTutorial/New Group/AdjustForScreenSize.swift"; sourceTree = SOURCE_ROOT; };
 		DD3B9CF8239D85E400095B05 /* SectionRowsTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SectionRowsTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -75,12 +75,12 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		DD1232C523F77B6900921D42 /* New Group */ = {
+		DD1232C523F77B6900921D42 /* Sound Effects */ = {
 			isa = PBXGroup;
 			children = (
 				DD1232C623F77B9300921D42 /* note1.wav */,
 			);
-			path = "New Group";
+			path = "Sound Effects";
 			sourceTree = "<group>";
 		};
 		DD19119623B949E400C5D995 /* Controllers */ = {
@@ -89,7 +89,6 @@
 				DD19119023B93ACA00C5D995 /* FirstViewController.swift */,
 				DD19119423B9481300C5D995 /* SecondViewController.swift */,
 				DD2E807323C15E120081C1A8 /* ThirdViewController.swift */,
-				DD39D0F923FF13C500451ED9 /* AdjustForScreenSize.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -126,7 +125,8 @@
 		DD3B9CFA239D85E400095B05 /* SectionRowsTutorial */ = {
 			isa = PBXGroup;
 			children = (
-				DD1232C523F77B6900921D42 /* New Group */,
+				DD896A9E23FF18BC00929D0A /* Miscelanious */,
+				DD1232C523F77B6900921D42 /* Sound Effects */,
 				DD2C663A23C5121D007741FE /* ImageAssets.xcassets */,
 				DD19119623B949E400C5D995 /* Controllers */,
 				DD319C8B23A30B8B00222847 /* Data Model */,
@@ -135,6 +135,14 @@
 				DD3B9D09239D85E500095B05 /* Info.plist */,
 			);
 			path = SectionRowsTutorial;
+			sourceTree = "<group>";
+		};
+		DD896A9E23FF18BC00929D0A /* Miscelanious */ = {
+			isa = PBXGroup;
+			children = (
+				DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */,
+			);
+			path = Miscelanious;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,7 +244,7 @@
 			files = (
 				DD2E807623C1824D0081C1A8 /* WeightSetsReps.swift in Sources */,
 				DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */,
-				DD39D0FA23FF13C500451ED9 /* AdjustForScreenSize.swift in Sources */,
+				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,
 				DD19119823B94C2900C5D995 /* Exercises.swift in Sources */,
 				DD319C8823A30B7900222847 /* Days.swift in Sources */,
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,

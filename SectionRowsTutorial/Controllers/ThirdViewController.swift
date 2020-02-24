@@ -105,13 +105,11 @@ class ThirdViewController: UIViewController {
         weightTextField.textColor = .black
         weightTextField.inputAccessoryView = toolBar2
         weightTextField.keyboardType = .decimalPad
-        
-        weightLabel.text = "  Weight (lbs): "
-        weightLabel.textColor = .black
-        
         weightTextField.leftView = weightLabel
         weightTextField.leftViewMode = .always
         
+        weightLabel.text = "  Weight (lbs): "
+        weightLabel.textColor = .black
         
         repsTextField.placeholder = "Number of Reps..."
         repsTextField.layer.borderWidth = 1
@@ -121,8 +119,9 @@ class ThirdViewController: UIViewController {
         repsTextField.textColor = .black
         repsTextField.inputAccessoryView = toolBar2
         repsTextField.keyboardType = .decimalPad
-        
-        
+        repsTextField.leftView = repsLabel
+        repsTextField.leftViewMode = .always
+
         repsLabel.text = "  Repetitions: "
         repsLabel.textColor = .black
         
@@ -133,10 +132,6 @@ class ThirdViewController: UIViewController {
         notesTextView.text = "  Notes..."
         notesTextView.textColor = .black
         notesTextView.returnKeyType = .done
-        
-        
-        repsTextField.leftView = repsLabel
-        repsTextField.leftViewMode = .always
         
         nextSet.layer.borderWidth = 1
         nextSet.backgroundColor = .white
@@ -157,16 +152,14 @@ class ThirdViewController: UIViewController {
         historyTableView.backgroundColor = .white
         historyTableView.separatorStyle = .none
         
-        
         timerImageView.image = image1
         timerTextField.text = ""
         timerTextField.leftViewMode = .always
         timerTextField.leftView = timerImageView
         timerTextField.textColor = .black
         timerTextField.tintColor = UIColor.clear
-        timerTextField.layer.borderWidth = 1
-        
 
+        timerTextField.textAlignment = .left
         timerTextField.inputView = timePicker
         timerTextField.inputAccessoryView = toolBar1
         timerTextField.placeholder = " Timer"
@@ -179,14 +172,13 @@ class ThirdViewController: UIViewController {
         toolBar2.setItems([doneButton2], animated: false)
         toolBar2.barStyle = .default
         
-        [weightTextField, repsTextField, notesTextView, historyTableView, timerTextField, timerImageView].forEach{view.addSubview($0)}
+        [weightTextField, repsTextField, historyTableView, notesTextView, timerTextField].forEach{view.addSubview($0)}
     }
     
 
     
 //MARK: - Stopwatch Functionality
     @objc func timeClock(){
-        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (didAllow, error) in }
         let content = UNMutableNotificationContent()
         content.title = "Time is up!"
@@ -196,15 +188,15 @@ class ThirdViewController: UIViewController {
         print(TimeInterval(timerDisplayed))
         let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
-        
+
+
         self.timerTextField.text = ("  \(String(self.timerDisplayed))")
         dismissKeyboard()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.Action), userInfo: nil, repeats: true)
         }
     }
-    
+
     @objc func Action(){
         if timerDisplayed != 0 {
             DispatchQueue.main.async {
@@ -256,22 +248,24 @@ class ThirdViewController: UIViewController {
     
 //MARK: Third VC Constraints
     func classConstraints(){
-
-        // UIButton and UITableView Constrainst
+        
+    // UIButton and UITableView Constrainst
         let buttonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
         buttonStackView.distribution = .fillEqually
         buttonStackView.spacing = 10.adjusted
         view.addSubview(buttonStackView)
-        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 0, left: 15.adjusted, bottom: 0, right: -15.adjusted) ,size: .init(width: 0, height: 60.adjusted))
-        historyTableView.anchor(top: notesTextView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 20.adjusted, bottom: -20.adjusted, right: -20.adjusted))
         
-        //UITextField Constrainst
-        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor,padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: -40.adjusted), size: .init(width: 0, height: 50.adjusted))
-        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30.adjusted, left: 40.adjusted, bottom: 0, right: -40.adjusted) ,size: .init(width: 0, height: 50.adjusted))
-        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 160.adjusted, bottom: 0, right: -150.adjusted), size: .init(width: 0, height: 50.adjusted))
+        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 15.adjusted, bottom: 0, right: 15.adjusted) ,size: .init(width: 0, height: 60.adjusted))
         
-        //UITextView Constraints
-        notesTextView.anchor(top: timerTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 40.adjusted, bottom: 0, right: -40.adjusted), size: .init(width: 0, height: 120.adjusted))
+        historyTableView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 20.adjusted, bottom: 20.adjusted, right: 20.adjusted), size: .init(width: 0, height: 180))
+
+    //UITextField Constrainst
+        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 50.adjusted))
+        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted) ,size: .init(width: 0, height: 50.adjusted))
+        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: notesTextView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 150.adjusted, bottom: 20.adjusted, right: 140.adjusted))
+        
+    //UITextView Constraints
+        notesTextView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: historyTableView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 20.adjusted, right: 40.adjusted) ,size: .init(width: 0, height: 100.adjusted))
     }
     
     
@@ -318,11 +312,11 @@ class ThirdViewController: UIViewController {
             }
             
             if let bottom = bottom {
-                bottomAnchor.constraint(equalTo: bottom, constant: padding.bottom).isActive = true
+                bottomAnchor.constraint(equalTo: bottom, constant: -padding.bottom).isActive = true
             }
             
             if let trailing = trailing {
-                trailingAnchor.constraint(equalTo: trailing, constant: padding.right).isActive = true
+                trailingAnchor.constraint(equalTo: trailing, constant: -padding.right).isActive = true
             }
             
             if size.width != 0 {
@@ -376,7 +370,7 @@ class ThirdViewController: UIViewController {
         }
         
         func textFieldDidBeginEditing(_ textField: UITextField) {
-            
+
             func resetTimer(){
                 DispatchQueue.main.async {
                     self.timer.invalidate()
@@ -385,9 +379,10 @@ class ThirdViewController: UIViewController {
                     self.timerTextField.placeholder = " Timer"
                 }
             }
-            
+
             if textField == timerTextField {
                 resetTimer()
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
             }
         }
     }
@@ -451,14 +446,14 @@ class ThirdViewController: UIViewController {
                 textView.textColor = UIColor.black
             }
         }
-        
+
         func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
             if text == "\n" {
                 textView.resignFirstResponder()
             }
             return true
         }
-        
+
         func textViewDidEndEditing(_ textView: UITextView) {
             if textView.text == ""{
                 notesTextView.text = "  Notes..."
@@ -466,5 +461,3 @@ class ThirdViewController: UIViewController {
             }
         }
     }
-
-
