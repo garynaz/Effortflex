@@ -73,6 +73,7 @@ class ThirdViewController: UIViewController {
         classConstraints()
         historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
         
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
@@ -124,7 +125,7 @@ class ThirdViewController: UIViewController {
 
         repsLabel.text = "  Repetitions: "
         repsLabel.textColor = .black
-        
+
         notesTextView.layer.borderWidth = 1
         notesTextView.backgroundColor = .white
         notesTextView.layer.cornerRadius = 25
@@ -132,6 +133,7 @@ class ThirdViewController: UIViewController {
         notesTextView.text = "  Notes..."
         notesTextView.textColor = .black
         notesTextView.returnKeyType = .done
+
         
         nextSet.layer.borderWidth = 1
         nextSet.backgroundColor = .white
@@ -140,7 +142,7 @@ class ThirdViewController: UIViewController {
         nextSet.setTitle("Next Set", for: .normal)
         nextSet.setTitleColor(.black, for: .normal)
         nextSet.addTarget(self, action: #selector(addNewSet), for: .touchUpInside)
-        
+
         nextExcersise.layer.borderWidth = 1
         nextExcersise.backgroundColor = .white
         nextExcersise.layer.cornerRadius = 10
@@ -148,7 +150,8 @@ class ThirdViewController: UIViewController {
         nextExcersise.setTitle("Next Exercise", for: .normal)
         nextExcersise.setTitleColor(.black, for: .normal)
         nextExcersise.addTarget(self, action: #selector(goToNextExercise), for: .touchUpInside)
-        
+
+
         historyTableView.backgroundColor = .white
         historyTableView.separatorStyle = .none
         
@@ -158,7 +161,6 @@ class ThirdViewController: UIViewController {
         timerTextField.leftView = timerImageView
         timerTextField.textColor = .black
         timerTextField.tintColor = UIColor.clear
-
         timerTextField.textAlignment = .left
         timerTextField.inputView = timePicker
         timerTextField.inputAccessoryView = toolBar1
@@ -175,7 +177,6 @@ class ThirdViewController: UIViewController {
         [weightTextField, repsTextField, historyTableView, notesTextView, timerTextField].forEach{view.addSubview($0)}
     }
     
-
     
 //MARK: - Stopwatch Functionality
     @objc func timeClock(){

@@ -39,9 +39,18 @@ class FirstViewController: UITableViewController {
                 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
-        
+
         navConAcc()
         loadDays()
+    }
+    
+//MARK: - viewWillAppear()
+    override func viewWillAppear(_ animated: Bool) {
+//        let backgroundImage = UIImage(named: "weights")
+//        let imageView = UIImageView(image: backgroundImage)
+//        imageView.contentMode = .scaleAspectFit
+//
+//        tableView.backgroundView = imageView
     }
     
     
@@ -50,8 +59,7 @@ class FirstViewController: UITableViewController {
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
         navigationItem.rightBarButtonItem = addBarButton
         
-        navigationItem.title = "Workouts"
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "My workouts"
     }
     
     
@@ -145,6 +153,10 @@ class FirstViewController: UITableViewController {
         return label
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30.adjusted
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return days?.count ?? 0
     }
@@ -159,6 +171,7 @@ class FirstViewController: UITableViewController {
         let workout = days?[indexPath.section].workout[indexPath.row].title ?? "Workout"
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.text = "\(workout)"
+        cell.accessoryType = .disclosureIndicator
         
         return cell
     }

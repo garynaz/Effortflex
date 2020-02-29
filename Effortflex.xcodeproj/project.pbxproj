@@ -30,12 +30,12 @@
 		DD19119023B93ACA00C5D995 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		DD19119423B9481300C5D995 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		DD19119723B94C2900C5D995 /* Exercises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercises.swift; sourceTree = "<group>"; };
-		DD2C663A23C5121D007741FE /* ImageAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImageAssets.xcassets; path = /Users/owner1/Desktop/SectionRowsTutorial/SectionRowsTutorial/ImageAssets.xcassets; sourceTree = "<absolute>"; };
+		DD2C663A23C5121D007741FE /* ImageAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImageAssets.xcassets; path = /Users/owner1/Desktop/Effortflex/Effortflex/ImageAssets.xcassets; sourceTree = "<absolute>"; };
 		DD2E807323C15E120081C1A8 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSetsReps.swift; sourceTree = "<group>"; };
 		DD319C8723A30B7900222847 /* Days.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Days.swift; sourceTree = "<group>"; };
 		DD319C8923A30B8200222847 /* Workouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workouts.swift; sourceTree = "<group>"; };
-		DD3B9CF8239D85E400095B05 /* SectionRowsTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SectionRowsTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3B9CF8239D85E400095B05 /* Effortflex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Effortflex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		DD3B9CEF239D85E400095B05 = {
 			isa = PBXGroup;
 			children = (
-				DD3B9CFA239D85E400095B05 /* SectionRowsTutorial */,
+				DD3B9CFA239D85E400095B05 /* Effortflex */,
 				DD3B9CF9239D85E400095B05 /* Products */,
 				67EA33082F2C73CEB071C919 /* Pods */,
 				3C930DB10F53CE7553236789 /* Frameworks */,
@@ -117,12 +117,12 @@
 		DD3B9CF9239D85E400095B05 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DD3B9CF8239D85E400095B05 /* SectionRowsTutorial.app */,
+				DD3B9CF8239D85E400095B05 /* Effortflex.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DD3B9CFA239D85E400095B05 /* SectionRowsTutorial */ = {
+		DD3B9CFA239D85E400095B05 /* Effortflex */ = {
 			isa = PBXGroup;
 			children = (
 				DD896A9E23FF18BC00929D0A /* Miscelanious */,
@@ -134,7 +134,7 @@
 				DD3B9CFB239D85E400095B05 /* AppDelegate.swift */,
 				DD3B9D09239D85E500095B05 /* Info.plist */,
 			);
-			path = SectionRowsTutorial;
+			path = Effortflex;
 			sourceTree = "<group>";
 		};
 		DD896A9E23FF18BC00929D0A /* Miscelanious */ = {
@@ -148,9 +148,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DD3B9CF7239D85E400095B05 /* SectionRowsTutorial */ = {
+		DD3B9CF7239D85E400095B05 /* Effortflex */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD3B9D0C239D85E500095B05 /* Build configuration list for PBXNativeTarget "SectionRowsTutorial" */;
+			buildConfigurationList = DD3B9D0C239D85E500095B05 /* Build configuration list for PBXNativeTarget "Effortflex" */;
 			buildPhases = (
 				1E7D0B7CE65AE6493653572E /* [CP] Check Pods Manifest.lock */,
 				DD3B9CF4239D85E400095B05 /* Sources */,
@@ -161,9 +161,9 @@
 			);
 			dependencies = (
 			);
-			name = SectionRowsTutorial;
+			name = Effortflex;
 			productName = SectionRowsTutorial;
-			productReference = DD3B9CF8239D85E400095B05 /* SectionRowsTutorial.app */;
+			productReference = DD3B9CF8239D85E400095B05 /* Effortflex.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -181,7 +181,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DD3B9CF3239D85E400095B05 /* Build configuration list for PBXProject "SectionRowsTutorial" */;
+			buildConfigurationList = DD3B9CF3239D85E400095B05 /* Build configuration list for PBXProject "Effortflex" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -194,7 +194,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DD3B9CF7239D85E400095B05 /* SectionRowsTutorial */,
+				DD3B9CF7239D85E400095B05 /* Effortflex */,
 			);
 		};
 /* End PBXProject section */
@@ -386,15 +386,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84E9EB26F531EEE001FF57BE /* Pods-SectionRowsTutorial.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7VMSA5VDUW;
-				INFOPLIST_FILE = SectionRowsTutorial/Info.plist;
+				INFOPLIST_FILE = Effortflex/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.garynaz.SectionRowsTutorial;
+				PRODUCT_BUNDLE_IDENTIFIER = com.garynaz.Effortflex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -405,15 +405,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 58CE3CA1628F69D62D0F0496 /* Pods-SectionRowsTutorial.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7VMSA5VDUW;
-				INFOPLIST_FILE = SectionRowsTutorial/Info.plist;
+				INFOPLIST_FILE = Effortflex/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.garynaz.SectionRowsTutorial;
+				PRODUCT_BUNDLE_IDENTIFIER = com.garynaz.Effortflex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -423,7 +423,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DD3B9CF3239D85E400095B05 /* Build configuration list for PBXProject "SectionRowsTutorial" */ = {
+		DD3B9CF3239D85E400095B05 /* Build configuration list for PBXProject "Effortflex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD3B9D0A239D85E500095B05 /* Debug */,
@@ -432,7 +432,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DD3B9D0C239D85E500095B05 /* Build configuration list for PBXNativeTarget "SectionRowsTutorial" */ = {
+		DD3B9D0C239D85E500095B05 /* Build configuration list for PBXNativeTarget "Effortflex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD3B9D0D239D85E500095B05 /* Debug */,

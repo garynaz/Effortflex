@@ -56,6 +56,7 @@ class SecondViewController: UITableViewController {
         let exercise = selectedWorkout?.exercise[indexPath.row]
         
         cell.textLabel?.text = "\(exercise!.exerciseName)"
+        cell.accessoryType = .disclosureIndicator
         
         return cell
     }
