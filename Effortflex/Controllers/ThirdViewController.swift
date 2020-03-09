@@ -40,6 +40,10 @@ class ThirdViewController: UIViewController {
     var timerDisplayed = 0
     let timePicker = UIPickerView()
     let toolBar1 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
+    
+    
+    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
     let doneButton1 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
     let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
     
@@ -159,7 +163,7 @@ class ThirdViewController: UIViewController {
 
         
         toolBar1.sizeToFit()
-        toolBar1.setItems([doneButton1], animated: false)
+        toolBar1.setItems([doneButton1, flexibleSpace, cancelButton], animated: false)
         toolBar1.barStyle = .default
         
         toolBar2.sizeToFit()
