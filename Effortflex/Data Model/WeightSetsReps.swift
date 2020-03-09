@@ -14,6 +14,6 @@ class WeightSetsReps : Object {
     
     @objc dynamic var weight : Double = 0
     @objc dynamic var reps : Double = 0
+    @objc dynamic var notes : String = ""
     var parentExercise = LinkingObjects(fromType: Exercises.self, property: "wsr")
-
 }

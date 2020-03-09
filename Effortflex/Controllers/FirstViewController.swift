@@ -46,11 +46,12 @@ class FirstViewController: UITableViewController {
     
 //MARK: - viewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
-//        let backgroundImage = UIImage(named: "weights")
-//        let imageView = UIImageView(image: backgroundImage)
-//        imageView.contentMode = .scaleAspectFit
-//
-//        tableView.backgroundView = imageView
+        let backgroundImage = UIImage(named: "db2")
+        let imageView = UIImageView(image: backgroundImage)
+        imageView.contentMode = .scaleAspectFill
+        imageView.alpha = 0.5
+
+        tableView.backgroundView = imageView
     }
     
     
@@ -149,7 +150,8 @@ class FirstViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = days?[section].weekday ?? "Section Header"
-        label.backgroundColor = UIColor.lightGray
+        label.backgroundColor = UIColor.lightText
+        label.textColor = .black
         return label
     }
     
@@ -172,6 +174,7 @@ class FirstViewController: UITableViewController {
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.text = "\(workout)"
         cell.accessoryType = .disclosureIndicator
+        cell.layer.backgroundColor = UIColor.clear.cgColor
         
         return cell
     }
@@ -181,6 +184,8 @@ class FirstViewController: UITableViewController {
         let destinationVC = SecondViewController()
         destinationVC.selectedWorkout = days?[indexPath.section].workout[indexPath.row]
         
+        tableView.deselectRow(at: indexPath, animated: true)
+
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     

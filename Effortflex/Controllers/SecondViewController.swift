@@ -36,6 +36,16 @@ class SecondViewController: UITableViewController {
         
     }
     
+//MARK: - viewWillAppear()
+    override func viewWillAppear(_ animated: Bool) {
+        let backgroundImage = UIImage(named: "db2")
+        let imageView = UIImageView(image: backgroundImage)
+        imageView.contentMode = .scaleAspectFill
+        imageView.alpha = 0.5
+
+        tableView.backgroundView = imageView
+    }
+    
 //MARK: - Navigation Bar Setup
     func navConAcc(){
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addExercise))
@@ -57,6 +67,7 @@ class SecondViewController: UITableViewController {
         
         cell.textLabel?.text = "\(exercise!.exerciseName)"
         cell.accessoryType = .disclosureIndicator
+        cell.layer.backgroundColor = UIColor.clear.cgColor
         
         return cell
     }
@@ -66,6 +77,8 @@ class SecondViewController: UITableViewController {
         destinationVC.selectedExercise = exercises![indexPath.row]
         destinationVC.allExercises = exercises
         
+        tableView.deselectRow(at: indexPath, animated: true )
+
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
@@ -165,7 +178,7 @@ class SecondViewController: UITableViewController {
             let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             let allowedCharSet = CharacterSet(charactersIn: allowedChars)
             let typedCharsSet = CharacterSet(charactersIn: string)
-            if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
+            if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 21 {
                 return true
             }
             return false

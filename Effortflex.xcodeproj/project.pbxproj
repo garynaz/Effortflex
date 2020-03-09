@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AB294C0191F00012ED17F69B /* libPods-SectionRowsTutorial.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36DB496100EF4D599FBA4C15 /* libPods-SectionRowsTutorial.a */; };
+		DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* LoginViewController.swift */; };
+		DD10614D240B316600448A2B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* MainViewController.swift */; };
 		DD1232C723F77B9300921D42 /* note1.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD1232C623F77B9300921D42 /* note1.wav */; };
 		DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119023B93ACA00C5D995 /* FirstViewController.swift */; };
 		DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119423B9481300C5D995 /* SecondViewController.swift */; };
@@ -17,6 +19,7 @@
 		DD2E807623C1824D0081C1A8 /* WeightSetsReps.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */; };
 		DD319C8823A30B7900222847 /* Days.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8723A30B7900222847 /* Days.swift */; };
 		DD319C8A23A30B8200222847 /* Workouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD319C8923A30B8200222847 /* Workouts.swift */; };
+		DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36315C240B30D50002D0BB /* SignUpViewController.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
@@ -26,6 +29,8 @@
 		36DB496100EF4D599FBA4C15 /* libPods-SectionRowsTutorial.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SectionRowsTutorial.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58CE3CA1628F69D62D0F0496 /* Pods-SectionRowsTutorial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SectionRowsTutorial.release.xcconfig"; path = "Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial.release.xcconfig"; sourceTree = "<group>"; };
 		84E9EB26F531EEE001FF57BE /* Pods-SectionRowsTutorial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SectionRowsTutorial.debug.xcconfig"; path = "Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial.debug.xcconfig"; sourceTree = "<group>"; };
+		DD10614A240B313F00448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		DD10614C240B316600448A2B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DD1232C623F77B9300921D42 /* note1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note1.wav; sourceTree = "<group>"; };
 		DD19119023B93ACA00C5D995 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		DD19119423B9481300C5D995 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +40,7 @@
 		DD2E807523C1824D0081C1A8 /* WeightSetsReps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSetsReps.swift; sourceTree = "<group>"; };
 		DD319C8723A30B7900222847 /* Days.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Days.swift; sourceTree = "<group>"; };
 		DD319C8923A30B8200222847 /* Workouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workouts.swift; sourceTree = "<group>"; };
+		DD36315C240B30D50002D0BB /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = /Users/owner1/Desktop/Effortflex/Effortflex/Controllers/SignUpViewController.swift; sourceTree = "<absolute>"; };
 		DD3B9CF8239D85E400095B05 /* Effortflex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Effortflex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -89,6 +95,9 @@
 				DD19119023B93ACA00C5D995 /* FirstViewController.swift */,
 				DD19119423B9481300C5D995 /* SecondViewController.swift */,
 				DD2E807323C15E120081C1A8 /* ThirdViewController.swift */,
+				DD10614C240B316600448A2B /* MainViewController.swift */,
+				DD36315C240B30D50002D0BB /* SignUpViewController.swift */,
+				DD10614A240B313F00448A2B /* LoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -127,10 +136,10 @@
 			children = (
 				DD896A9E23FF18BC00929D0A /* Miscelanious */,
 				DD1232C523F77B6900921D42 /* Sound Effects */,
-				DD2C663A23C5121D007741FE /* ImageAssets.xcassets */,
 				DD19119623B949E400C5D995 /* Controllers */,
 				DD319C8B23A30B8B00222847 /* Data Model */,
 				DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */,
+				DD2C663A23C5121D007741FE /* ImageAssets.xcassets */,
 				DD3B9CFB239D85E400095B05 /* AppDelegate.swift */,
 				DD3B9D09239D85E500095B05 /* Info.plist */,
 			);
@@ -246,11 +255,14 @@
 				DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */,
 				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,
 				DD19119823B94C2900C5D995 /* Exercises.swift in Sources */,
+				DD10614D240B316600448A2B /* MainViewController.swift in Sources */,
+				DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */,
 				DD319C8823A30B7900222847 /* Days.swift in Sources */,
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
 				DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */,
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
 				DD319C8A23A30B8200222847 /* Workouts.swift in Sources */,
+				DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
