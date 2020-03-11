@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.rootViewController = navController
             window.makeKeyAndVisible()
         }
+        
+        IQKeyboardManager.shared.enable = true
         
         return true
     }

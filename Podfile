@@ -8,5 +8,6 @@ target 'Effortflex' do
   # Pods for Effortflex
   
   pod 'RealmSwift'
+  pod 'IQKeyboardManagerSwift'
 
 end
