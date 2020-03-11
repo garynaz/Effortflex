@@ -78,7 +78,6 @@ class ThirdViewController: UIViewController {
         labelConfig()
         classConstraints()
         
-
         historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
 
     }

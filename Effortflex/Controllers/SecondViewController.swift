@@ -68,6 +68,8 @@ class SecondViewController: UITableViewController {
         cell.textLabel?.text = "\(exercise!.exerciseName)"
         cell.accessoryType = .disclosureIndicator
         cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
         
         return cell
     }

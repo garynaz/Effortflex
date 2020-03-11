@@ -39,7 +39,8 @@ class FirstViewController: UITableViewController {
                 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
-
+        
+        
         navConAcc()
         loadDays()
     }
@@ -59,7 +60,7 @@ class FirstViewController: UITableViewController {
     func navConAcc() {
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
         navigationItem.rightBarButtonItem = addBarButton
-        
+        navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 0.4784, green: 0.0863, blue: 0, alpha: 1.0)]
         navigationItem.title = "My workouts"
     }
     
@@ -151,7 +152,10 @@ class FirstViewController: UITableViewController {
         let label = UILabel()
         label.text = days?[section].weekday ?? "Section Header"
         label.backgroundColor = UIColor.lightText
-        label.textColor = .black
+        label.textColor = UIColor(red: 0, green: 0.451, blue: 0.8471, alpha: 1.0)
+        label.font = UIFont(name: "HelveticaNeue", size: 25)
+        label.textAlignment = .center
+        
         return label
     }
     
@@ -172,9 +176,11 @@ class FirstViewController: UITableViewController {
         
         let workout = days?[indexPath.section].workout[indexPath.row].title ?? "Workout"
         cell.textLabel?.textAlignment = .center
-        cell.textLabel?.text = "\(workout)"
+        cell.textLabel?.text = "   \(workout)"
         cell.accessoryType = .disclosureIndicator
         cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
         
         return cell
     }
