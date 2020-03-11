@@ -39,16 +39,20 @@ class ThirdViewController: UIViewController {
     var timer = Timer()
     var timerDisplayed = 0
     let timePicker = UIPickerView()
-    let toolBar1 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
     
+    let toolBar1 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 60, height: 90))
+    let toolBar2 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 60, height: 90))
+    let doneButton1 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissKeyboard))
+    let doneButton2 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
+    let cancelButton1 = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
+    let cancelButton2 = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
+    let flexibleSpace1 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let flexibleSpace2 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+
     
-    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
-    let doneButton1 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
+  
     let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
     
-    let toolBar2 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
-    let doneButton2 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissKeyboard))
 
     let image1 = UIImage(named: "stopwatch")
     
@@ -73,6 +77,8 @@ class ThirdViewController: UIViewController {
         conformance()
         labelConfig()
         classConstraints()
+        
+
         historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
 
     }
@@ -101,7 +107,7 @@ class ThirdViewController: UIViewController {
         weightTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
         weightTextField.layer.cornerRadius = 10
         weightTextField.textColor = .white
-        weightTextField.inputAccessoryView = toolBar2
+        weightTextField.inputAccessoryView = toolBar1
         weightTextField.keyboardType = .decimalPad
         weightTextField.leftView = weightLabel
         weightTextField.leftViewMode = .always
@@ -114,7 +120,7 @@ class ThirdViewController: UIViewController {
         repsTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
         repsTextField.layer.cornerRadius = 10
         repsTextField.textColor = .white
-        repsTextField.inputAccessoryView = toolBar2
+        repsTextField.inputAccessoryView = toolBar1
         repsTextField.keyboardType = .decimalPad
         repsTextField.leftView = repsLabel
         repsTextField.leftViewMode = .always
@@ -126,7 +132,7 @@ class ThirdViewController: UIViewController {
         notesTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
         notesTextField.layer.cornerRadius = 10
         notesTextField.textColor = .white
-        notesTextField.inputAccessoryView = toolBar2
+        notesTextField.inputAccessoryView = toolBar1
         notesTextField.keyboardType = .default
         notesTextField.tintColor = UIColor.clear
         notesTextField.leftView = notesLabel
@@ -158,16 +164,15 @@ class ThirdViewController: UIViewController {
         timerTextField.tintColor = UIColor.clear
         timerTextField.textAlignment = .left
         timerTextField.inputView = timePicker
-        timerTextField.inputAccessoryView = toolBar1
+        timerTextField.inputAccessoryView = toolBar2
         timerTextField.attributedPlaceholder = NSAttributedString(string: "   Timer", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)])
 
-        
         toolBar1.sizeToFit()
-        toolBar1.setItems([doneButton1, flexibleSpace, cancelButton], animated: false)
+        toolBar1.setItems([doneButton1, flexibleSpace1, cancelButton1], animated: false)
         toolBar1.barStyle = .default
         
         toolBar2.sizeToFit()
-        toolBar2.setItems([doneButton2], animated: false)
+        toolBar2.setItems([doneButton2, flexibleSpace2, cancelButton2], animated: false)
         toolBar2.barStyle = .default
         
         [weightTextField, repsTextField, historyTableView, notesTextField, timerTextField].forEach{view.addSubview($0)}
