@@ -19,7 +19,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         buttonConfig()
         textFieldConstraints()
         view.backgroundColor = UIColor.white

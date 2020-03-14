@@ -22,6 +22,7 @@
 		DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36315C240B30D50002D0BB /* SignUpViewController.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
+		DD7AF78E241D711100998361 /* FirebaseFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7AF78D241D711100998361 /* FirebaseFile.swift */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD7AF78D241D711100998361 /* FirebaseFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FirebaseFile.swift; path = "Effortflex/Data Model/FirebaseFile.swift"; sourceTree = SOURCE_ROOT; };
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 		DD319C8B23A30B8B00222847 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD7AF78D241D711100998361 /* FirebaseFile.swift */,
 				DD319C8723A30B7900222847 /* Days.swift */,
 				DD319C8923A30B8200222847 /* Workouts.swift */,
 				DD19119723B94C2900C5D995 /* Exercises.swift */,
@@ -263,6 +266,7 @@
 				DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */,
 				DD319C8823A30B7900222847 /* Days.swift in Sources */,
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
+				DD7AF78E241D711100998361 /* FirebaseFile.swift in Sources */,
 				DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */,
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
 				DD319C8A23A30B8200222847 /* Workouts.swift in Sources */,
