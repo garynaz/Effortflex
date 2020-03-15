@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0744822A4A6A75106F32AE46 /* libPods-Effortflex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D14F49E3826B81B90155725 /* libPods-Effortflex.a */; };
+		22B42CBBEC18EC75702987F2 /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E8D8AD1827D55C1B15A6A89 /* Pods_Effortflex.framework */; };
 		DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* LoginViewController.swift */; };
 		DD10614D240B316600448A2B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* MainViewController.swift */; };
 		DD1232C723F77B9300921D42 /* note1.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD1232C623F77B9300921D42 /* note1.wav */; };
@@ -18,14 +18,15 @@
 		DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36315C240B30D50002D0BB /* SignUpViewController.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
+		DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5382123D9FBFADEB192AFA51 /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
 		58CE3CA1628F69D62D0F0496 /* Pods-SectionRowsTutorial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SectionRowsTutorial.release.xcconfig"; path = "Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial.release.xcconfig"; sourceTree = "<group>"; };
+		7E8D8AD1827D55C1B15A6A89 /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E9EB26F531EEE001FF57BE /* Pods-SectionRowsTutorial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SectionRowsTutorial.debug.xcconfig"; path = "Target Support Files/Pods-SectionRowsTutorial/Pods-SectionRowsTutorial.debug.xcconfig"; sourceTree = "<group>"; };
-		8D14F49E3826B81B90155725 /* libPods-Effortflex.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Effortflex.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC95AB5DED0D7250A91CD4C7 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
 		DD10614A240B313F00448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD10614C240B316600448A2B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +40,7 @@
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0744822A4A6A75106F32AE46 /* libPods-Effortflex.a in Frameworks */,
+				22B42CBBEC18EC75702987F2 /* Pods_Effortflex.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +63,7 @@
 			children = (
 				DD8D826923F480130076BA3A /* RealmSwift.framework */,
 				DD8D826523F4800D0076BA3A /* Realm.framework */,
-				8D14F49E3826B81B90155725 /* libPods-Effortflex.a */,
+				7E8D8AD1827D55C1B15A6A89 /* Pods_Effortflex.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,12 +90,12 @@
 		DD19119623B949E400C5D995 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				DD19119023B93ACA00C5D995 /* FirstViewController.swift */,
-				DD19119423B9481300C5D995 /* SecondViewController.swift */,
-				DD2E807323C15E120081C1A8 /* ThirdViewController.swift */,
 				DD10614C240B316600448A2B /* MainViewController.swift */,
 				DD36315C240B30D50002D0BB /* SignUpViewController.swift */,
 				DD10614A240B313F00448A2B /* LoginViewController.swift */,
+				DD19119023B93ACA00C5D995 /* FirstViewController.swift */,
+				DD19119423B9481300C5D995 /* SecondViewController.swift */,
+				DD2E807323C15E120081C1A8 /* ThirdViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -134,6 +136,7 @@
 				DD2C663A23C5121D007741FE /* ImageAssets.xcassets */,
 				DD3B9CFB239D85E400095B05 /* AppDelegate.swift */,
 				DD3B9D09239D85E500095B05 /* Info.plist */,
+				DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */,
 			);
 			path = Effortflex;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				DD3B9CF4239D85E400095B05 /* Sources */,
 				DD3B9CF5239D85E400095B05 /* Frameworks */,
 				DD3B9CF6239D85E400095B05 /* Resources */,
+				ECAC794DE2EE203FBDF89E72 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -206,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD1232C723F77B9300921D42 /* note1.wav in Resources */,
+				DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */,
 				DD2C663B23C51226007741FE /* ImageAssets.xcassets in Resources */,
 				DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -234,6 +239,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ECAC794DE2EE203FBDF89E72 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Effortflex/Pods-Effortflex-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Effortflex/Pods-Effortflex-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Effortflex/Pods-Effortflex-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

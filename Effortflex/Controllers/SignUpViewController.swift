@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import FirebaseAuth
+import Firebase
+import FirebaseFirestoreSwift
 
 class SignUpViewController: UIViewController {
 
@@ -14,6 +17,7 @@ class SignUpViewController: UIViewController {
     var emailTextField = UITextField()
     var passwordTextField = UITextField()
     var signUpButton = UIButton()
+    var errorLabel = UILabel()
     
     var signUpStackView = UIStackView()
     
@@ -57,13 +61,73 @@ class SignUpViewController: UIViewController {
         signUpButton.layer.cornerRadius = 10
         signUpButton.layer.borderColor = UIColor.lightGray.cgColor
         
-        signUpStackView = UIStackView(arrangedSubviews: [fNameTextField, lNameTextField, emailTextField, passwordTextField, signUpButton])
+        errorLabel.text = ""
+        errorLabel.textAlignment = .center
+        errorLabel.alpha = 0
+
+        
+        signUpStackView = UIStackView(arrangedSubviews: [fNameTextField, lNameTextField, emailTextField, passwordTextField, signUpButton, errorLabel])
         signUpStackView.axis = .vertical
         signUpStackView.distribution = .fillEqually
         signUpStackView.spacing = 20.adjusted
+        signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
                 
         view.addSubview(signUpStackView)
         
+    }
+    
+    func isPasswordValid(_ password : String) -> Bool {
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
+        
+        return passwordTest.evaluate(with: password)
+    }
+    
+    
+    func validateField() -> String?{
+        
+        if  fNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+            lNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+            emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+            passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            
+            return "Please fill in all fields."
+        }
+        
+        let cleanedPassword = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if isPasswordValid(cleanedPassword!) == false {
+            return "Please make sure your password is at least 8 characters, contains a special character and a number"
+        }
+        
+        return nil
+    }
+    
+    @objc func signUpTapped(){
+        
+        let error = validateField()
+        
+        if error != nil {
+            showError(error!)
+        } else {
+            
+            Auth.auth().createUser(withEmail: "", password: "") { (result, err) in
+                if err != nil {
+                    self.showError("Error creating user")
+                }
+                else {
+                    
+                    let db = Firestore.firestore()
+                    
+                }
+            }
+            
+        }
+        
+    }
+    
+    func showError(_ message: String) {
+        errorLabel.text = message
+        errorLabel.alpha = 1
     }
     
     

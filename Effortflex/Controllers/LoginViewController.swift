@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
     var emailTextField = UITextField()
     var passwordTextField = UITextField()
     var loginButton = UIButton()
+    var errorLabel = UILabel()
     
     var loginStackView = UIStackView()
     
@@ -38,15 +39,17 @@ class LoginViewController: UIViewController {
         passwordTextField.layer.cornerRadius = 10
         passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
         
-        
         loginButton.setTitle("Login", for: .normal)
         loginButton.setTitleColor(.black, for: .normal)
         loginButton.layer.borderWidth = 1
         loginButton.layer.cornerRadius = 10
         loginButton.layer.borderColor = UIColor.lightGray.cgColor
         
-        loginStackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
+        errorLabel.text = ""
+        errorLabel.textAlignment = .center
+        errorLabel.alpha = 0
         
+        loginStackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton, errorLabel])
         loginStackView.axis = .vertical
         loginStackView.distribution = .fillEqually
         loginStackView.spacing = 20.adjusted

@@ -53,8 +53,7 @@ class MainViewController: UIViewController {
     
     
     @objc func goToSignupVC(){
-        let destinationVC = SignUpViewController()
-        self.navigationController?.pushViewController(destinationVC, animated: true)
+        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
         
     }
     
