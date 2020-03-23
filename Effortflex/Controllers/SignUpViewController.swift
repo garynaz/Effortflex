@@ -10,6 +10,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestoreSwift
 
+
 class SignUpViewController: UIViewController {
 
     var fNameTextField = UITextField()
@@ -64,16 +65,15 @@ class SignUpViewController: UIViewController {
         errorLabel.text = ""
         errorLabel.textAlignment = .center
         errorLabel.alpha = 0
-
+        errorLabel.numberOfLines = 0
         
-        signUpStackView = UIStackView(arrangedSubviews: [fNameTextField, lNameTextField, emailTextField, passwordTextField, signUpButton, errorLabel])
+        signUpStackView = UIStackView(arrangedSubviews: [fNameTextField, lNameTextField, emailTextField, passwordTextField, signUpButton])
         signUpStackView.axis = .vertical
         signUpStackView.distribution = .fillEqually
         signUpStackView.spacing = 20.adjusted
         signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
                 
-        view.addSubview(signUpStackView)
-        
+        [signUpStackView, errorLabel].forEach{view.addSubview($0)}
     }
     
     func isPasswordValid(_ password : String) -> Bool {
@@ -110,7 +110,12 @@ class SignUpViewController: UIViewController {
             showError(error!)
         } else {
             
-            Auth.auth().createUser(withEmail: "", password: "") { (result, err) in
+            let firstName = fNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let lastName = lNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
                 if err != nil {
                     self.showError("Error creating user")
                 }
@@ -118,11 +123,18 @@ class SignUpViewController: UIViewController {
                     
                     let db = Firestore.firestore()
                     
+                    db.collection("users").addDocument(data: ["firstName":firstName, "lastName":lastName, "uid":result!.user.uid])
+                    { (error) in
+                        if error != nil {
+                            self.showError("Error saving user data")
+                        }
+                    }
+                    self.transitionToHome()
+                                    
                 }
             }
             
         }
-        
     }
     
     func showError(_ message: String) {
@@ -134,16 +146,15 @@ class SignUpViewController: UIViewController {
     //MARK: - TextField Constraints
     func textFieldConstraints(){
         signUpStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 300))
+        
+        errorLabel.anchor(top: signUpStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted))
     }
     
     
-    func authenticate(){
-        let alert = UIAlertController(title: "ERROR", message: "Error details", preferredStyle: .alert)
-        
-        let finishedAction = UIAlertAction(title: "Dismiss", style: .default)
-        
-        alert.addAction(finishedAction)
-        present(alert, animated: true, completion: nil)
+    func transitionToHome(){
+        let homeViewController = FirstViewController()
+        view.window?.rootViewController = homeViewController
+        view.window?.makeKeyAndVisible()
     }
     
 

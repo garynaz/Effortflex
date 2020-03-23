@@ -1,73 +1,73 @@
-////
-////  FirstViewController.swift
-////  SectionRowsTutorial
-////
-////  Created by Gary Naz on 12/29/19.
-////  Copyright © 2019 Gari Nazarian. All rights reserved.
-////
 //
-//import UIKit
-//import RealmSwift
+//  FirstViewController.swift
+//  SectionRowsTutorial
 //
-//class FirstViewController: UITableViewController {
+//  Created by Gary Naz on 12/29/19.
+//  Copyright © 2019 Gari Nazarian. All rights reserved.
 //
-//    let realm = try! Realm()
-//
-//    var days : Results<Days>?
-//    var workouts : Results<Workouts>?
-//
-//    var daysOfWeek : [String] = ["Monday", "Tuesday", "Wednsday", "Thursday", "Friday", "Saturday", "Sunday"]
-//
-//    weak var buttonActionToEnable: UIAlertAction?
-//
-//    var indexCheck : Int = 0
-//    let cellID = "WorkoutCell"
-//
-//    let picker = UIPickerView()
-//
-//    var textField1 = UITextField()
-//    var textField2 = UITextField()
-//
-//
-//
-////MARK: - viewDidLoad()
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        picker.delegate = self
-//        picker.dataSource = self
-//
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
-//        tableView.tableFooterView = UIView()
-//
-//
-//        navConAcc()
+
+import UIKit
+import RealmSwift
+
+class FirstViewController: UITableViewController {
+
+    let realm = try! Realm()
+
+    var days : Results<Days>?
+    var workouts : Results<Workouts>?
+
+    var daysOfWeek : [String] = ["Monday", "Tuesday", "Wednsday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    weak var buttonActionToEnable: UIAlertAction?
+
+    var indexCheck : Int = 0
+    let cellID = "WorkoutCell"
+
+    let picker = UIPickerView()
+
+    var textField1 = UITextField()
+    var textField2 = UITextField()
+
+
+
+//MARK: - viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        picker.delegate = self
+        picker.dataSource = self
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.tableFooterView = UIView()
+
+
+        navConAcc()
 //        loadDays()
-//    }
-//
-////MARK: - viewWillAppear()
-//    override func viewWillAppear(_ animated: Bool) {
-//        let backgroundImage = UIImage(named: "db2")
-//        let imageView = UIImageView(image: backgroundImage)
-//        imageView.contentMode = .scaleAspectFill
-//        imageView.alpha = 0.5
-//
-//        tableView.backgroundView = imageView
-//    }
-//
-//
-////MARK: - Navigation Bar Setup
-//    func navConAcc() {
-//        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
-//        navigationItem.rightBarButtonItem = addBarButton
-//        navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 0.4784, green: 0.0863, blue: 0, alpha: 1.0)]
-//        navigationItem.title = "My workouts"
-//    }
-//
-//
-////MARK: - Add a New Workout
-//    @objc func addWorkout() {
-//
+    }
+
+//MARK: - viewWillAppear()
+    override func viewWillAppear(_ animated: Bool) {
+        let backgroundImage = UIImage(named: "db2")
+        let imageView = UIImageView(image: backgroundImage)
+        imageView.contentMode = .scaleAspectFill
+        imageView.alpha = 0.5
+
+        tableView.backgroundView = imageView
+    }
+
+
+//MARK: - Navigation Bar Setup
+    func navConAcc() {
+        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
+        navigationItem.rightBarButtonItem = addBarButton
+        navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 0.4784, green: 0.0863, blue: 0, alpha: 1.0)]
+        navigationItem.title = "My workouts"
+    }
+
+
+//MARK: - Add a New Workout
+    @objc func addWorkout() {
+
 //        var containsDay = false
 //        var counter = 0
 //
@@ -139,8 +139,8 @@
 //        alert.addAction(addAction)
 //        alert.addAction(cancelAction)
 //        present(alert, animated: true, completion: nil)
-//    }
-//
+    }
+
 //    @objc func textFieldChanged(_ sender: Any) {
 //        let textfield = sender as! UITextField
 //        self.buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
@@ -257,43 +257,43 @@
 //        self.loadDays()
 //    }
 //
-//}
-//
-//
-////MARK: - PickerView Delegate Methods
-//    extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
-//
-//        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//            return 1
-//        }
-//
-//        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//            return daysOfWeek.count
-//        }
-//
-//        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//            return daysOfWeek[row]
-//        }
-//
-//        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//            textField1.text = daysOfWeek[row]
-//        }
-//
-//    }
-//
-////MARK: - Textfield Delegate Methods
-//    extension FirstViewController : UITextFieldDelegate {
-//        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//
-//            guard let text = textField.text else { return true }
-//            let newLength = text.count + string.count - range.length
-//
-//            let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-//            let allowedCharSet = CharacterSet(charactersIn: allowedChars)
-//            let typedCharsSet = CharacterSet(charactersIn: string)
-//            if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
-//                return true
-//            }
-//            return false
-//        }
-//    }
+}
+
+
+//MARK: - PickerView Delegate Methods
+    extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+        }
+
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return daysOfWeek.count
+        }
+
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return daysOfWeek[row]
+        }
+
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            textField1.text = daysOfWeek[row]
+        }
+
+    }
+
+//MARK: - Textfield Delegate Methods
+    extension FirstViewController : UITextFieldDelegate {
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+
+            let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+            let typedCharsSet = CharacterSet(charactersIn: string)
+            if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 20 {
+                return true
+            }
+            return false
+        }
+    }
