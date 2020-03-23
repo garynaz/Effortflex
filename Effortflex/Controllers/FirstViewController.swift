@@ -13,8 +13,6 @@ class FirstViewController: UITableViewController {
 
     let realm = try! Realm()
 
-    var days : Results<Days>?
-    var workouts : Results<Workouts>?
 
     var daysOfWeek : [String] = ["Monday", "Tuesday", "Wednsday", "Thursday", "Friday", "Saturday", "Sunday"]
 
