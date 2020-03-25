@@ -108,7 +108,8 @@ class LoginViewController: UIViewController {
     }
     
     func transitionToHome(){
-        let homeViewController = FirstViewController()
+        let navController = UINavigationController(rootViewController: FirstViewController())
+        let homeViewController = navController
         view.window?.rootViewController = homeViewController
         view.window?.makeKeyAndVisible()
     }

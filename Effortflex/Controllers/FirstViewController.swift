@@ -8,6 +8,8 @@
 
 import UIKit
 import RealmSwift
+import Firebase
+import FirebaseFirestoreSwift
 
 class FirstViewController: UITableViewController {
 
@@ -26,7 +28,8 @@ class FirstViewController: UITableViewController {
     var textField1 = UITextField()
     var textField2 = UITextField()
 
-
+    let db = Firestore.firestore()
+    var docRef: DocumentReference!
 
 //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -38,9 +41,31 @@ class FirstViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
 
-
         navConAcc()
-//        loadDays()
+        // loadDays()
+        
+        
+        db.collection("users").getDocuments()
+        {
+            (querySnapshot, err) in
+
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+            }
+            else
+            {
+                var count = 0
+                for document in querySnapshot!.documents {
+                    count += 1
+                    print("\(document.documentID) => \(document.data())");
+                }
+
+                print("Count = \(count)");
+            }
+        }
+        
+
     }
 
 //MARK: - viewWillAppear()
@@ -66,6 +91,8 @@ class FirstViewController: UITableViewController {
 //MARK: - Add a New Workout
     @objc func addWorkout() {
 
+        
+        
 //        var containsDay = false
 //        var counter = 0
 //
