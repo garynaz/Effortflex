@@ -6,10 +6,10 @@
 ////  Copyright © 2019 Gari Nazarian. All rights reserved.
 ////
 //
-//import UIKit
-//import RealmSwift
+import UIKit
+import RealmSwift
 //
-//class SecondViewController: UITableViewController {
+class SecondViewController: UITableViewController {
 //
 //    let realm = try! Realm()
 //
@@ -168,7 +168,7 @@
 //    }
 //
 //
-//}
+}
 //
 ////MARK: - Textfield Delegate Methods
 //    extension SecondViewController : UITextFieldDelegate {
