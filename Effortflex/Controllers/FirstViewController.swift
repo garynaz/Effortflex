@@ -29,18 +29,16 @@ class FirstViewController: UITableViewController {
     var userIdRef = ""
     var dayCount = 0
     var daysArray = [String]()
-    var dayIdArray = [String]() 
-    
+    var dayIdArray = [String]()
+    var dataDict : [String:[String]] = [:]
+        
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let backgroundImage = UIImage(named: "db2")
-        let imageView = UIImageView(image: backgroundImage)
-        imageView.contentMode = .scaleAspectFill
-        imageView.alpha = 0.5
-        tableView.backgroundView = imageView
+        vcBackgroundImg()
+        navConAcc()
         
         picker.delegate = self
         picker.dataSource = self
@@ -52,32 +50,71 @@ class FirstViewController: UITableViewController {
             self.userIdRef = user!.uid
             self.colRef = Firestore.firestore().collection("/users/\(self.userIdRef)/Days")
             
-            self.colRef.getDocuments { (snapshot, err) in
-                if let err = err
-                {
-                    print("Error getting documents: \(err)");
+            self.loadData { (done) in
+                if done {
+                    print(self.dataDict)
+                } else {
+                    print("Error retrieving data")
                 }
-                else {
+            }
+            
+        }
+        
+    }
+    
+    //MARK: - Load Data
+    func loadData(completion: @escaping (Bool) -> ()){
+        
+        self.colRef.getDocuments { (snapshot, err) in
+            
+            if let err = err
+            {
+                print("Error getting documents: \(err)");
+                completion(false)
+            }
+            else {
+                //Appending all Days collection documents with a field of "dow" to daysarray...
+                for dayDocument in snapshot!.documents {
+                    self.daysArray.append(dayDocument.data()["dow"] as? String ?? "")
+                    self.dayIdArray.append(dayDocument.documentID)
                     
-                    for document in snapshot!.documents {
-                        self.daysArray.append(document.data()["dow"] as? String ?? "")
-                        self.dayIdArray.append(document.documentID)
-                    }
                     
-                    self.dayCount =  snapshot?.count ?? 0
-                    print(self.daysArray)
-                    print(self.dayCount)
-                    //daysArray needs to save the data...
-                    self.tableView.reloadData()
+                    Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayDocument.documentID)/Workouts/").getDocuments { (snapshot, err) in
+                        if let err = err
+                        {
+                            print("Error getting documents: \(err)");
+                            completion(false)
+                        }
+                        else {
+                            //Assigning all Workouts collection documents belonging to selected \(dayDocument.documentID) to dictionary dataDict...
+                            for document in snapshot!.documents {
+                                
+                                if self.dataDict[dayDocument.data()["dow"] as? String ?? ""] == nil {
+                                    self.dataDict[dayDocument.data()["dow"] as? String ?? ""] = [document.data()["workout"] as? String ?? ""]
+                                } else {
+                                    self.dataDict[dayDocument.data()["dow"] as? String ?? ""]?.append(document.data()["workout"] as? String ?? "")
+                                }
 
+                            }
+                            completion(true)
+                        }
+                    }
                 }
+                self.dayCount =  snapshot?.count ?? 0
             }
         }
         
-        navConAcc()
     }
     
     
+    //MARK: - VC Background Image setup
+    func vcBackgroundImg(){
+        let backgroundImage = UIImage(named: "db2")
+        let imageView = UIImageView(image: backgroundImage)
+        imageView.contentMode = .scaleAspectFill
+        imageView.alpha = 0.5
+        tableView.backgroundView = imageView
+    }
     
     //MARK: - Navigation Bar Setup
     func navConAcc() {
@@ -126,7 +163,7 @@ class FirstViewController: UITableViewController {
                                     let dayRef = Firestore.firestore().document("/users/\(self.userIdRef)/Days/\(dayId)")
                                     Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayId)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)", "dayRef" : dayRef])
                                     foundIt = true
-                                    self.loadDays()
+//                                    self.loadData()
                                     
                                     break
                                 }
@@ -150,11 +187,9 @@ class FirstViewController: UITableViewController {
                                     let myDay = myData!["dow"] as? String ?? ""
                                     self.daysArray.append(myDay)
                                     self.dayIdArray.append(newDayRef.documentID)
-                                    self.loadDays()
+//                                    self.loadData()
                                 }
                             }
-                            
-     
                             
                         }
                         
@@ -179,8 +214,7 @@ class FirstViewController: UITableViewController {
                         let myDay = myData!["dow"] as? String ?? ""
                         self.daysArray.append(myDay)
                         self.dayIdArray.append(newDayRef.documentID)
-                        
-                        self.loadDays()
+//                        self.loadData()
                     }
                 }
                 
@@ -248,55 +282,21 @@ class FirstViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //Return the count how many workouts exist for each date.
-        var counter = 0
-
-        Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayIdArray[section])/Workouts/").getDocuments { (querySnapshot, error) in
-            if error == nil && querySnapshot != nil {
-                counter = querySnapshot?.count ?? 0
-            }
-        }
+        let counter = 0
 
         return counter
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
+        cell.textLabel?.text = "temp"
+        cell.textLabel?.textAlignment = .center
+        cell.accessoryType = .disclosureIndicator
+        cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
         
-        Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayIdArray[indexPath.section])/Workouts/").getDocuments { (querySnapshot, err) in
-            if let err = err
-            {
-                print("Error getting documents: \(err)");
-            }
-            else
-            {
-                
-                let firstValue = querySnapshot!.documents[indexPath.row]
-                
-                let myData = firstValue.data()
-                let myDayRef = myData["workout"] as? String ?? ""
-                cell.textLabel?.text = "\(myDayRef)"
-                cell.textLabel?.textAlignment = .center
-                cell.accessoryType = .disclosureIndicator
-                cell.layer.backgroundColor = UIColor.clear.cgColor
-                cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
-                cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
-                
-                
-                
-                //                    for document in querySnapshot!.documents {
-                //
-                //                        let myData = document.data()
-                //                        let myDayRef = myData["dayRef"] as? String ?? ""
-                //
-                //                        if myDayRef == "/users/\(self.userIdRef)/Days/\(self.dayIdArray[indexPath.section])/Workouts/" {
-                //                            let myDay = myData["workout"] as? String ?? ""
-                //                            cell.textLabel?.text = "\(myDay)" //I need to use indexPath.row to iterate over the workouts in order to switch onto a new cell.
-                //                        }
-                //                    }
-            }
-            
-        }
         return cell
     }
     
@@ -354,20 +354,7 @@ class FirstViewController: UITableViewController {
     //    }
     //
     //
-    //MARK: - Load Data
-    func loadDays() {
-        
-        self.colRef.getDocuments { (snapshot, err) in
-            if let err = err
-            {
-                print("Error getting documents: \(err)");
-            }
-            else {
-                self.dayCount =  snapshot?.count ?? 0
-                self.tableView.reloadData()
-            }
-        }
-    }
+    
     
 }
 

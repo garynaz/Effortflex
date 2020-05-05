@@ -413,7 +413,7 @@ import UIKit
 //    }
 //
 //
-////MARK: - Extension for Double (Remove Trailing Zeroes)
+//MARK: - Extension for Double (Remove Trailing Zeroes)
 //    extension Double {
 //        func removeZerosFromEnd() -> String {
 //            let formatter = NumberFormatter()
@@ -425,7 +425,7 @@ import UIKit
 //    }
 //
 //
-////MARK: - TableView Methods
+////MARK: - TableView Meth ods
 //    extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
 //
 //        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

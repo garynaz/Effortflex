@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 import IQKeyboardManagerSwift
 import Firebase
 
@@ -19,10 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        do { _ = try Realm()
-        } catch {
-            print("Error initializing new realm, \(error)")
-        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
