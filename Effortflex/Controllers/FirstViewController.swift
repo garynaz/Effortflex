@@ -25,13 +25,12 @@ class FirstViewController: UITableViewController {
     var textField1 = UITextField()
     var textField2 = UITextField()
     
-    var colRef : CollectionReference!
+    var rootCollection : CollectionReference!
     var userIdRef = ""
     var dayCount = 0
     var daysArray = [String]()
-    var dayIdArray = [String]()
-    var dataDict : [String:[String]] = [:]
-        
+    var dataArray = [Any]()
+
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -48,13 +47,13 @@ class FirstViewController: UITableViewController {
         
         Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
-            self.colRef = Firestore.firestore().collection("/users/\(self.userIdRef)/Days")
-            
-            self.loadData { (done) in
-                if done {
-                    print(self.dataDict)
-                } else {
-                    print("Error retrieving data")
+            self.rootCollection = Firestore.firestore().collection("/users/\(self.userIdRef)/Days")
+
+            self.loadData { (Bool) in
+                if Bool == true {
+                    print(self.dataArray[0])
+
+                    self.dayCount = self.dataArray.count
                 }
             }
             
@@ -65,45 +64,52 @@ class FirstViewController: UITableViewController {
     //MARK: - Load Data
     func loadData(completion: @escaping (Bool) -> ()){
         
-        self.colRef.getDocuments { (snapshot, err) in
+        let group = DispatchGroup()
+        
+        self.rootCollection.getDocuments (completion: { (snapshot, err) in
             
             if let err = err
             {
-                print("Error getting documents: \(err)");
-                completion(false)
+                print("Error getting documents: \(err.localizedDescription)");
             }
             else {
-                //Appending all Days collection documents with a field of "dow" to daysarray...
-                for dayDocument in snapshot!.documents {
-                    self.daysArray.append(dayDocument.data()["dow"] as? String ?? "")
-                    self.dayIdArray.append(dayDocument.documentID)
+                
+                guard let dayDocument = snapshot?.documents else { return }
+                
+                for day in dayDocument {
                     
+                    group.enter()
                     
-                    Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayDocument.documentID)/Workouts/").getDocuments { (snapshot, err) in
-                        if let err = err
-                        {
-                            print("Error getting documents: \(err)");
-                            completion(false)
+                    self.rootCollection.document(day.documentID).collection("Workouts").getDocuments { (snapshot, err) in
+                        
+                        var workouts = [Workouts]()
+                        
+                        guard let workoutDocument = snapshot?.documents else { return }
+                        
+                        for workout in workoutDocument {
+                            let workoutString = workout.data()["workout"] as! String
+                            
+                            let newWorkout = Workouts(workout: workoutString)
+                            
+                            workouts.append(newWorkout)
                         }
-                        else {
-                            //Assigning all Workouts collection documents belonging to selected \(dayDocument.documentID) to dictionary dataDict...
-                            for document in snapshot!.documents {
-                                
-                                if self.dataDict[dayDocument.data()["dow"] as? String ?? ""] == nil {
-                                    self.dataDict[dayDocument.data()["dow"] as? String ?? ""] = [document.data()["workout"] as? String ?? ""]
-                                } else {
-                                    self.dataDict[dayDocument.data()["dow"] as? String ?? ""]?.append(document.data()["workout"] as? String ?? "")
-                                }
-
-                            }
-                            completion(true)
-                        }
+                        
+                        let dayTitle = day.data()["dow"] as! String
+                        
+                        let newDay = Days(dow: dayTitle, workouts: workouts)
+                        
+                        self.dataArray.append(newDay)
+                        
+                        group.leave()
                     }
+                    
                 }
-                self.dayCount =  snapshot?.count ?? 0
+                
             }
-        }
-        
+            group.notify(queue: .main){
+                completion(true)
+            }
+        })
     }
     
     
@@ -136,13 +142,12 @@ class FirstViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (UIAlertAction) in
             alert.dismiss(animated: true, completion: nil)
         }
-        
-        
+                
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
             
             if self.dayCount != 0 {
                 
-                self.colRef.getDocuments { (querySnapshot, err) in
+                self.rootCollection.getDocuments { (querySnapshot, err) in
                     
                     if let err = err
                     {
@@ -154,14 +159,13 @@ class FirstViewController: UITableViewController {
                         
                         for document in querySnapshot!.documents {
                             if !foundIt {
-                                
+                                //Pull the existing day and store the new workout within that day.
                                 let myData = document.data()
                                 let myDay = myData["dow"] as? String ?? ""
                                 
                                 if myDay == self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
                                     dayId = document.documentID
-                                    let dayRef = Firestore.firestore().document("/users/\(self.userIdRef)/Days/\(dayId)")
-                                    Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayId)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)", "dayRef" : dayRef])
+                                    Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayId)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
                                     foundIt = true
 //                                    self.loadData()
                                     
@@ -172,53 +176,18 @@ class FirstViewController: UITableViewController {
                         
                         if foundIt == false {
                             //Create new day as well as a new workout, and store the workout within the day.
-                            let newDayRef = self.colRef.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
+                            let newDayRef = self.rootCollection.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                             
-                            Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)", "dayRef" : newDayRef])
-                            
-                            newDayRef.getDocument { (docSnapshot, err) in
-                                if let err = err
-                                {
-                                    print("Error getting documents: \(err)");
-                                }
-                                else
-                                {
-                                    let myData = docSnapshot!.data()
-                                    let myDay = myData!["dow"] as? String ?? ""
-                                    self.daysArray.append(myDay)
-                                    self.dayIdArray.append(newDayRef.documentID)
-//                                    self.loadData()
-                                }
-                            }
-                            
+                            Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
                         }
-                        
                     }
-                    
                 }
                 
             } else {
                 //If there are no days/workouts, we create new day as well as a new workout, and store the workout within the day.
-                let newDayRef = self.colRef.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
+                let newDayRef = self.rootCollection.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                 
-                Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)", "dayRef" : newDayRef])
-                
-                newDayRef.getDocument { (docSnapshot, err) in
-                    if let err = err
-                    {
-                        print("Error getting documents: \(err)");
-                    }
-                    else
-                    {
-                        let myData = docSnapshot!.data()
-                        let myDay = myData!["dow"] as? String ?? ""
-                        self.daysArray.append(myDay)
-                        self.dayIdArray.append(newDayRef.documentID)
-//                        self.loadData()
-                    }
-                }
-                
-                
+                Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
             }
             
         }
