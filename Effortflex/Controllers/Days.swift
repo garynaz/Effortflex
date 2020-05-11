@@ -21,9 +21,7 @@ struct Days {
 extension Days {
     init?(dictionary: [String : Any], workouts : [Workouts]) {
         guard let dow = dictionary["dow"] as? String else { return nil }
-        
+
         self.init(dow: dow, workouts: workouts)
     }
 }
-
-

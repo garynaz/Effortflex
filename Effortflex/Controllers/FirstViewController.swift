@@ -28,8 +28,7 @@ class FirstViewController: UITableViewController {
     var rootCollection : CollectionReference!
     var userIdRef = ""
     var dayCount = 0
-    var daysArray = [String]()
-    var dataArray = [Any]()
+    var dataArray = [Days]()
 
     
     //MARK: - viewDidLoad()
@@ -51,9 +50,8 @@ class FirstViewController: UITableViewController {
 
             self.loadData { (Bool) in
                 if Bool == true {
-                    print(self.dataArray[0])
-
                     self.dayCount = self.dataArray.count
+                    self.tableView.reloadData()
                 }
             }
             
@@ -232,7 +230,7 @@ class FirstViewController: UITableViewController {
         //Go through all the days and pull the dow. Populate the text label with the dow.
         //Get all the days, place the results inside of an array.
         
-        label.text = daysArray[section]
+        label.text = dataArray[section].dow
         label.backgroundColor = UIColor.lightText
         label.textColor = UIColor(red: 0, green: 0.451, blue: 0.8471, alpha: 1.0)
         label.font = UIFont(name: "HelveticaNeue", size: 25)
@@ -246,20 +244,19 @@ class FirstViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return daysArray.count
+        return dataArray.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //Return the count how many workouts exist for each date.
-        let counter = 0
-
-        return counter
+        
+        return dataArray[section].workouts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
-        cell.textLabel?.text = "temp"
+        cell.textLabel?.text = dataArray[indexPath.section].workouts[indexPath.row].workout
         cell.textLabel?.textAlignment = .center
         cell.accessoryType = .disclosureIndicator
         cell.layer.backgroundColor = UIColor.clear.cgColor
