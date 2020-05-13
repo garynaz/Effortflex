@@ -18,6 +18,7 @@
 		DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36315C240B30D50002D0BB /* SignUpViewController.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
+		DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */; };
 		DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */; };
 		DD7F35E72466218400A00970 /* Days.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7F35E62466218400A00970 /* Days.swift */; };
 		DD7F35E92466219D00A00970 /* Workouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7F35E82466219D00A00970 /* Workouts.swift */; };
@@ -39,6 +40,7 @@
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotExtensions.swift; path = Effortflex/Controllers/SnapshotExtensions.swift; sourceTree = SOURCE_ROOT; };
 		DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD7F35E62466218400A00970 /* Days.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Days.swift; path = ../Controllers/Days.swift; sourceTree = "<group>"; };
 		DD7F35E82466219D00A00970 /* Workouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Workouts.swift; path = ../../Workouts.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		DD319C8B23A30B8B00222847 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */,
 				DD7F35E62466218400A00970 /* Days.swift */,
 				DD7F35E82466219D00A00970 /* Workouts.swift */,
 			);
@@ -277,6 +280,7 @@
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
 				DD7F35E72466218400A00970 /* Days.swift in Sources */,
 				DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */,
+				DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

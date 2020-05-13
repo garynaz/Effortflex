@@ -48,6 +48,17 @@ class FirstViewController: UITableViewController {
             self.userIdRef = user!.uid
             self.rootCollection = Firestore.firestore().collection("/users/\(self.userIdRef)/Days")
 
+            
+//            let secondTestDocs = snapshot!.documents
+//
+//            try! secondTestDocs.forEach({doc in
+//
+//                let tester: Workouts = try doc.decoded()
+//                print(tester.workout)
+//            })
+            
+            
+            
             self.loadData { (Bool) in
                 if Bool == true {
                     self.dayCount = self.dataArray.count
@@ -82,15 +93,15 @@ class FirstViewController: UITableViewController {
                         
                         var workouts = [Workouts]()
                         
-                        guard let workoutDocument = snapshot?.documents else { return }
+                        let workoutDocument = snapshot!.documents
                         
-                        for workout in workoutDocument {
-                            let workoutString = workout.data()["workout"] as! String
-                            
+                        try! workoutDocument.forEach({doc in
+
+                            let tester: Workouts = try doc.decoded()
+                            let workoutString = tester.workout
                             let newWorkout = Workouts(workout: workoutString)
-                            
                             workouts.append(newWorkout)
-                        }
+                        })
                         
                         let dayTitle = day.data()["dow"] as! String
                         
@@ -165,7 +176,6 @@ class FirstViewController: UITableViewController {
                                     dayId = document.documentID
                                     Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayId)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
                                     foundIt = true
-//                                    self.loadData()
                                     
                                     break
                                 }
@@ -266,15 +276,14 @@ class FirstViewController: UITableViewController {
         return cell
     }
     
-    //        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //
-    //            let destinationVC = SecondViewController()
-    //            destinationVC.selectedWorkout = days?[indexPath.section].workout[indexPath.row]
-    //
-    //            tableView.deselectRow(at: indexPath, animated: true)
-    //
-    //            self.navigationController?.pushViewController(destinationVC, animated: true)
-    //        }
+            override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+                let destinationVC = SecondViewController()
+                destinationVC.selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row]
+                tableView.deselectRow(at: indexPath, animated: true)
+    
+                self.navigationController?.pushViewController(destinationVC, animated: true)
+            }
     
     
     //MARK: - Swipe To Delete

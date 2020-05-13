@@ -9,8 +9,8 @@ import Foundation
 import FirebaseFirestoreSwift
 
 
-struct Workouts {
-    var workout : String
+struct Workouts: Decodable {
+    var workout : String    
 }
 
 

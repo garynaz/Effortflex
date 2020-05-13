@@ -9,19 +9,19 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Days {
+struct Days: Decodable {
     var dow : String
     var workouts : [Workouts]
     
-    var dictionary: [String : Any] {
-        return ["dow" : dow]
-    }
+//    var dictionary: [String : Any] {
+//        return ["dow" : dow]
+//    }
 }
 
-extension Days {
-    init?(dictionary: [String : Any], workouts : [Workouts]) {
-        guard let dow = dictionary["dow"] as? String else { return nil }
-
-        self.init(dow: dow, workouts: workouts)
-    }
-}
+//extension Days {
+//    init?(dictionary: [String : Any], workouts : [Workouts]) {
+//        guard let dow = dictionary["dow"] as? String else { return nil }
+//
+//        self.init(dow: dow, workouts: workouts)
+//    }
+//}

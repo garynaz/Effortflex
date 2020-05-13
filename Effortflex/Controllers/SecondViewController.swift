@@ -19,11 +19,11 @@ class SecondViewController: UITableViewController {
 //
 //    weak var buttonActionToEnable: UIAlertAction?
 //
-//    var selectedWorkout : Workouts? {
-//        didSet{
+    var selectedWorkout : Workouts? {
+        didSet{
 //            loadExercises()
-//        }
-//    }
+        }
+    }
 //
 //
 ////MARK: - viewDidLoad()
