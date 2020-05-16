@@ -47,17 +47,6 @@ class FirstViewController: UITableViewController {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
             self.rootCollection = Firestore.firestore().collection("/users/\(self.userIdRef)/Days")
-
-            
-//            let secondTestDocs = snapshot!.documents
-//
-//            try! secondTestDocs.forEach({doc in
-//
-//                let tester: Workouts = try doc.decoded()
-//                print(tester.workout)
-//            })
-            
-            
             
             self.loadData { (Bool) in
                 if Bool == true {
@@ -67,16 +56,16 @@ class FirstViewController: UITableViewController {
             }
             
         }
-        
+        //Duplicates data when adding two workouts to a single day and then adding a new day after that.
     }
+    
     
     //MARK: - Load Data
     func loadData(completion: @escaping (Bool) -> ()){
-        
+
         let group = DispatchGroup()
         
         self.rootCollection.getDocuments (completion: { (snapshot, err) in
-            
             if let err = err
             {
                 print("Error getting documents: \(err.localizedDescription)");
@@ -85,11 +74,13 @@ class FirstViewController: UITableViewController {
                 
                 guard let dayDocument = snapshot?.documents else { return }
                 
+                self.dataArray.removeAll()
+                
                 for day in dayDocument {
                     
                     group.enter()
                     
-                    self.rootCollection.document(day.documentID).collection("Workouts").getDocuments { (snapshot, err) in
+                    self.rootCollection.document(day.documentID).collection("Workouts").getDocuments {(snapshot, err) in
                         
                         var workouts = [Workouts]()
                         
@@ -106,12 +97,11 @@ class FirstViewController: UITableViewController {
                         let dayTitle = day.data()["dow"] as! String
                         
                         let newDay = Days(dow: dayTitle, workouts: workouts)
-                        
+
                         self.dataArray.append(newDay)
                         
                         group.leave()
                     }
-                    
                 }
                 
             }
@@ -175,8 +165,16 @@ class FirstViewController: UITableViewController {
                                 if myDay == self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
                                     dayId = document.documentID
                                     Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayId)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
-                                    foundIt = true
                                     
+                                    self.loadData { (Bool) in
+                                        if Bool == true {
+                                            self.dayCount = self.dataArray.count
+                                            self.tableView.reloadData()
+                                        }
+                                    }
+                                    
+                                    foundIt = true
+
                                     break
                                 }
                             }
@@ -187,6 +185,13 @@ class FirstViewController: UITableViewController {
                             let newDayRef = self.rootCollection.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                             
                             Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
+                            
+                            self.loadData { (Bool) in
+                                if Bool == true {
+                                    self.dayCount = self.dataArray.count
+                                    self.tableView.reloadData()
+                                }
+                            }
                         }
                     }
                 }
@@ -196,6 +201,13 @@ class FirstViewController: UITableViewController {
                 let newDayRef = self.rootCollection.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                 
                 Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
+                
+                self.loadData { (Bool) in
+                    if Bool == true {
+                        self.dayCount = self.dataArray.count
+                        self.tableView.reloadData()
+                    }
+                }
             }
             
         }
