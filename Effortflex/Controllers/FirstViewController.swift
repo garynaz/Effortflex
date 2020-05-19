@@ -29,7 +29,7 @@ class FirstViewController: UITableViewController {
     var userIdRef = ""
     var dayCount = 0
     var dataArray = [Days]()
-
+    
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -62,7 +62,7 @@ class FirstViewController: UITableViewController {
     
     //MARK: - Load Data
     func loadData(completion: @escaping (Bool) -> ()){
-
+        
         let group = DispatchGroup()
         
         self.rootCollection.getDocuments (completion: { (snapshot, err) in
@@ -87,17 +87,17 @@ class FirstViewController: UITableViewController {
                         let workoutDocument = snapshot!.documents
                         
                         try! workoutDocument.forEach({doc in
-
+                            
                             let tester: Workouts = try doc.decoded()
                             let workoutString = tester.workout
-                            let newWorkout = Workouts(workout: workoutString)
+                            let newWorkout = Workouts(workout: workoutString, dayId: tester.dayId)
                             workouts.append(newWorkout)
                         })
                         
                         let dayTitle = day.data()["dow"] as! String
                         
                         let newDay = Days(dow: dayTitle, workouts: workouts)
-
+                        
                         self.dataArray.append(newDay)
                         
                         group.leave()
@@ -132,16 +132,14 @@ class FirstViewController: UITableViewController {
     
     //MARK: - Add a New Workout
     @objc func addWorkout() {
-        
-        var dayId = ""
-        
+                
         
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (UIAlertAction) in
             alert.dismiss(animated: true, completion: nil)
         }
-                
+        
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
             
             if self.dayCount != 0 {
@@ -163,8 +161,8 @@ class FirstViewController: UITableViewController {
                                 let myDay = myData["dow"] as? String ?? ""
                                 
                                 if myDay == self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
-                                    dayId = document.documentID
-                                    Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(dayId)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
+                                    
+                                    self.rootCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").collection("Workouts").document("\(self.textField2.text!)").setData(["workout" : "\(self.textField2.text!)", "dayId" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                                     
                                     self.loadData { (Bool) in
                                         if Bool == true {
@@ -174,7 +172,7 @@ class FirstViewController: UITableViewController {
                                     }
                                     
                                     foundIt = true
-
+                                    
                                     break
                                 }
                             }
@@ -182,9 +180,10 @@ class FirstViewController: UITableViewController {
                         
                         if foundIt == false {
                             //Create new day as well as a new workout, and store the workout within the day.
-                            let newDayRef = self.rootCollection.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                             
-                            Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
+                            self.rootCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").setData(["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
+                            
+                            self.rootCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").collection("Workouts").document("\(self.textField2.text!)").setData(["workout" : "\(self.textField2.text!)", "dayId" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                             
                             self.loadData { (Bool) in
                                 if Bool == true {
@@ -198,10 +197,11 @@ class FirstViewController: UITableViewController {
                 
             } else {
                 //If there are no days/workouts, we create new day as well as a new workout, and store the workout within the day.
-                let newDayRef = self.rootCollection.addDocument(data: ["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
+               
+                self.rootCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").setData(["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                 
-                Firestore.firestore().collection("/users/\(self.userIdRef)/Days/\(newDayRef.documentID)/Workouts/").addDocument(data: ["workout" : "\(self.textField2.text!)"])
-                
+                self.rootCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").collection("Workouts").document("\(self.textField2.text!)").setData(["workout" : "\(self.textField2.text!)", "dayId" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
+
                 self.loadData { (Bool) in
                     if Bool == true {
                         self.dayCount = self.dataArray.count
@@ -288,59 +288,90 @@ class FirstViewController: UITableViewController {
         return cell
     }
     
-            override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-                let destinationVC = SecondViewController()
-                destinationVC.selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row]
-                tableView.deselectRow(at: indexPath, animated: true)
-    
-                self.navigationController?.pushViewController(destinationVC, animated: true)
-            }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let destinationVC = SecondViewController()
+        destinationVC.selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+    }
     
     
     //MARK: - Swipe To Delete
-    //    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    //        return true
-    //    }
-    //
-    //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    //
-    //        if editingStyle == .delete {
-    //
-    //            try! realm.write {
-    //
-    //                if days?[indexPath.section].workout[indexPath.row].exercise.isEmpty == false {
-    //
-    //                    if let selectedWorkout = days?[indexPath.section].workout[indexPath.row] {
-    //                        let thisWorkoutsExercises = realm.objects(Exercises.self).filter("ANY parentWorkout == %@", selectedWorkout)
-    //                        // Filter function to get all wsr's associated with the selected workout...
-    //                        let thisWorkoutsWsr = realm.objects(WeightSetsReps.self).filter("ANY parentExercise IN %@", thisWorkoutsExercises)
-    //
-    //                        realm.delete(thisWorkoutsWsr)
-    //                        realm.delete(thisWorkoutsExercises)
-    //                        realm.delete((days?[indexPath.section].workout[indexPath.row])!)
-    //                    }
-    //                } else {
-    //                    realm.delete((days?[indexPath.section].workout[indexPath.row])!)
-    //                }
-    //
-    //
-    //                tableView.beginUpdates()
-    //
-    //                tableView.deleteRows(at: [indexPath], with: .automatic)
-    //
-    //                if days?[indexPath.section].workout.isEmpty == true {
-    //                    realm.delete((days?[indexPath.section])!)
-    //                    let indexSet = IndexSet(arrayLiteral: indexPath.section)
-    //                    tableView.deleteSections(indexSet, with: .automatic)
-    //                }
-    //
-    //                tableView.endUpdates()
-    //            }
-    //        }
-    //    }
-    //
-    //
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            let selectedDay = dataArray[indexPath.section].dow
+            let selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row].workout
+
+//            tableView.beginUpdates()
+            
+                        
+            self.rootCollection.document(selectedDay).collection("Workouts").document(selectedWorkout).delete()
+            
+            self.loadData { (Bool) in
+                if Bool == true {
+                    if self.dataArray[indexPath.section].workouts.isEmpty == true {
+                        self.rootCollection.document(selectedDay).delete()
+
+                        self.loadData { (Bool) in
+                            if Bool == true {
+                                let indexSet = IndexSet(arrayLiteral: indexPath.section)
+                                tableView.deleteSections(indexSet, with: .automatic)
+                                tableView.reloadData()
+                            }
+                        }
+                    } else {
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        tableView.reloadData()
+                    }
+                              
+                }
+            }
+                        
+            
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+//
+//            if self.dataArray[indexPath.section].workouts.isEmpty == true {
+//                let indexSet = IndexSet(arrayLiteral: indexPath.section)
+//                tableView.deleteSections(indexSet, with: .automatic)
+//            }
+            
+//            tableView.endUpdates()
+            
+//            self.loadData { (Bool) in
+//                if Bool == true {
+//                    self.dayCount = self.dataArray.count
+//                    tableView.deleteRows(at: [indexPath], with: .automatic)
+//                    self.tableView.reloadData()
+//                }
+//            }
+            
+            
+//            if self.dataArray[indexPath.section].workouts.isEmpty == true {
+//
+//                self.loadData { (Bool) in
+//                    if Bool == true {
+//                        self.dayCount = self.dataArray.count
+//                        let indexSet = IndexSet(arrayLiteral: indexPath.section)
+//                        tableView.deleteSections(indexSet, with: .automatic)
+//
+//                        self.tableView.reloadData()
+//                    }
+//                }
+//            }
+            
+            
+        }
+    }
+    
+    
     
     
 }

@@ -10,7 +10,8 @@ import FirebaseFirestoreSwift
 
 
 struct Workouts: Decodable {
-    var workout : String    
+    var workout : String
+    var dayId : String
 }
 
 
