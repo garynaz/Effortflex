@@ -17,7 +17,6 @@ class FirstViewController: UITableViewController {
     
     weak var buttonActionToEnable: UIAlertAction?
     
-    var indexCheck : Int = 0
     let cellID = "WorkoutCell"
     
     let picker = UIPickerView()
@@ -56,7 +55,7 @@ class FirstViewController: UITableViewController {
             }
             
         }
-        //Duplicates data when adding two workouts to a single day and then adding a new day after that.
+        
     }
     
     
@@ -132,7 +131,7 @@ class FirstViewController: UITableViewController {
     
     //MARK: - Add a New Workout
     @objc func addWorkout() {
-                
+        
         
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
@@ -197,11 +196,11 @@ class FirstViewController: UITableViewController {
                 
             } else {
                 //If there are no days/workouts, we create new day as well as a new workout, and store the workout within the day.
-               
+                
                 self.rootCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").setData(["dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
                 
                 self.rootCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").collection("Workouts").document("\(self.textField2.text!)").setData(["workout" : "\(self.textField2.text!)", "dayId" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])"])
-
+                
                 self.loadData { (Bool) in
                     if Bool == true {
                         self.dayCount = self.dataArray.count
@@ -309,17 +308,15 @@ class FirstViewController: UITableViewController {
             
             let selectedDay = dataArray[indexPath.section].dow
             let selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row].workout
-
-//            tableView.beginUpdates()
             
-                        
+            
             self.rootCollection.document(selectedDay).collection("Workouts").document(selectedWorkout).delete()
             
             self.loadData { (Bool) in
                 if Bool == true {
                     if self.dataArray[indexPath.section].workouts.isEmpty == true {
                         self.rootCollection.document(selectedDay).delete()
-
+                        
                         self.loadData { (Bool) in
                             if Bool == true {
                                 let indexSet = IndexSet(arrayLiteral: indexPath.section)
@@ -328,51 +325,15 @@ class FirstViewController: UITableViewController {
                             }
                         }
                     } else {
-                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
                         tableView.reloadData()
                     }
-                              
+                    
                 }
             }
-                        
-            
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-//
-//            if self.dataArray[indexPath.section].workouts.isEmpty == true {
-//                let indexSet = IndexSet(arrayLiteral: indexPath.section)
-//                tableView.deleteSections(indexSet, with: .automatic)
-//            }
-            
-//            tableView.endUpdates()
-            
-//            self.loadData { (Bool) in
-//                if Bool == true {
-//                    self.dayCount = self.dataArray.count
-//                    tableView.deleteRows(at: [indexPath], with: .automatic)
-//                    self.tableView.reloadData()
-//                }
-//            }
-            
-            
-//            if self.dataArray[indexPath.section].workouts.isEmpty == true {
-//
-//                self.loadData { (Bool) in
-//                    if Bool == true {
-//                        self.dayCount = self.dataArray.count
-//                        let indexSet = IndexSet(arrayLiteral: indexPath.section)
-//                        tableView.deleteSections(indexSet, with: .automatic)
-//
-//                        self.tableView.reloadData()
-//                    }
-//                }
-//            }
-            
             
         }
     }
-    
-    
-    
     
 }
 
