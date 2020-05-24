@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1CA32EE79F4F598F20C9B6DC /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F44067E5073A05FBD7143E8 /* Pods_Effortflex.framework */; };
 		DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* LoginViewController.swift */; };
 		DD10614D240B316600448A2B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* MainViewController.swift */; };
+		DD117B92247992B400D68A37 /* Exercises.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD117B91247992B400D68A37 /* Exercises.swift */; };
 		DD1232C723F77B9300921D42 /* note1.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD1232C623F77B9300921D42 /* note1.wav */; };
 		DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119023B93ACA00C5D995 /* FirstViewController.swift */; };
 		DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119423B9481300C5D995 /* SecondViewController.swift */; };
@@ -23,13 +23,16 @@
 		DD7F35E72466218400A00970 /* Days.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7F35E62466218400A00970 /* Days.swift */; };
 		DD7F35E92466219D00A00970 /* Workouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7F35E82466219D00A00970 /* Workouts.swift */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
+		E538A1FBC24A9865A60CBF71 /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD2CB06C11F088565BBA611 /* Pods_Effortflex.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5EF27D0ED6855A63F4D08A9F /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
-		9F44067E5073A05FBD7143E8 /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FD2CB06C11F088565BBA611 /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B79709CCACD6FAD11F3F1A40 /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
+		BC9F7C71340DD5046B1F7392 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
 		DD10614A240B313F00448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD10614C240B316600448A2B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		DD117B91247992B400D68A37 /* Exercises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Exercises.swift; path = ../Controllers/Exercises.swift; sourceTree = "<group>"; };
 		DD1232C623F77B9300921D42 /* note1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note1.wav; sourceTree = "<group>"; };
 		DD19119023B93ACA00C5D995 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		DD19119423B9481300C5D995 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
@@ -47,7 +50,6 @@
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E828D581CABB1269CD82A560 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CA32EE79F4F598F20C9B6DC /* Pods_Effortflex.framework in Frameworks */,
+				E538A1FBC24A9865A60CBF71 /* Pods_Effortflex.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +69,7 @@
 			children = (
 				DD8D826923F480130076BA3A /* RealmSwift.framework */,
 				DD8D826523F4800D0076BA3A /* Realm.framework */,
-				9F44067E5073A05FBD7143E8 /* Pods_Effortflex.framework */,
+				0FD2CB06C11F088565BBA611 /* Pods_Effortflex.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -75,8 +77,8 @@
 		67EA33082F2C73CEB071C919 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E828D581CABB1269CD82A560 /* Pods-Effortflex.debug.xcconfig */,
-				5EF27D0ED6855A63F4D08A9F /* Pods-Effortflex.release.xcconfig */,
+				BC9F7C71340DD5046B1F7392 /* Pods-Effortflex.debug.xcconfig */,
+				B79709CCACD6FAD11F3F1A40 /* Pods-Effortflex.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -108,6 +110,7 @@
 				DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */,
 				DD7F35E62466218400A00970 /* Days.swift */,
 				DD7F35E82466219D00A00970 /* Workouts.swift */,
+				DD117B91247992B400D68A37 /* Exercises.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -161,11 +164,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD3B9D0C239D85E500095B05 /* Build configuration list for PBXNativeTarget "Effortflex" */;
 			buildPhases = (
-				5756B40B21CE51A092FD646E /* [CP] Check Pods Manifest.lock */,
+				E81CE4B0AA61BEFB63749467 /* [CP] Check Pods Manifest.lock */,
 				DD3B9CF4239D85E400095B05 /* Sources */,
 				DD3B9CF5239D85E400095B05 /* Frameworks */,
 				DD3B9CF6239D85E400095B05 /* Resources */,
-				0D2CF7CEB7B35EC16975C584 /* [CP] Embed Pods Frameworks */,
+				82DFA990291CAD187D2AF36A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -224,7 +227,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0D2CF7CEB7B35EC16975C584 /* [CP] Embed Pods Frameworks */ = {
+		82DFA990291CAD187D2AF36A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -241,7 +244,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Effortflex/Pods-Effortflex-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5756B40B21CE51A092FD646E /* [CP] Check Pods Manifest.lock */ = {
+		E81CE4B0AA61BEFB63749467 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -271,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */,
+				DD117B92247992B400D68A37 /* Exercises.swift in Sources */,
 				DD7F35E92466219D00A00970 /* Workouts.swift in Sources */,
 				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,
 				DD10614D240B316600448A2B /* MainViewController.swift in Sources */,
@@ -414,7 +418,7 @@
 		};
 		DD3B9D0D239D85E500095B05 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E828D581CABB1269CD82A560 /* Pods-Effortflex.debug.xcconfig */;
+			baseConfigurationReference = BC9F7C71340DD5046B1F7392 /* Pods-Effortflex.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
@@ -433,7 +437,7 @@
 		};
 		DD3B9D0E239D85E500095B05 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5EF27D0ED6855A63F4D08A9F /* Pods-Effortflex.release.xcconfig */;
+			baseConfigurationReference = B79709CCACD6FAD11F3F1A40 /* Pods-Effortflex.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;

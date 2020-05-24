@@ -7,11 +7,10 @@
 ////
 //
 import UIKit
-//import RealmSwift
-//import AVFoundation
-//import UserNotifications
-//
-//class ThirdViewController: UIViewController {
+import AVFoundation
+import UserNotifications
+
+class ThirdViewController: UIViewController {
 //
 //    let realm = try! Realm()
 //
@@ -308,9 +307,9 @@ import UIKit
 //        self.loadWsr()
 //    }
 //
-//}
-//
-//
+}
+
+
 //MARK: - Constraints Extensions
     extension UIView {
         func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero){

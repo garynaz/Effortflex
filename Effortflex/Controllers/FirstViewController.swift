@@ -26,7 +26,7 @@ class FirstViewController: UITableViewController {
     
     var rootCollection : CollectionReference!
     var userIdRef = ""
-    var dayCount = 0
+    var dayCounter = 0
     var dataArray = [Days]()
     
     
@@ -49,13 +49,18 @@ class FirstViewController: UITableViewController {
             
             self.loadData { (Bool) in
                 if Bool == true {
-                    self.dayCount = self.dataArray.count
+                    self.dayCounter = self.dataArray.count
                     self.tableView.reloadData()
                 }
             }
             
         }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     
@@ -87,9 +92,10 @@ class FirstViewController: UITableViewController {
                         
                         try! workoutDocument.forEach({doc in
                             
-                            let tester: Workouts = try doc.decoded()
-                            let workoutString = tester.workout
-                            let newWorkout = Workouts(workout: workoutString, dayId: tester.dayId)
+                            let workoutDoc: Workouts = try doc.decoded()
+                            let workoutString = workoutDoc.workout
+
+                            let newWorkout = Workouts(dayId: workoutDoc.dayId, workout: workoutString)
                             workouts.append(newWorkout)
                         })
                         
@@ -109,7 +115,6 @@ class FirstViewController: UITableViewController {
             }
         })
     }
-    
     
     //MARK: - VC Background Image setup
     func vcBackgroundImg(){
@@ -141,7 +146,7 @@ class FirstViewController: UITableViewController {
         
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
             
-            if self.dayCount != 0 {
+            if self.dayCounter != 0 {
                 
                 self.rootCollection.getDocuments { (querySnapshot, err) in
                     
@@ -165,7 +170,7 @@ class FirstViewController: UITableViewController {
                                     
                                     self.loadData { (Bool) in
                                         if Bool == true {
-                                            self.dayCount = self.dataArray.count
+                                            self.dayCounter = self.dataArray.count
                                             self.tableView.reloadData()
                                         }
                                     }
@@ -186,7 +191,7 @@ class FirstViewController: UITableViewController {
                             
                             self.loadData { (Bool) in
                                 if Bool == true {
-                                    self.dayCount = self.dataArray.count
+                                    self.dayCounter = self.dataArray.count
                                     self.tableView.reloadData()
                                 }
                             }
@@ -203,7 +208,7 @@ class FirstViewController: UITableViewController {
                 
                 self.loadData { (Bool) in
                     if Bool == true {
-                        self.dayCount = self.dataArray.count
+                        self.dayCounter = self.dataArray.count
                         self.tableView.reloadData()
                     }
                 }

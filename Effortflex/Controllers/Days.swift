@@ -9,7 +9,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Days: Decodable {
+struct Days : Decodable {
     var dow : String
     var workouts : [Workouts]
     

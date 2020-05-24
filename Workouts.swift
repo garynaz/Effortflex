@@ -9,9 +9,10 @@ import Foundation
 import FirebaseFirestoreSwift
 
 
-struct Workouts: Decodable {
-    var workout : String
+struct Workouts : Decodable {
     var dayId : String
+    var workout : String
+    var exercises : [Exercises]?
 }
 
 
