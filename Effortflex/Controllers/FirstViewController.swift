@@ -314,7 +314,6 @@ class FirstViewController: UITableViewController {
             let selectedDay = dataArray[indexPath.section].dow
             let selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row].workout
             
-            
             self.rootCollection.document(selectedDay).collection("Workouts").document(selectedWorkout).delete()
             
             self.loadData { (Bool) in
