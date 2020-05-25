@@ -326,6 +326,7 @@ class FirstViewController: UITableViewController {
                             if Bool == true {
                                 let indexSet = IndexSet(arrayLiteral: indexPath.section)
                                 tableView.deleteSections(indexSet, with: .automatic)
+                                self.dayCounter = self.dataArray.count
                                 tableView.reloadData()
                             }
                         }

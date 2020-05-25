@@ -17,25 +17,10 @@ class SecondViewController: UITableViewController {
     
     weak var buttonActionToEnable: UIAlertAction?
     
-    //    destinationVC.selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row]
-    
     var exercises = [Exercises]()
     var exerciseCounter = 0
     
-    var selectedWorkout : Workouts? {
-        didSet{
-                        
-            if selectedWorkout?.exercises != nil {
-                loadExercises { (Bool) in
-                    if Bool == true {
-                        self.exerciseCounter = self.exercises.count
-                        self.tableView.reloadData()
-                    }
-                }
-            }
-            
-        }
-    }
+    var selectedWorkout : Workouts?
     
     
     //MARK: - viewDidLoad()
@@ -48,6 +33,13 @@ class SecondViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ExerciseCell")
         tableView.tableFooterView = UIView()
         navConAcc()
+        
+        loadExercises { (Bool) in
+            if Bool == true {
+                self.exerciseCounter = self.exercises.count
+                self.tableView.reloadData()
+            }
+        }
     }
     
     //MARK: - viewWillAppear()
@@ -70,7 +62,9 @@ class SecondViewController: UITableViewController {
             if let err = err {
                 print(err.localizedDescription)
             } else {
-                guard let exerciseDocs = snapshot?.documents else {return}
+                guard let exerciseDocs = snapshot?.documents else { return }
+                
+                self.exercises.removeAll()
                 
                 try! exerciseDocs.forEach ({exercise in
                     group.enter()
@@ -83,13 +77,13 @@ class SecondViewController: UITableViewController {
                     
                     group.leave()
                 })
-                
             }
+            
             group.notify(queue: .main) {
                 completion(true)
             }
+            
         }
-        
     }
     
     //MARK: - Navigation Bar Setup
@@ -141,59 +135,61 @@ class SecondViewController: UITableViewController {
     }
     
     // MARK: - TableView Data Source
-        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return exerciseCounter
-        }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return exerciseCounter
+    }
     
     
-        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseCell", for: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseCell", for: indexPath)
         
-            cell.textLabel?.text = exercises[indexPath.row].exercise
-            cell.accessoryType = .disclosureIndicator
-            cell.layer.backgroundColor = UIColor.clear.cgColor
-            cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
-            cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
+        cell.textLabel?.text = exercises[indexPath.row].exercise
+        cell.accessoryType = .disclosureIndicator
+        cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
+        
+        return cell
+    }
     
-            return cell
-        }
-    
-        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//            let destinationVC = ThirdViewController()
-//            destinationVC.selectedExercise = exercises![indexPath.row]
-//            destinationVC.allExercises = exercises
-    
-//            tableView.deselectRow(at: indexPath, animated: true )
-    
-//            self.navigationController?.pushViewController(destinationVC, animated: true)
-        }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destinationVC = ThirdViewController()
+        //            destinationVC.selectedExercise = exercises![indexPath.row]
+        //            destinationVC.allExercises = exercises
+        
+        tableView.deselectRow(at: indexPath, animated: true )
+        
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+    }
     
     @objc func textFieldChanged(_ sender: Any) {
         let textfield = sender as! UITextField
         self.buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
     }
     
-    ////MARK: - Swipe to Delete
-    //    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    //        return true
-    //    }
-    //
-    //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    //
-    //        if editingStyle == .delete {
-    //            try! realm.write {
-    //                realm.delete((selectedWorkout?.exercise[indexPath.row].wsr)!)
-    //                realm.delete((selectedWorkout?.exercise[indexPath.row])!)
-    //
-    //                tableView.beginUpdates()
-    //                tableView.deleteRows(at: [indexPath], with: .automatic)
-    //                tableView.endUpdates()
-    //            }
-    //        }
-    //    }
-    //
-    //
+    //MARK: - Swipe to Delete
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            let selectedExercise = exercises[indexPath.row].exercise
+            
+            self.rootDocument.collection("Exercises").document(selectedExercise).delete()
+            
+            self.loadExercises { (Bool) in
+                if Bool == true {
+                    self.exerciseCounter = self.exercises.count
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    tableView.reloadData()
+                }
+            }
+            
+        }
+    }
     
 }
 
