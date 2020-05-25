@@ -127,7 +127,6 @@ class SecondViewController: UITableViewController {
         self.buttonActionToEnable = addAction
         addAction.isEnabled = false
         
-        
         alert.addAction(addAction)
         alert.addAction(cancelAction)
         
