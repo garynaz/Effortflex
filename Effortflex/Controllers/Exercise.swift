@@ -9,6 +9,10 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Exercises : Decodable {
+struct Exercises {
+    var day : String
+    var workout : String
     var exercise : String
+    var wsr : [[String:Any]]
+    var key : String
 }
