@@ -108,9 +108,9 @@
 			isa = PBXGroup;
 			children = (
 				DDF0E8C2248AEF0F007E25EC /* Workout.swift */,
+				DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */,
 				DDF0E8B6248AE104007E25EC /* Exercise.swift */,
 				DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */,
-				DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";

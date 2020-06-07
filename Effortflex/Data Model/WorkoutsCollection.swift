@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
@@ -21,11 +22,12 @@ class WorkoutsCollection {
         workoutsCollection.append(newWorkout)
     }
     
+    
     func removeWorkout(Workout: Workout){
         
         let db : Firestore!
         db = Firestore.firestore()
-        db.collection("\(Auth.auth().currentUser!.uid)").document(Workout.key.documentID).delete()
+        db.collection("Users").document("\(Auth.auth().currentUser!.uid)").collection("Workouts").document(Workout.key.documentID).delete()
         
         if let index = workoutsCollection.firstIndex(of: Workout){
             workoutsCollection.remove(at: index)

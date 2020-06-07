@@ -24,6 +24,8 @@ class FirstViewController: UITableViewController {
     var textField1 = UITextField()
     var textField2 = UITextField()
     
+    var workoutsCollection : WorkoutsCollection = WorkoutsCollection()
+    
     var rootWorkoutsCollection : CollectionReference!
     var rootExercisesCollection : CollectionReference!
     
@@ -46,7 +48,8 @@ class FirstViewController: UITableViewController {
         
         Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
-            self.rootWorkoutsCollection = Firestore.firestore().collection("/users/\(self.userIdRef)/Workouts")
+            self.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts")
+            self.loadData()
         }
         
     }
@@ -66,15 +69,24 @@ class FirstViewController: UITableViewController {
                 print("Error getting documents: \(err.localizedDescription)");
             }
             else {
-                guard let dayDocument = snapshot?.documents else { return }
+                guard let workoutDocuments = snapshot?.documents else { return }
                 
-                for day in dayDocument {
+                for document in workoutDocuments {
                     group.enter()
                     
-                    print(day.data())
+                    let workoutData = document.data()
+                    let day = workoutData["Day"] as! String
+                    let workout = workoutData["Workout"] as! String
+
+                    let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+                    self.workoutsCollection.workoutsCollection.append(newWorkout)
                 }
             }
             group.leave()
+            group.notify(queue: .main){
+                print(self.workoutsCollection.workoutsCollection)
+                self.dayCounter = self.workoutsCollection.workoutsCollection.count
+            }
         }
         )
     }
@@ -125,16 +137,12 @@ class FirstViewController: UITableViewController {
                             if !foundIt {
                                 //Pull the existing day and store the new workout within that day.
                                 let myData = document.data()
-                                let myDay = myData["dow"] as? String ?? ""
+                                let myDay = myData["day"] as? String ?? ""
                                 
                                 if myDay == self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
                                     
-                                    self.rootWorkoutsCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").setData([
-                                        "dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])",
-                                        "workout" : ["\(self.textField2.text!)" : " "]
-                                    ], merge: true)
-                                    
-//                                    self.loadData()
+                                    self.workoutsCollection.createWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
+                            //  self.loadData()
                                     
                                     foundIt = true
                                     
@@ -146,10 +154,8 @@ class FirstViewController: UITableViewController {
                         if foundIt == false {
                             //Create new day as well as a new workout, and store the workout within the day.
                             
-                            self.rootWorkoutsCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").setData([
-                                "dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])",
-                                "workout" : ["\(self.textField2.text!)" : " "]
-                            ])
+                            self.workoutsCollection.createWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
+                            
 //                            self.loadData()
                             
                         }
@@ -159,11 +165,8 @@ class FirstViewController: UITableViewController {
             } else {
                 //If there are no days/workouts, we create new day as well as a new workout, and store the workout within the day.
                 
-                self.rootWorkoutsCollection.document("\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])").setData([
-                    "dow" : "\(self.daysOfWeek[self.picker.selectedRow(inComponent: 0)])",
-                    "workout" : ["\(self.textField2.text!)" : " "]
-                ])
-                                
+                self.workoutsCollection.createWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
+                
                 self.dayCounter += 1
                 
 //                self.loadData()
