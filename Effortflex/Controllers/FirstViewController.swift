@@ -59,6 +59,7 @@ class FirstViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
+    //let DayObject = [Day : "Monday", Workout : [Workout]]
     
     func loadData(){
         let group = DispatchGroup()
@@ -79,13 +80,15 @@ class FirstViewController: UITableViewController {
                     let workout = workoutData["Workout"] as! String
 
                     let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
-                    self.workoutsCollection.workoutsCollection.append(newWorkout)
+                    
+                    let newDay = Day(Day: day, Workout: newWorkout, Ref: document.reference)
+                    self.workoutsCollection.daysCollection.append(newDay)
                 }
             }
             group.leave()
             group.notify(queue: .main){
-                print(self.workoutsCollection.workoutsCollection)
-                self.dayCounter = self.workoutsCollection.workoutsCollection.count
+                print(self.workoutsCollection.daysCollection)
+                self.dayCounter = self.workoutsCollection.daysCollection.count
             }
         }
         )
@@ -141,8 +144,7 @@ class FirstViewController: UITableViewController {
                                 
                                 if myDay == self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
                                     
-                                    self.workoutsCollection.createWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
-                            //  self.loadData()
+                                    self.workoutsCollection.createDayWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
                                     
                                     foundIt = true
                                     
@@ -154,10 +156,7 @@ class FirstViewController: UITableViewController {
                         if foundIt == false {
                             //Create new day as well as a new workout, and store the workout within the day.
                             
-                            self.workoutsCollection.createWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
-                            
-//                            self.loadData()
-                            
+                            self.workoutsCollection.createDayWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
                         }
                     }
                 }
@@ -165,12 +164,9 @@ class FirstViewController: UITableViewController {
             } else {
                 //If there are no days/workouts, we create new day as well as a new workout, and store the workout within the day.
                 
-                self.workoutsCollection.createWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
+                self.workoutsCollection.createDayWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
                 
                 self.dayCounter += 1
-                
-//                self.loadData()
-
             }
             
         }
@@ -215,7 +211,7 @@ class FirstViewController: UITableViewController {
 //        //Go through all the days and pull the dow. Populate the text label with the dow.
 //        //Get all the days, place the results inside of an array.
 //
-//        label.text = dataArray[section].dow
+//        label.text = workoutsCollection.workoutsCollection[section].day
 //        label.backgroundColor = UIColor.lightText
 //        label.textColor = UIColor(red: 0, green: 0.451, blue: 0.8471, alpha: 1.0)
 //        label.font = UIFont(name: "HelveticaNeue", size: 25)
@@ -227,17 +223,17 @@ class FirstViewController: UITableViewController {
 //    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 //        return 30.adjusted
 //    }
-//
+
 //    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return dataArray.count
+//        return workoutsCollection.workoutsCollection.count
 //    }
-//
+
 //    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        //Return the count how many workouts exist for each date.
 //
-//        return dataArray[section].workouts.count
+//        return workoutsCollection.workoutsCollection.count
 //    }
-//
+
 //    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //
 //        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)

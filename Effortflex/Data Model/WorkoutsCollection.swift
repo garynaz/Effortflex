@@ -13,24 +13,37 @@ import FirebaseFirestoreSwift
 
 class WorkoutsCollection {
     
-    var workoutsCollection = [Workout]()
+    var daysCollection = [Day]()
     
     
-    func createWorkout(day: String, workout: String){
-        let newWorkout = Workout(Day: day, Workout: workout)
+    func createDayWorkout(day: String, workout: String){
         
-        workoutsCollection.append(newWorkout)
+        //If day doesn't exist, create new Day, otherwise add to existing day object...
+
+        for dayObject in daysCollection{
+            for dow in dayObject.workout{
+                if dow.day == day{
+                    let newWorkout = Workout(Day: day, Workout: workout)
+                    dayObject.workout.append(newWorkout)
+                }else{
+                    let newWorkout = Workout(Day: day, Workout: workout)
+                    let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
+                    daysCollection.append(newDay)
+                }
+            }
+        }
+        
     }
     
     
-    func removeWorkout(Workout: Workout){
+    func removeWorkout(Workout: Day){
         
         let db : Firestore!
         db = Firestore.firestore()
         db.collection("Users").document("\(Auth.auth().currentUser!.uid)").collection("Workouts").document(Workout.key.documentID).delete()
         
-        if let index = workoutsCollection.firstIndex(of: Workout){
-            workoutsCollection.remove(at: index)
+        if let index = daysCollection.firstIndex(of: Workout){
+            daysCollection.remove(at: index)
         }
     }
     
