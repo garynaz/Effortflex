@@ -20,7 +20,7 @@ class SecondViewController: UITableViewController {
 //    var exercises = [Exercises]()
 //    var exerciseCounter = 0
 //
-//    var selectedWorkout : Workouts?
+    var selectedWorkout : Day?
     
     
     //MARK: - viewDidLoad()

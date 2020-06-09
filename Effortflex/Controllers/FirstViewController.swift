@@ -99,6 +99,7 @@ class FirstViewController: UITableViewController {
                                     let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
                                     dayObject.workout.append(newWorkout)
                                     foundIt = true
+                                    break
                                 }
                             }
                         }
@@ -233,30 +234,34 @@ class FirstViewController: UITableViewController {
         return cell
     }
 
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//        let destinationVC = SecondViewController()
-//        destinationVC.selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row]
-//        tableView.deselectRow(at: indexPath, animated: true)
-//
-//        self.navigationController?.pushViewController(destinationVC, animated: true)
-//    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let destinationVC = SecondViewController()
+        destinationVC.selectedWorkout = workoutsCollection.daysCollection[indexPath.section]
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+    }
     
     
     //MARK: - Swipe To Delete
-//    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-//
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//
-//        if editingStyle == .delete {
-//
-//            let selectedDay = dataArray[indexPath.section].dow
-//            let selectedWorkout = dataArray[indexPath.section].workouts[indexPath.row].workout
-//
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
+        if editingStyle == .delete {
+
+            let selectedDay = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].day
+            let selectedWorkout = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row]
+            let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
+            let dayToRemove = Day(Day: selectedDay, Workout: selectedWorkout, Ref: selectedKey)
+            workoutsCollection.removeWorkout(Workout: dayToRemove)
+            
+            
 //            self.rootCollection.document(selectedDay).collection("Workouts").document(selectedWorkout).delete()
-//
+
 //            self.loadData { (Bool) in
 //                if Bool == true {
 //                    if self.dataArray[indexPath.section].workouts.isEmpty == true {
@@ -277,9 +282,9 @@ class FirstViewController: UITableViewController {
 //
 //                }
 //            }
-//
-//        }
-//    }
+
+        }
+    }
     
 }
 
