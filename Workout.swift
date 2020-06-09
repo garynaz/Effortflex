@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-struct Workout : Equatable{
+class Workout{
     var day : String
     var workout : String
     var key : DocumentReference!
@@ -20,11 +21,16 @@ struct Workout : Equatable{
         let ref : DocumentReference!
         let db : Firestore!
         db = Firestore.firestore()
-
-        ref = db.collection("\(Auth.auth().currentUser!.uid)").addDocument(data: [
+        ref = db.collection("Users").document("\(Auth.auth().currentUser!.uid)").collection("Workouts").addDocument(data: [
             "Day" : Day,
             "Workout" : Workout
-        ])
+        ]){ err in
+           if let err = err {
+              print("Error adding document: \(err)")
+           } else {
+            print("Document added.")
+           }
+        }
 
         self.day = Day
         self.workout = Workout

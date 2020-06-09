@@ -20,15 +20,21 @@ class WorkoutsCollection {
         
         //If day doesn't exist, create new Day, otherwise add to existing day object...
 
-        for dayObject in daysCollection{
-            for dow in dayObject.workout{
-                if dow.day == day{
-                    let newWorkout = Workout(Day: day, Workout: workout)
-                    dayObject.workout.append(newWorkout)
-                }else{
-                    let newWorkout = Workout(Day: day, Workout: workout)
-                    let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
-                    daysCollection.append(newDay)
+        if daysCollection.isEmpty {
+            let newWorkout = Workout(Day: day, Workout: workout)
+            let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
+            daysCollection.append(newDay)
+        } else {
+            for dayObject in daysCollection{
+                for dow in dayObject.workout{
+                    if dow.day == day{
+                        let newWorkout = Workout(Day: day, Workout: workout)
+                        dayObject.workout.append(newWorkout)
+                    }else{
+                        let newWorkout = Workout(Day: day, Workout: workout)
+                        let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
+                        daysCollection.append(newDay)
+                    }
                 }
             }
         }

@@ -30,7 +30,6 @@ class FirstViewController: UITableViewController {
     var rootExercisesCollection : CollectionReference!
     
     var userIdRef = ""
-    var dayCounter = 0
     
     
     //MARK: - viewDidLoad()
@@ -59,12 +58,14 @@ class FirstViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
-    //let DayObject = [Day : "Monday", Workout : [Workout]]
     
     func loadData(){
-        let group = DispatchGroup()
-        
-        self.rootWorkoutsCollection.getDocuments (completion: { (snapshot, err) in
+        self.rootWorkoutsCollection.addSnapshotListener({ (snapshot, err) in
+            let group = DispatchGroup()
+            group.enter()
+            
+            self.workoutsCollection.daysCollection.removeAll()
+            
             if let err = err
             {
                 print("Error getting documents: \(err.localizedDescription)");
@@ -72,29 +73,53 @@ class FirstViewController: UITableViewController {
             else {
                 guard let workoutDocuments = snapshot?.documents else { return }
                 
+                
                 for document in workoutDocuments {
-                    group.enter()
+                    var foundIt = false
+                    
+                    if self.workoutsCollection.daysCollection.isEmpty {
+                        let workoutData = document.data()
+                        let day = workoutData["Day"] as! String
+                        let workout = workoutData["Workout"] as! String
+                        
+                        let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+                        let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
+                        self.workoutsCollection.daysCollection.append(newDay)
+                        continue
+                    }
                     
                     let workoutData = document.data()
                     let day = workoutData["Day"] as! String
                     let workout = workoutData["Workout"] as! String
-
-                    let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
                     
-                    let newDay = Day(Day: day, Workout: newWorkout, Ref: document.reference)
-                    self.workoutsCollection.daysCollection.append(newDay)
+                    if !foundIt{
+                        for dayObject in self.workoutsCollection.daysCollection{
+                            for dow in dayObject.workout{
+                                if dow.day == day{
+                                    let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+                                    dayObject.workout.append(newWorkout)
+                                    foundIt = true
+                                }
+                            }
+                        }
+                    }
+                    
+                    if foundIt == false{
+                        let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+                        let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
+                        self.workoutsCollection.daysCollection.append(newDay)
+                    }
+                    
+                    
+                }
+                group.leave()
+                group.notify(queue: .main){
+                    self.tableView.reloadData()
                 }
             }
-            group.leave()
-            group.notify(queue: .main){
-                print(self.workoutsCollection.daysCollection)
-                self.dayCounter = self.workoutsCollection.daysCollection.count
             }
-        }
-        )
-    }
-    
-    //MARK: - VC Background Image setup
+        )}
+        //MARK: - VC Background Image setup
     func vcBackgroundImg(){
         let backgroundImage = UIImage(named: "db2")
         let imageView = UIImageView(image: backgroundImage)
@@ -115,7 +140,6 @@ class FirstViewController: UITableViewController {
     //MARK: - Add a New Workout
     @objc func addWorkout() {
         
-        
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (UIAlertAction) in
@@ -124,49 +148,15 @@ class FirstViewController: UITableViewController {
         
         let addAction = UIAlertAction(title: "Add Workout", style: .default) { (UIAlertAction) in
             
-            if self.dayCounter != 0 {
-                
-                self.rootWorkoutsCollection.getDocuments { (querySnapshot, err) in
-                    
-                    if let err = err
-                    {
-                        print("Error getting documents: \(err)");
-                    }
-                    else
-                    {
-                        var foundIt = false
-                        
-                        for document in querySnapshot!.documents {
-                            if !foundIt {
-                                //Pull the existing day and store the new workout within that day.
-                                let myData = document.data()
-                                let myDay = myData["day"] as? String ?? ""
-                                
-                                if myDay == self.daysOfWeek[self.picker.selectedRow(inComponent: 0)] {
-                                    
-                                    self.workoutsCollection.createDayWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
-                                    
-                                    foundIt = true
-                                    
-                                    break
-                                }
-                            }
-                        }
-                        
-                        if foundIt == false {
-                            //Create new day as well as a new workout, and store the workout within the day.
-                            
-                            self.workoutsCollection.createDayWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
-                        }
-                    }
-                }
-                
-            } else {
-                //If there are no days/workouts, we create new day as well as a new workout, and store the workout within the day.
-                
-                self.workoutsCollection.createDayWorkout(day: self.daysOfWeek[self.picker.selectedRow(inComponent: 0)], workout: self.textField2.text!)
-                
-                self.dayCounter += 1
+            self.rootWorkoutsCollection.addDocument(data: [
+                "Day" : self.daysOfWeek[self.picker.selectedRow(inComponent: 0)],
+                "Workout" : self.textField2.text!
+            ]){ err in
+               if let err = err {
+                  print("Error adding document: \(err)")
+               } else {
+                print("Document added.")
+               }
             }
             
         }
@@ -205,48 +195,44 @@ class FirstViewController: UITableViewController {
     
     
     //MARK: - TableView DataSource and Delegate Methods
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let label = UILabel()
-//
-//        //Go through all the days and pull the dow. Populate the text label with the dow.
-//        //Get all the days, place the results inside of an array.
-//
-//        label.text = workoutsCollection.workoutsCollection[section].day
-//        label.backgroundColor = UIColor.lightText
-//        label.textColor = UIColor(red: 0, green: 0.451, blue: 0.8471, alpha: 1.0)
-//        label.font = UIFont(name: "HelveticaNeue", size: 25)
-//        label.textAlignment = .center
-//
-//        return label
-//    }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+
+        label.text = workoutsCollection.daysCollection[section].day
+        label.backgroundColor = UIColor.lightText
+        label.textColor = UIColor(red: 0, green: 0.451, blue: 0.8471, alpha: 1.0)
+        label.font = UIFont(name: "HelveticaNeue", size: 25)
+        label.textAlignment = .center
+
+        return label
+    }
     
-//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 30.adjusted
-//    }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30.adjusted
+    }
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return workoutsCollection.workoutsCollection.count
-//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return workoutsCollection.daysCollection.count
+    }
 
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        //Return the count how many workouts exist for each date.
-//
-//        return workoutsCollection.workoutsCollection.count
-//    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
-//        cell.textLabel?.text = dataArray[indexPath.section].workouts[indexPath.row].workout
-//        cell.textLabel?.textAlignment = .center
-//        cell.accessoryType = .disclosureIndicator
-//        cell.layer.backgroundColor = UIColor.clear.cgColor
-//        cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
-//        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
-//
-//        return cell
-//    }
-//
+        return workoutsCollection.daysCollection[section].workout.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
+        cell.textLabel?.text = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
+        cell.textLabel?.textAlignment = .center
+        cell.accessoryType = .disclosureIndicator
+        cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
+
+        return cell
+    }
+
 //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //
 //        let destinationVC = SecondViewController()
