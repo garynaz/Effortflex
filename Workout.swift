@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-class Workout{
+class Workout: NSObject{
     var day : String
     var workout : String
     var key : DocumentReference!

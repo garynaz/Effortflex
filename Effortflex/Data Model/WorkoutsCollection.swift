@@ -42,15 +42,12 @@ class WorkoutsCollection {
     }
     
     
-    func removeWorkout(Workout: Day){
+    func removeWorkout(Dow: Day, Workout: Workout ){
         
         let db : Firestore!
         db = Firestore.firestore()
-        db.collection("Users").document("\(Auth.auth().currentUser!.uid)").collection("Workouts").document(Workout.key.documentID).delete()
+        db.collection("Users").document("\(Auth.auth().currentUser!.uid)").collection("Workouts").document(Dow.key.documentID).delete()
         
-        if let index = daysCollection.firstIndex(of: Workout){
-            daysCollection.remove(at: index)
-        }
     }
     
 }

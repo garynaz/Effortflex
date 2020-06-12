@@ -21,9 +21,11 @@ class FirstViewController: UITableViewController {
     
     let picker = UIPickerView()
     
+    var indexToRemove : IndexPath?
+    
     var textField1 = UITextField()
     var textField2 = UITextField()
-    
+        
     var workoutsCollection : WorkoutsCollection = WorkoutsCollection()
     
     var rootWorkoutsCollection : CollectionReference!
@@ -31,6 +33,7 @@ class FirstViewController: UITableViewController {
     
     var userIdRef = ""
     
+    var feedback: ListenerRegistration?
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -44,83 +47,91 @@ class FirstViewController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
         
         Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
             self.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts")
             self.loadData()
         }
-        
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = false
-    }
-    
     
     func loadData(){
-        self.rootWorkoutsCollection.addSnapshotListener({ (snapshot, err) in
+        feedback = self.rootWorkoutsCollection.addSnapshotListener({ (querySnapshot, err) in
+            
             let group = DispatchGroup()
-            group.enter()
             
-            self.workoutsCollection.daysCollection.removeAll()
+            guard let snapshot = querySnapshot else {return}
             
-            if let err = err
-            {
-                print("Error getting documents: \(err.localizedDescription)");
-            }
-            else {
-                guard let workoutDocuments = snapshot?.documents else { return }
-                
-                
-                for document in workoutDocuments {
-                    var foundIt = false
+            snapshot.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    self.workoutsCollection.daysCollection.removeAll()
                     
-                    if self.workoutsCollection.daysCollection.isEmpty {
+                    group.enter()
+                    for document in querySnapshot!.documents {
+                        
+                        var foundIt = false
+                        
                         let workoutData = document.data()
                         let day = workoutData["Day"] as! String
                         let workout = workoutData["Workout"] as! String
                         
-                        let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
-                        let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
-                        self.workoutsCollection.daysCollection.append(newDay)
-                        continue
-                    }
-                    
-                    let workoutData = document.data()
-                    let day = workoutData["Day"] as! String
-                    let workout = workoutData["Workout"] as! String
-                    
-                    if !foundIt{
-                        for dayObject in self.workoutsCollection.daysCollection{
-                            for dow in dayObject.workout{
-                                if dow.day == day{
-                                    let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
-                                    dayObject.workout.append(newWorkout)
-                                    foundIt = true
-                                    break
+                        if self.workoutsCollection.daysCollection.isEmpty {
+                            
+                            let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+                            let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
+                            self.workoutsCollection.daysCollection.append(newDay)
+                            continue
+                        }
+                        
+                        if !foundIt{
+                            for dayObject in self.workoutsCollection.daysCollection{
+                                for dow in dayObject.workout{
+                                    if dow.day == day{
+                                        let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+                                        dayObject.workout.append(newWorkout)
+                                        foundIt = true
+                                        break
+                                    }
                                 }
                             }
                         }
+                        
+                        if foundIt == false{
+                            let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+                            let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
+                            self.workoutsCollection.daysCollection.append(newDay)
+                        }
+                        
                     }
-                    
-                    if foundIt == false{
-                        let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
-                        let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
-                        self.workoutsCollection.daysCollection.append(newDay)
+                    group.leave()
+                    group.notify(queue: .main){
+                        self.tableView.reloadData()
                     }
-                    
-                    
                 }
-                group.leave()
-                group.notify(queue: .main){
-                    self.tableView.reloadData()
+                if (diff.type == .modified) {
+                }
+                if (diff.type == .removed) {
+                    print("Document Removed")
+                    
+                    self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
+                    
+                    if self.workoutsCollection.daysCollection[self.indexToRemove!.section].workout.isEmpty {
+                        self.workoutsCollection.daysCollection.remove(at: self.indexToRemove!.section)
+                        let indexSet = IndexSet(arrayLiteral: self.indexToRemove!.section)
+                        self.tableView.deleteSections(indexSet, with: .automatic)
+                    }
                 }
             }
+            
             }
         )}
-        //MARK: - VC Background Image setup
+    
+    //MARK: - VC Background Image setup
     func vcBackgroundImg(){
         let backgroundImage = UIImage(named: "db2")
         let imageView = UIImageView(image: backgroundImage)
@@ -137,7 +148,6 @@ class FirstViewController: UITableViewController {
         navigationItem.title = "My workouts"
     }
     
-    
     //MARK: - Add a New Workout
     @objc func addWorkout() {
         
@@ -153,11 +163,11 @@ class FirstViewController: UITableViewController {
                 "Day" : self.daysOfWeek[self.picker.selectedRow(inComponent: 0)],
                 "Workout" : self.textField2.text!
             ]){ err in
-               if let err = err {
-                  print("Error adding document: \(err)")
-               } else {
-                print("Document added.")
-               }
+                if let err = err {
+                    print("Error adding document: \(err)")
+                } else {
+                    print("Document added.")
+                }
             }
             
         }
@@ -198,31 +208,31 @@ class FirstViewController: UITableViewController {
     //MARK: - TableView DataSource and Delegate Methods
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-
+        
         label.text = workoutsCollection.daysCollection[section].day
         label.backgroundColor = UIColor.lightText
         label.textColor = UIColor(red: 0, green: 0.451, blue: 0.8471, alpha: 1.0)
         label.font = UIFont(name: "HelveticaNeue", size: 25)
         label.textAlignment = .center
-
+        
         return label
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30.adjusted
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return workoutsCollection.daysCollection.count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
         return workoutsCollection.daysCollection[section].workout.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
         cell.textLabel?.text = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
         cell.textLabel?.textAlignment = .center
@@ -230,17 +240,18 @@ class FirstViewController: UITableViewController {
         cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
         cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
-
+        
         return cell
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         let destinationVC = SecondViewController()
-        destinationVC.selectedWorkout = workoutsCollection.daysCollection[indexPath.section]
+        destinationVC.selectedWorkout = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
-
+        
         self.navigationController?.pushViewController(destinationVC, animated: true)
+        feedback?.remove()
     }
     
     
@@ -248,41 +259,16 @@ class FirstViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
+        
         if editingStyle == .delete {
+            
+            indexToRemove = indexPath
 
-            let selectedDay = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].day
-            let selectedWorkout = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row]
             let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
-            let dayToRemove = Day(Day: selectedDay, Workout: selectedWorkout, Ref: selectedKey)
-            workoutsCollection.removeWorkout(Workout: dayToRemove)
-            
-            
-//            self.rootCollection.document(selectedDay).collection("Workouts").document(selectedWorkout).delete()
-
-//            self.loadData { (Bool) in
-//                if Bool == true {
-//                    if self.dataArray[indexPath.section].workouts.isEmpty == true {
-//                        self.rootCollection.document(selectedDay).delete()
-//
-//                        self.loadData { (Bool) in
-//                            if Bool == true {
-//                                let indexSet = IndexSet(arrayLiteral: indexPath.section)
-//                                tableView.deleteSections(indexSet, with: .automatic)
-//                                self.dayCounter = self.dataArray.count
-//                                tableView.reloadData()
-//                            }
-//                        }
-//                    } else {
-//                        tableView.deleteRows(at: [indexPath], with: .fade)
-//                        tableView.reloadData()
-//                    }
-//
-//                }
-//            }
-
+            self.rootWorkoutsCollection.document(selectedKey.documentID).delete()
+            self.workoutsCollection.daysCollection[indexPath.section].workout.remove(at: indexPath.row)
         }
     }
     

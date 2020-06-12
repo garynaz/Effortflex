@@ -13,26 +13,26 @@ import FirebaseFirestoreSwift
 class SecondViewController: UITableViewController {
     
 //    var rootDocument : DocumentReference!
-//    var textField1 = UITextField()
+    var textField1 = UITextField()
 //
-//    weak var buttonActionToEnable: UIAlertAction?
+    weak var buttonActionToEnable: UIAlertAction?
 //
 //    var exercises = [Exercises]()
 //    var exerciseCounter = 0
 //
-    var selectedWorkout : Day?
+    var selectedWorkout : Workout?
     
     
     //MARK: - viewDidLoad()
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 //
 //        let currentUser = Auth.auth().currentUser
 //        rootDocument = Firestore.firestore().document("/users/\(currentUser!.uid)/Days/\(selectedWorkout!.dayId)/Workouts/\(selectedWorkout!.workout)")
 //
 //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ExerciseCell")
 //        tableView.tableFooterView = UIView()
-//        navConAcc()
+        navConAcc()
 //
 //        loadExercises { (Bool) in
 //            if Bool == true {
@@ -40,17 +40,17 @@ class SecondViewController: UITableViewController {
 //                self.tableView.reloadData()
 //            }
 //        }
-//    }
+    }
     
     //MARK: - viewWillAppear()
-//    override func viewWillAppear(_ animated: Bool) {
-//        let backgroundImage = UIImage(named: "db2")
-//        let imageView = UIImageView(image: backgroundImage)
-//        imageView.contentMode = .scaleAspectFill
-//        imageView.alpha = 0.5
-//
-//        tableView.backgroundView = imageView
-//    }
+        override func viewWillAppear(_ awnimated: Bool) {
+            let backgroundImage = UIImage(named: "db2")
+            let imageView = UIImageView(image: backgroundImage)
+            imageView.contentMode = .scaleAspectFill
+            imageView.alpha = 0.5
+    
+            tableView.backgroundView = imageView
+    }
     
     //MARK: - Load Data
 //    func loadExercises(completion: @escaping (Bool) -> ()) {
@@ -87,16 +87,17 @@ class SecondViewController: UITableViewController {
 //    }
     
     //MARK: - Navigation Bar Setup
-//    func navConAcc(){
-//        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addExercise))
-//        navigationItem.title = selectedWorkout?.workout
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        navigationItem.rightBarButtonItem = addBarButton
-//    }
+    func navConAcc(){
+        print(selectedWorkout!.workout)
+        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addExercise))
+        navigationItem.title = selectedWorkout?.workout
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = addBarButton
+    }
     
     
     //MARK: - Add a New Exercise
-//    @objc func addExercise() {
+    @objc func addExercise() {
 //
 //        let alert = UIAlertController(title: "New Exercise", message: "Please name your Exercise...", preferredStyle: .alert)
 //
@@ -131,7 +132,7 @@ class SecondViewController: UITableViewController {
 //        alert.addAction(cancelAction)
 //
 //        present(alert, animated: true, completion: nil)
-//    }
+    }
     
     // MARK: - TableView Data Source
 //    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
