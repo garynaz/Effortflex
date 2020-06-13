@@ -61,7 +61,7 @@ class FirstViewController: UITableViewController {
     }
     
     func loadData(){
-        feedback = self.rootWorkoutsCollection.addSnapshotListener({ (querySnapshot, err) in
+        feedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
             
             let group = DispatchGroup()
             
@@ -161,7 +161,8 @@ class FirstViewController: UITableViewController {
             
             self.rootWorkoutsCollection.addDocument(data: [
                 "Day" : self.daysOfWeek[self.picker.selectedRow(inComponent: 0)],
-                "Workout" : self.textField2.text!
+                "Workout" : self.textField2.text!,
+                "Timestamp" : FieldValue.serverTimestamp()
             ]){ err in
                 if let err = err {
                     print("Error adding document: \(err)")

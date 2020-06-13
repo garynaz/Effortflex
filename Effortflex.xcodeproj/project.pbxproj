@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A6349A22722AAB7C896E5FDA /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344EC22BFA1BD330C29C0BC8 /* Pods_Effortflex.framework */; };
+		2D3A26223BAADFEABD582D2D /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF6338D0242355CE07CF81B0 /* Pods_Effortflex.framework */; };
 		DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */; };
 		DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* LoginViewController.swift */; };
 		DD10614D240B316600448A2B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* MainViewController.swift */; };
@@ -27,9 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		344EC22BFA1BD330C29C0BC8 /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56E0601A97E57EB9DEA6D7EE /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
-		58353B0C9D09A705DC977525 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
+		64062876C9E7CEC9D8FAA656 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
+		90B0E35A54C4523D5A6FD9D3 /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
 		DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsCollection.swift; sourceTree = "<group>"; };
 		DD10614A240B313F00448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD10614C240B316600448A2B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF0E8C2248AEF0F007E25EC /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = SOURCE_ROOT; };
+		EF6338D0242355CE07CF81B0 /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6349A22722AAB7C896E5FDA /* Pods_Effortflex.framework in Frameworks */,
+				2D3A26223BAADFEABD582D2D /* Pods_Effortflex.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +69,7 @@
 			children = (
 				DD8D826923F480130076BA3A /* RealmSwift.framework */,
 				DD8D826523F4800D0076BA3A /* Realm.framework */,
-				344EC22BFA1BD330C29C0BC8 /* Pods_Effortflex.framework */,
+				EF6338D0242355CE07CF81B0 /* Pods_Effortflex.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -77,8 +77,8 @@
 		67EA33082F2C73CEB071C919 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				58353B0C9D09A705DC977525 /* Pods-Effortflex.debug.xcconfig */,
-				56E0601A97E57EB9DEA6D7EE /* Pods-Effortflex.release.xcconfig */,
+				64062876C9E7CEC9D8FAA656 /* Pods-Effortflex.debug.xcconfig */,
+				90B0E35A54C4523D5A6FD9D3 /* Pods-Effortflex.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -164,11 +164,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD3B9D0C239D85E500095B05 /* Build configuration list for PBXNativeTarget "Effortflex" */;
 			buildPhases = (
-				E7DD8A7DAB8F741E902D6ACD /* [CP] Check Pods Manifest.lock */,
+				4D2DC0143A1DCA6FCC2990AF /* [CP] Check Pods Manifest.lock */,
 				DD3B9CF4239D85E400095B05 /* Sources */,
 				DD3B9CF5239D85E400095B05 /* Frameworks */,
 				DD3B9CF6239D85E400095B05 /* Resources */,
-				EFF33C08FCF8405338931936 /* [CP] Embed Pods Frameworks */,
+				939C985F8BC12C0B7F66C9C8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -227,7 +227,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E7DD8A7DAB8F741E902D6ACD /* [CP] Check Pods Manifest.lock */ = {
+		4D2DC0143A1DCA6FCC2990AF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -249,7 +249,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EFF33C08FCF8405338931936 /* [CP] Embed Pods Frameworks */ = {
+		939C985F8BC12C0B7F66C9C8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -418,7 +418,7 @@
 		};
 		DD3B9D0D239D85E500095B05 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58353B0C9D09A705DC977525 /* Pods-Effortflex.debug.xcconfig */;
+			baseConfigurationReference = 64062876C9E7CEC9D8FAA656 /* Pods-Effortflex.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
@@ -437,7 +437,7 @@
 		};
 		DD3B9D0E239D85E500095B05 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 56E0601A97E57EB9DEA6D7EE /* Pods-Effortflex.release.xcconfig */;
+			baseConfigurationReference = 90B0E35A54C4523D5A6FD9D3 /* Pods-Effortflex.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
