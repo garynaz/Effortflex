@@ -28,10 +28,12 @@ class FirstViewController: UITableViewController {
         
     var workoutsCollection : WorkoutsCollection = WorkoutsCollection()
     var rootWorkoutsCollection : CollectionReference!
+    var rootExerciseCollection : CollectionReference!
     
     var userIdRef = ""
     
-    var feedback: ListenerRegistration?
+    var addfeedback : ListenerRegistration?
+    var deleteFeedback : ListenerRegistration?
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -55,18 +57,20 @@ class FirstViewController: UITableViewController {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
             self.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts")
+            self.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Exercises")
             self.loadData()
         }
     }
     
     //MARK: - viewDidDisappear()
     override func viewDidDisappear(_ animated: Bool) {
-        feedback?.remove()
+        addfeedback?.remove()
+        deleteFeedback?.remove()
     }
     
     //MARK: - Load the Data
     func loadData(){
-        feedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
+        addfeedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
             
             let group = DispatchGroup()
             
@@ -233,7 +237,6 @@ class FirstViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return workoutsCollection.daysCollection[section].workout.count
     }
     
@@ -270,7 +273,24 @@ class FirstViewController: UITableViewController {
         if editingStyle == .delete {
             
             indexToRemove = indexPath
-
+            
+            //Don't forget to delete all Exercises when deleting workouts...
+            let workoutRef = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
+            
+            deleteFeedback = rootExerciseCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
+                let group = DispatchGroup()
+                
+                guard let snapshot = querySnapshot else {return}
+                
+                group.enter()
+                for exercise in snapshot.documents{
+                    self.rootExerciseCollection.document(exercise.documentID).delete()
+                }
+                group.leave()
+            }
+            
+            
+            
             let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
             rootWorkoutsCollection.document(selectedKey.documentID).delete()
             workoutsCollection.daysCollection[indexPath.section].workout.remove(at: indexPath.row)
