@@ -20,6 +20,7 @@
 		DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36315C240B30D50002D0BB /* SignUpViewController.swift */; };
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
+		DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD41FFA92496F6660019A9BD /* Exercise.swift */; };
 		DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */; };
 		DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
@@ -43,6 +44,7 @@
 		DD3B9CFB239D85E400095B05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD41FFA92496F6660019A9BD /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotExtensions.swift; path = Effortflex/Controllers/SnapshotExtensions.swift; sourceTree = SOURCE_ROOT; };
 		DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			children = (
 				DD138F8A248D90D3005BBE43 /* Day.swift */,
 				DDF0E8C2248AEF0F007E25EC /* Workout.swift */,
+				DD41FFA92496F6660019A9BD /* Exercise.swift */,
 				DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */,
 				DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */,
 			);
@@ -282,6 +285,7 @@
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
 				DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */,
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
+				DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */,
 				DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */,
 				DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */,
 				DDF0E8C3248AEF0F007E25EC /* Workout.swift in Sources */,

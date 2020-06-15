@@ -27,9 +27,7 @@ class FirstViewController: UITableViewController {
     var textField2 = UITextField()
         
     var workoutsCollection : WorkoutsCollection = WorkoutsCollection()
-    
     var rootWorkoutsCollection : CollectionReference!
-    var rootExercisesCollection : CollectionReference!
     
     var userIdRef = ""
     
@@ -49,6 +47,7 @@ class FirstViewController: UITableViewController {
         tableView.tableFooterView = UIView()
     }
     
+    //MARK: - viewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -60,6 +59,12 @@ class FirstViewController: UITableViewController {
         }
     }
     
+    //MARK: - viewDidDisappear()
+    override func viewDidDisappear(_ animated: Bool) {
+        feedback?.remove()
+    }
+    
+    //MARK: - Load the Data
     func loadData(){
         feedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
             
@@ -68,6 +73,7 @@ class FirstViewController: UITableViewController {
             guard let snapshot = querySnapshot else {return}
             
             snapshot.documentChanges.forEach { diff in
+                
                 if (diff.type == .added) {
                     self.workoutsCollection.daysCollection.removeAll()
                     
@@ -113,8 +119,7 @@ class FirstViewController: UITableViewController {
                         self.tableView.reloadData()
                     }
                 }
-                if (diff.type == .modified) {
-                }
+                
                 if (diff.type == .removed) {
                     print("Document Removed")
                     
@@ -202,7 +207,7 @@ class FirstViewController: UITableViewController {
     
     @objc func textFieldChanged(_ sender: Any) {
         let textfield = sender as! UITextField
-        self.buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
+        buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
     }
     
     
@@ -251,8 +256,7 @@ class FirstViewController: UITableViewController {
         destinationVC.selectedWorkout = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         
-        self.navigationController?.pushViewController(destinationVC, animated: true)
-        feedback?.remove()
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     
@@ -268,8 +272,8 @@ class FirstViewController: UITableViewController {
             indexToRemove = indexPath
 
             let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
-            self.rootWorkoutsCollection.document(selectedKey.documentID).delete()
-            self.workoutsCollection.daysCollection[indexPath.section].workout.remove(at: indexPath.row)
+            rootWorkoutsCollection.document(selectedKey.documentID).delete()
+            workoutsCollection.daysCollection[indexPath.section].workout.remove(at: indexPath.row)
         }
     }
     
