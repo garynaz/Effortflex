@@ -170,9 +170,8 @@ class SecondViewController: UITableViewController {
     
         override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             let destinationVC = ThirdViewController()
-            //            destinationVC.selectedExercise = exercises![indexPath.row]
-            //            destinationVC.allExercises = exercises
-    
+            destinationVC.allExercises = exerciseArray
+            destinationVC.selectedExercise = exerciseArray[indexPath.row]
             tableView.deselectRow(at: indexPath, animated: true )
     
             navigationController?.pushViewController(destinationVC, animated: true)

@@ -7,306 +7,294 @@
 ////
 //
 import UIKit
+import Firebase
+import FirebaseFirestoreSwift
 import AVFoundation
 import UserNotifications
 
 class ThirdViewController: UIViewController {
-//
-//    let realm = try! Realm()
-//
+
 //    var stats : Results<WeightSetsReps>?
-//    var allExercises : Results<Exercises>?
-//
+    
+
 //    // Exercise Index value needs to equal Index value of selected workout exercise...
-//    var exerciseIndex : Int = 1
-//
-//    var historyTableView = UITableView()
-//
-//    var weightTextField = UITextField()
-//    var repsTextField = UITextField()
-//    var timerTextField = UITextField()
-//    var notesTextField = UITextField()
-//
-//    var weightLabel = UILabel()
-//    var repsLabel = UILabel()
-//    var notesLabel = UILabel()
-//
-//    var nextSet = UIButton()
-//    var nextExcersise = UIButton()
-//
-//
-//    var timer = Timer()
-//    var timerDisplayed = 0
-//    let timePicker = UIPickerView()
-//
-//    let toolBar1 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 60, height: 90))
-//    let toolBar2 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 60, height: 90))
-//    let doneButton1 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissKeyboard))
-//    let doneButton2 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
-//    let cancelButton1 = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
-//    let cancelButton2 = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
-//    let flexibleSpace1 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//    let flexibleSpace2 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//
-//
-//
-//    let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
-//
-//
-//    let image1 = UIImage(named: "stopwatch")
-//
-//    var audioPlayer : AVAudioPlayer?
-//    let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
-//
-//
-//    var selectedExercise : Exercises? {
-//        didSet{
-//            loadWsr()
-//        }
-//    }
-//
-//
-//
-////MARK: - ViewDidLoad()
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        view.backgroundColor = .white
-//
-//        conformance()
-//        labelConfig()
-//        classConstraints()
-//
-//        historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
-//
-//    }
-//
-//
-//
-////MARK: - Conforming the Delegate and Datasource
-//    func conformance(){
-//        notesTextField.delegate = self
-//
-//        historyTableView.delegate = self
-//        historyTableView.dataSource = self
-//
-//        timePicker.delegate = self
-//        timePicker.dataSource = self
-//
-//        weightTextField.delegate = self
-//        repsTextField.delegate = self
-//
-//        timerTextField.delegate = self
-//    }
-//
-////MARK: - UILabel
-//    func labelConfig(){
-//        weightTextField.attributedPlaceholder = NSAttributedString(string: "Total weight...", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.5843, green: 0.6471, blue: 0.651, alpha: 1.0)])
-//        weightTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
-//        weightTextField.layer.cornerRadius = 10
-//        weightTextField.textColor = .white
-//        weightTextField.inputAccessoryView = toolBar1
-//        weightTextField.keyboardType = .decimalPad
-//        weightTextField.leftView = weightLabel
-//        weightTextField.leftViewMode = .always
-//        weightTextField.tintColor = UIColor.clear
-//
-//        weightLabel.text = "  Weight (lbs): "
-//        weightLabel.textColor = .white
-//
-//        repsTextField.attributedPlaceholder = NSAttributedString(string: "Number of Reps...", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.5843, green: 0.6471, blue: 0.651, alpha: 1.0)])
-//        repsTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
-//        repsTextField.layer.cornerRadius = 10
-//        repsTextField.textColor = .white
-//        repsTextField.inputAccessoryView = toolBar1
-//        repsTextField.keyboardType = .decimalPad
-//        repsTextField.leftView = repsLabel
-//        repsTextField.leftViewMode = .always
-//        repsTextField.tintColor = UIColor.clear
-//
-//        repsLabel.text = "  Repetitions: "
-//        repsLabel.textColor = .white
-//
-//        notesTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
-//        notesTextField.layer.cornerRadius = 10
-//        notesTextField.textColor = .white
-//        notesTextField.inputAccessoryView = toolBar1
-//        notesTextField.keyboardType = .default
-//        notesTextField.tintColor = UIColor.clear
-//        notesTextField.leftView = notesLabel
-//        notesTextField.leftViewMode = .always
-//
-//        notesLabel.text = "  Notes: "
-//        notesLabel.textColor = .white
-//
-//        nextSet.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
-//        nextSet.layer.cornerRadius = 10
-//        nextSet.setTitle("Next Set", for: .normal)
-//        nextSet.setTitleColor(.white, for: .normal)
-//        nextSet.addTarget(self, action: #selector(addNewSet), for: .touchUpInside)
-//
-//        nextExcersise.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
-//        nextExcersise.layer.cornerRadius = 10
-//        nextExcersise.setTitle("Next Exercise", for: .normal)
-//        nextExcersise.setTitleColor(.white, for: .normal)
-//        nextExcersise.addTarget(self, action: #selector(goToNextExercise), for: .touchUpInside)
-//
-//        historyTableView.backgroundColor = UIColor.clear
-//        historyTableView.separatorStyle = .none
-//
-//        addLeftImageTo(txtField: timerTextField, image: image1!)
-//
-//        timerTextField.text = ""
-//        timerTextField.font = UIFont(name: "HelveticaNeue", size: 25)
-//        timerTextField.textColor = UIColor.darkGray
-//        timerTextField.tintColor = UIColor.clear
-//        timerTextField.textAlignment = .left
-//        timerTextField.inputView = timePicker
-//        timerTextField.inputAccessoryView = toolBar2
-//        timerTextField.attributedPlaceholder = NSAttributedString(string: "   Timer", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)])
-//
-//        toolBar1.sizeToFit()
-//        toolBar1.setItems([doneButton1, flexibleSpace1, cancelButton1], animated: false)
-//        toolBar1.barStyle = .default
-//
-//        toolBar2.sizeToFit()
-//        toolBar2.setItems([doneButton2, flexibleSpace2, cancelButton2], animated: false)
-//        toolBar2.barStyle = .default
-//
-//        [weightTextField, repsTextField, historyTableView, notesTextField, timerTextField].forEach{view.addSubview($0)}
-//    }
-//
-//
-////MARK: - Add Left Image to UITextField
-//    func addLeftImageTo(txtField: UITextField, image img: UIImage) {
-//        let height = 80.adjusted
-//        let wrapView = UIView(frame: CGRect(x: 0, y: 0, width: height-5.adjusted, height: height))
-//
-//        let leftImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: height-8.adjusted, height: height))
-//        leftImageView.image = img
-//        leftImageView.contentMode = .scaleToFill
-//        wrapView.addSubview(leftImageView)
-//
-//        txtField.addSubview(wrapView)
-//        txtField.leftView = wrapView
-//        txtField.leftViewMode = .always
-//    }
-//
-////MARK: - Stopwatch Functionality
-//    @objc func timeClock(){
-//        timerDisplayed = self.timerDisplayed > 0 ? timerDisplayed : Int(timeSelect[0])!
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (didAllow, error) in }
-//        let content = UNMutableNotificationContent()
-//        content.title = "Time is up!"
-//        content.badge = 1
-//        content.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "note1.wav"))
-//
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timerDisplayed), repeats: false)
-//
-//        let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
-//        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-//
-//
-//        self.timerTextField.text = ("  \(String(self.timerDisplayed))")
-//        dismissKeyboard()
-//        DispatchQueue.main.async {
-//            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.Action), userInfo: nil, repeats: true)
-//        }
-//    }
-//
-//    @objc func Action(){
-//        if timerDisplayed != 0 {
-//            DispatchQueue.main.async {
-//                self.timerDisplayed -= 1
-//                self.timerTextField.text = ("  \(String(self.timerDisplayed))")
-//            }
-//        }
-//        else {
-//            self.timer.invalidate()
-//            self.timerTextField.text = nil
-//            self.timerTextField.placeholder = "   Timer"
-//        }
-//    }
-//
-//
-////MARK: - Dismiss Keyboard Function
-//    @objc func dismissKeyboard(){
-//        view.endEditing(true)
-//    }
-//
-//
-////MARK: - UIButton Functions
-//    @objc func addNewSet(){
-//        let newSet = WeightSetsReps()
-//
-//        newSet.weight = Double(weightTextField.text!) ?? 0
-//        newSet.reps = Double(repsTextField.text!) ?? 0
-//        newSet.notes = notesTextField.text!
-//
-//        try! realm.write {
-//            selectedExercise?.wsr.append(newSet)
-//            loadWsr()
-//        }
-//    }
-//
-//    @objc func goToNextExercise(){
-//        exerciseIndex = Int(allExercises!.index(of: selectedExercise!)! + 1)
-//
-//        if  exerciseIndex <= allExercises!.count - 1 {
-//            selectedExercise = allExercises![exerciseIndex]
-//            exerciseIndex += 1
-//        } else {
-//            let alert = UIAlertController(title: "Workout Completed", message: "Great job! Time to hit the showers!", preferredStyle: .alert)
-//
-//            let finishedAction = UIAlertAction(title: "Done", style: .default)
-//
-//            alert.addAction(finishedAction)
-//            present(alert, animated: true, completion: nil)
-//        }
-//    }
-//
-//
-////MARK: Third VC Constraints
-//    func classConstraints(){
-//
-//    // UIButton and UITableView Constrainst
-//        let buttonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
-//        buttonStackView.distribution = .fillEqually
-//        buttonStackView.spacing = 10.adjusted
-//        view.addSubview(buttonStackView)
-//
-//        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 15.adjusted, bottom: 20.adjusted, right: 15.adjusted) ,size: .init(width: 0, height: 60.adjusted))
-//
-//        historyTableView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 20.adjusted, bottom: 20.adjusted, right: 20.adjusted), size: .init(width: 0, height: 180.adjusted))
-//
-//    //UITextField Constrainst
-//        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 60.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 50.adjusted))
-//        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted) ,size: .init(width: 0, height: 50.adjusted))
-//        notesTextField.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: historyTableView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 40.adjusted, right: 40.adjusted) ,size: .init(width: 0, height: 60.adjusted))
-//        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: notesTextField.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 50.adjusted, left: 100.adjusted, bottom: 50.adjusted, right: 100.adjusted))
-//    }
-//
-//
-//
-////MARK: - Load Data
-//    func loadWsr() {
-//        stats = selectedExercise?.wsr.filter("TRUEPREDICATE")
-//        historyTableView.reloadData()
-//        navigationItem.title = selectedExercise?.exerciseName
-//    }
-//
-////MARK: - Save Data
-//    func save(wsr : WeightSetsReps){
-//        do {
-//            try realm.write {
-//                realm.add(wsr)
-//            }
-//        } catch {
-//            print("Error saving wsr data \(error)")
-//        }
-//        self.loadWsr()
-//    }
-//
+    var exerciseIndex : Int = 1
+
+    var historyTableView = UITableView()
+
+    var weightTextField = UITextField()
+    var repsTextField = UITextField()
+    var timerTextField = UITextField()
+    var notesTextField = UITextField()
+
+    var weightLabel = UILabel()
+    var repsLabel = UILabel()
+    var notesLabel = UILabel()
+
+    var nextSet = UIButton()
+    var nextExcersise = UIButton()
+
+
+    var timer = Timer()
+    var timerDisplayed = 0
+    let timePicker = UIPickerView()
+
+    let toolBar1 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 60, height: 90))
+    let toolBar2 = UIToolbar(frame: CGRect(x: 0, y: 0, width: 60, height: 90))
+    let doneButton1 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissKeyboard))
+    let doneButton2 = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeClock))
+    let cancelButton1 = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
+    let cancelButton2 = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissKeyboard))
+    let flexibleSpace1 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let flexibleSpace2 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+
+    let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
+
+
+    let image1 = UIImage(named: "stopwatch")
+
+    var audioPlayer : AVAudioPlayer?
+    let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
+
+    var allExercises : [Exercise]?
+    var exerciseCollection : CollectionReference?
+    
+    var selectedExercise : Exercise? {
+        didSet{
+            loadWsr()
+        }
+    }
+
+
+
+//MARK: - ViewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = .white
+
+        conformance()
+        labelConfig()
+        classConstraints()
+
+        historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
+    }
+//MARK: - ViewDidAppear()
+    override func viewWillAppear(_ animated: Bool) {
+        let currentUser = Auth.auth().currentUser
+        exerciseCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/Exercises/")
+    }
+
+//MARK: - Load Data
+        func loadWsr() {
+    //        stats = selectedExercise?.wsr.filter("TRUEPREDICATE")
+    //        historyTableView.reloadData()
+            navigationItem.title = selectedExercise?.exercise
+        }
+    
+//MARK: - Conforming the Delegate and Datasource
+    func conformance(){
+        notesTextField.delegate = self
+
+        historyTableView.delegate = self
+        historyTableView.dataSource = self
+
+        timePicker.delegate = self
+        timePicker.dataSource = self
+
+        weightTextField.delegate = self
+        repsTextField.delegate = self
+
+        timerTextField.delegate = self
+    }
+
+//MARK: - UILabel
+    func labelConfig(){
+        weightTextField.attributedPlaceholder = NSAttributedString(string: "Total weight...", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.5843, green: 0.6471, blue: 0.651, alpha: 1.0)])
+        weightTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        weightTextField.layer.cornerRadius = 10
+        weightTextField.textColor = .white
+        weightTextField.inputAccessoryView = toolBar1
+        weightTextField.keyboardType = .decimalPad
+        weightTextField.leftView = weightLabel
+        weightTextField.leftViewMode = .always
+        weightTextField.tintColor = UIColor.clear
+
+        weightLabel.text = "  Weight (lbs): "
+        weightLabel.textColor = .white
+
+        repsTextField.attributedPlaceholder = NSAttributedString(string: "Number of Reps...", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.5843, green: 0.6471, blue: 0.651, alpha: 1.0)])
+        repsTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        repsTextField.layer.cornerRadius = 10
+        repsTextField.textColor = .white
+        repsTextField.inputAccessoryView = toolBar1
+        repsTextField.keyboardType = .decimalPad
+        repsTextField.leftView = repsLabel
+        repsTextField.leftViewMode = .always
+        repsTextField.tintColor = UIColor.clear
+
+        repsLabel.text = "  Repetitions: "
+        repsLabel.textColor = .white
+
+        notesTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        notesTextField.layer.cornerRadius = 10
+        notesTextField.textColor = .white
+        notesTextField.inputAccessoryView = toolBar1
+        notesTextField.keyboardType = .default
+        notesTextField.tintColor = UIColor.clear
+        notesTextField.leftView = notesLabel
+        notesTextField.leftViewMode = .always
+
+        notesLabel.text = "  Notes: "
+        notesLabel.textColor = .white
+
+        nextSet.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        nextSet.layer.cornerRadius = 10
+        nextSet.setTitle("Next Set", for: .normal)
+        nextSet.setTitleColor(.white, for: .normal)
+        nextSet.addTarget(self, action: #selector(addNewSet), for: .touchUpInside)
+
+        nextExcersise.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        nextExcersise.layer.cornerRadius = 10
+        nextExcersise.setTitle("Next Exercise", for: .normal)
+        nextExcersise.setTitleColor(.white, for: .normal)
+        nextExcersise.addTarget(self, action: #selector(goToNextExercise), for: .touchUpInside)
+
+        historyTableView.backgroundColor = UIColor.clear
+        historyTableView.separatorStyle = .none
+
+        addLeftImageTo(txtField: timerTextField, image: image1!)
+
+        timerTextField.text = ""
+        timerTextField.font = UIFont(name: "HelveticaNeue", size: 25)
+        timerTextField.textColor = UIColor.darkGray
+        timerTextField.tintColor = UIColor.clear
+        timerTextField.textAlignment = .left
+        timerTextField.inputView = timePicker
+        timerTextField.inputAccessoryView = toolBar2
+        timerTextField.attributedPlaceholder = NSAttributedString(string: "   Timer", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)])
+
+        toolBar1.sizeToFit()
+        toolBar1.setItems([doneButton1, flexibleSpace1, cancelButton1], animated: false)
+        toolBar1.barStyle = .default
+
+        toolBar2.sizeToFit()
+        toolBar2.setItems([doneButton2, flexibleSpace2, cancelButton2], animated: false)
+        toolBar2.barStyle = .default
+
+        [weightTextField, repsTextField, historyTableView, notesTextField, timerTextField].forEach{view.addSubview($0)}
+    }
+
+
+//MARK: - Add Left Image to UITextField
+    func addLeftImageTo(txtField: UITextField, image img: UIImage) {
+        let height = 80.adjusted
+        let wrapView = UIView(frame: CGRect(x: 0, y: 0, width: height-5.adjusted, height: height))
+
+        let leftImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: height-8.adjusted, height: height))
+        leftImageView.image = img
+        leftImageView.contentMode = .scaleToFill
+        wrapView.addSubview(leftImageView)
+
+        txtField.addSubview(wrapView)
+        txtField.leftView = wrapView
+        txtField.leftViewMode = .always
+    }
+
+//MARK: - Stopwatch Functionality
+    @objc func timeClock(){
+        timerDisplayed = self.timerDisplayed > 0 ? timerDisplayed : Int(timeSelect[0])!
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (didAllow, error) in }
+        let content = UNMutableNotificationContent()
+        content.title = "Time is up!"
+        content.badge = 1
+        content.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "note1.wav"))
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timerDisplayed), repeats: false)
+
+        let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+
+
+        self.timerTextField.text = ("  \(String(self.timerDisplayed))")
+        dismissKeyboard()
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.Action), userInfo: nil, repeats: true)
+        }
+    }
+
+    @objc func Action(){
+        if timerDisplayed != 0 {
+            DispatchQueue.main.async {
+                self.timerDisplayed -= 1
+                self.timerTextField.text = ("  \(String(self.timerDisplayed))")
+            }
+        }
+        else {
+            self.timer.invalidate()
+            self.timerTextField.text = nil
+            self.timerTextField.placeholder = "   Timer"
+        }
+    }
+
+
+//MARK: - Dismiss Keyboard Function
+    @objc func dismissKeyboard(){
+        view.endEditing(true)
+    }
+
+
+//MARK: - UIButton Functions
+    @objc func addNewSet(){
+        
+        let weight = Double(weightTextField.text!) ?? 0
+        let reps = Double(repsTextField.text!) ?? 0
+        let notes = notesTextField.text!
+        
+        exerciseCollection?.document("\(selectedExercise!.key!.documentID)").setData([
+            "WSR" : [["Weight":weight, "Reps":reps, "Notes" : notes]],
+            "ExerciseTimestamp": FieldValue.serverTimestamp()
+        ], merge: true)
+        
+    }
+
+    @objc func goToNextExercise(){
+        exerciseIndex = Int(allExercises!.firstIndex(of: selectedExercise!)! + 1)
+
+        if  exerciseIndex <= allExercises!.count - 1 {
+            selectedExercise = allExercises![exerciseIndex]
+            exerciseIndex += 1
+        } else {
+            let alert = UIAlertController(title: "Workout Completed", message: "Great job! Time to hit the showers!", preferredStyle: .alert)
+
+            let finishedAction = UIAlertAction(title: "Done", style: .default)
+
+            alert.addAction(finishedAction)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+
+
+//MARK: Third VC Constraints
+    func classConstraints(){
+
+    // UIButton and UITableView Constrainst
+        let buttonStackView = UIStackView(arrangedSubviews: [nextSet, nextExcersise])
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.spacing = 10.adjusted
+        view.addSubview(buttonStackView)
+
+        buttonStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 15.adjusted, bottom: 20.adjusted, right: 15.adjusted) ,size: .init(width: 0, height: 60.adjusted))
+
+        historyTableView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: buttonStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 20.adjusted, bottom: 20.adjusted, right: 20.adjusted), size: .init(width: 0, height: 180.adjusted))
+
+    //UITextField Constrainst
+        weightTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 60.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 50.adjusted))
+        repsTextField.anchor(top: weightTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 30.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted) ,size: .init(width: 0, height: 50.adjusted))
+        notesTextField.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: historyTableView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 40.adjusted, right: 40.adjusted) ,size: .init(width: 0, height: 60.adjusted))
+        timerTextField.anchor(top: repsTextField.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: notesTextField.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 50.adjusted, left: 100.adjusted, bottom: 50.adjusted, right: 100.adjusted))
+    }
+
 }
 
 
@@ -341,118 +329,120 @@ class ThirdViewController: UIViewController {
             }
         }
     }
-//
-//
-//
-////MARK: - UIPickerView Methods
-//    extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
-//
-//        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//            return 1
-//        }
-//
-//        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//            return timeSelect.count
-//        }
-//
-//        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//            return timeSelect[row]
-//        }
-//
-//        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//            timerDisplayed = Int(timeSelect[row])!
-//
-//        }
-//
-//    }
-//
-//
-////MARK: - UITextField Delegate Methods
-//    extension ThirdViewController : UITextFieldDelegate {
-//        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//
-//            guard let text = textField.text else { return true }
-//            let newLength = text.count + string.count - range.length
-//
-//            if textField == notesTextField {
-//                let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890. "
-//                let allowedCharSet = CharacterSet(charactersIn: allowedChars)
-//                let typedCharsSet = CharacterSet(charactersIn: string)
-//                if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 25 {
-//                    return true
-//                }
-//            } else{
-//                let allowedChars = "1234567890. "
-//                let allowedCharSet = CharacterSet(charactersIn: allowedChars)
-//                let typedCharsSet = CharacterSet(charactersIn: string)
-//                if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 8 {
-//                    return true
-//                }
-//            }
-//
-//            return false
-//        }
-//
-//        func textFieldDidBeginEditing(_ textField: UITextField) {
-//
-//            func resetTimer(){
-//                DispatchQueue.main.async {
-//                    self.timer.invalidate()
-//                    self.timerDisplayed = 0
-//                    self.timerTextField.text = nil
-//                    self.timerTextField.placeholder = "   Timer"
-//                }
-//            }
-//
-//            if textField == timerTextField {
-//                resetTimer()
-//                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-//            }
-//        }
-//    }
-//
-//
+
+
+
+//MARK: - UIPickerView Methods
+    extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
+
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+        }
+
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return timeSelect.count
+        }
+
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return timeSelect[row]
+        }
+
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            timerDisplayed = Int(timeSelect[row])!
+
+        }
+
+    }
+
+
+//MARK: - UITextField Delegate Methods
+    extension ThirdViewController : UITextFieldDelegate {
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+            guard let text = textField.text else { return true }
+            let newLength = text.count + string.count - range.length
+
+            if textField == notesTextField {
+                let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890. "
+                let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+                let typedCharsSet = CharacterSet(charactersIn: string)
+                if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 25 {
+                    return true
+                }
+            } else{
+                let allowedChars = "1234567890. "
+                let allowedCharSet = CharacterSet(charactersIn: allowedChars)
+                let typedCharsSet = CharacterSet(charactersIn: string)
+                if allowedCharSet.isSuperset(of: typedCharsSet) && newLength <= 8 {
+                    return true
+                }
+            }
+
+            return false
+        }
+
+        func textFieldDidBeginEditing(_ textField: UITextField) {
+
+            func resetTimer(){
+                DispatchQueue.main.async {
+                    self.timer.invalidate()
+                    self.timerDisplayed = 0
+                    self.timerTextField.text = nil
+                    self.timerTextField.placeholder = "   Timer"
+                }
+            }
+
+            if textField == timerTextField {
+                resetTimer()
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            }
+        }
+    }
+
+
 //MARK: - Extension for Double (Remove Trailing Zeroes)
-//    extension Double {
-//        func removeZerosFromEnd() -> String {
-//            let formatter = NumberFormatter()
-//            let number = NSNumber(value: self)
-//            formatter.minimumFractionDigits = 0
-//            formatter.maximumFractionDigits = 16 //maximum digits in Double after dot (maximum precision)
-//            return String(formatter.string(from: number) ?? "")
-//        }
-//    }
-//
-//
-////MARK: - TableView Meth ods
-//    extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
-//
-//        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    extension Double {
+        func removeZerosFromEnd() -> String {
+            let formatter = NumberFormatter()
+            let number = NSNumber(value: self)
+            formatter.minimumFractionDigits = 0
+            formatter.maximumFractionDigits = 16 //maximum digits in Double after dot (maximum precision)
+            return String(formatter.string(from: number) ?? "")
+        }
+    }
+
+
+//MARK: - TableView Methods
+    extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
+
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //            return stats?.count ?? 0
-//        }
+            return 0
+        }
 //
-//        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//            let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
 //            let wsr = selectedExercise?.wsr[indexPath.row]
-//
+
 //            cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr!.weight.removeZerosFromEnd()) lbs - \(wsr!.reps.removeZerosFromEnd()) Reps"
-//
+
 //            cell.layer.backgroundColor = UIColor.clear.cgColor
 //            cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
-//
-//
-//            return cell
-//        }
-//        //Select Row To Display Notes For Selected Row
+
+
+            return cell
+        }
+        //Select Row To Display Notes For Selected Row
+        
 //        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
+
 //            notesTextField.text = selectedExercise?.wsr[indexPath.row].notes
 //            tableView.deselectRow(at: indexPath, animated: true)
 //        }
-//
-//
-//
-////Swipe To Delete Functionality
+
+
+
+//MARK: - Swipe To Delete Functionality
 //        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 //            return true
 //        }
@@ -472,4 +462,4 @@ class ThirdViewController: UIViewController {
 //
 //            }
 //        }
-//    }
+    }
