@@ -14,10 +14,6 @@ import UserNotifications
 
 class ThirdViewController: UIViewController {
 
-//    var stats : Results<WeightSetsReps>?
-    
-
-//    // Exercise Index value needs to equal Index value of selected workout exercise...
     var exerciseIndex : Int = 1
 
     var historyTableView = UITableView()
@@ -34,7 +30,6 @@ class ThirdViewController: UIViewController {
     var nextSet = UIButton()
     var nextExcersise = UIButton()
 
-
     var timer = Timer()
     var timerDisplayed = 0
     let timePicker = UIPickerView()
@@ -50,7 +45,6 @@ class ThirdViewController: UIViewController {
 
     let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
 
-
     let image1 = UIImage(named: "stopwatch")
 
     var audioPlayer : AVAudioPlayer?
@@ -58,14 +52,11 @@ class ThirdViewController: UIViewController {
 
     var allExercises : [Exercise]?
     var exerciseCollection : CollectionReference?
+    var selectedExercise : Exercise?
+    var wsrArray : [WSR]?
     
-    var selectedExercise : Exercise? {
-        didSet{
-            loadWsr()
-        }
-    }
-
-
+    var feedback: ListenerRegistration?
+    
 
 //MARK: - ViewDidLoad()
     override func viewDidLoad() {
@@ -81,15 +72,58 @@ class ThirdViewController: UIViewController {
     }
 //MARK: - ViewDidAppear()
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = selectedExercise?.exercise
         let currentUser = Auth.auth().currentUser
         exerciseCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/Exercises/")
+        loadWsr()
     }
 
 //MARK: - Load Data
         func loadWsr() {
-    //        stats = selectedExercise?.wsr.filter("TRUEPREDICATE")
-    //        historyTableView.reloadData()
-            navigationItem.title = selectedExercise?.exercise
+            
+//            exerciseCollection?.document(selectedExercise!.key.documentID).addSnapshotListener
+            
+            feedback = exerciseCollection?.whereField("Exercise", isEqualTo: selectedExercise!.exercise).order(by: "ExerciseTimestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
+                
+                let group = DispatchGroup()
+
+                guard let snapshot = querySnapshot else {return}
+
+                snapshot.documentChanges.forEach { diff in
+                    
+                    if (diff.type == .added) {
+//                        self.exerciseArray.removeAll()
+
+                        group.enter()
+                        for document in querySnapshot!.documents {
+
+                            let wsrData = document.data()
+                            let wsr = wsrData["WSR"] as! [Any]
+//                            let wsr1 = wsr[0] as! [String : Any]
+                            print(wsr)
+//                            print(wsr1["Notes"] as! String)
+//                            print(wsr1["Reps"] as! String)
+//                            print(wsr1["Weight"] as! String)
+//
+//
+//                            let newExercise = Exercise(Day: self.selectedWorkout!.day, Workout: self.selectedWorkout!.workout, Exercise: exercise, Key: document.reference)
+//                            self.exerciseArray.append(newExercise)
+                        }
+                        group.leave()
+                        group.notify(queue: .main){
+//                            self.tableView.reloadData()
+                        }
+                    }
+                    
+                    if (diff.type == .removed) {
+//                         print("Document Removed")
+//
+//                         self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
+                    }
+                }
+                
+            })
+                        
         }
     
 //MARK: - Conforming the Delegate and Datasource
@@ -416,7 +450,6 @@ class ThirdViewController: UIViewController {
     extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
 
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//            return stats?.count ?? 0
             return 0
         }
 //

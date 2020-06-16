@@ -177,10 +177,10 @@ class SecondViewController: UITableViewController {
             navigationController?.pushViewController(destinationVC, animated: true)
         }
     
-    @objc func textFieldChanged(_ sender: Any) {
-        let textfield = sender as! UITextField
-        buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
-    }
+        @objc func textFieldChanged(_ sender: Any) {
+            let textfield = sender as! UITextField
+            buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
+        }
     
     //MARK: - Swipe to Delete
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
