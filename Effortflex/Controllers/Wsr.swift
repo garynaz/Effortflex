@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-class WSR : NSObject{
+class Wsr : NSObject{
     
     var day : String
     var workout : String

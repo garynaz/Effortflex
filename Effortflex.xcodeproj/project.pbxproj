@@ -11,7 +11,7 @@
 		DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */; };
 		DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* LoginViewController.swift */; };
 		DD10614D240B316600448A2B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* MainViewController.swift */; };
-		DD10B6EB249936C10005ACFE /* WsrTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10B6EA249936C10005ACFE /* WsrTest.swift */; };
+		DD10B6EB249936C10005ACFE /* Wsr.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10B6EA249936C10005ACFE /* Wsr.swift */; };
 		DD1232C723F77B9300921D42 /* note1.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD1232C623F77B9300921D42 /* note1.wav */; };
 		DD138F8B248D90D3005BBE43 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD138F8A248D90D3005BBE43 /* Day.swift */; };
 		DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19119023B93ACA00C5D995 /* FirstViewController.swift */; };
@@ -34,7 +34,7 @@
 		DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsCollection.swift; sourceTree = "<group>"; };
 		DD10614A240B313F00448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD10614C240B316600448A2B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		DD10B6EA249936C10005ACFE /* WsrTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WsrTest.swift; path = Effortflex/Controllers/WsrTest.swift; sourceTree = SOURCE_ROOT; };
+		DD10B6EA249936C10005ACFE /* Wsr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Wsr.swift; path = Effortflex/Controllers/Wsr.swift; sourceTree = SOURCE_ROOT; };
 		DD1232C623F77B9300921D42 /* note1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note1.wav; sourceTree = "<group>"; };
 		DD138F8A248D90D3005BBE43 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		DD19119023B93ACA00C5D995 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 				DD138F8A248D90D3005BBE43 /* Day.swift */,
 				DDF0E8C2248AEF0F007E25EC /* Workout.swift */,
 				DD41FFA92496F6660019A9BD /* Exercise.swift */,
-				DD10B6EA249936C10005ACFE /* WsrTest.swift */,
+				DD10B6EA249936C10005ACFE /* Wsr.swift */,
 				DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */,
 				DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */,
 			);
@@ -279,7 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD10B6EB249936C10005ACFE /* WsrTest.swift in Sources */,
+				DD10B6EB249936C10005ACFE /* Wsr.swift in Sources */,
 				DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */,
 				DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */,
 				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,

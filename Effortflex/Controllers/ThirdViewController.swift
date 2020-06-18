@@ -53,7 +53,7 @@ class ThirdViewController: UIViewController {
     var wsrCollection : CollectionReference?
     var allExercises : [Exercise]?
     var selectedExercise : Exercise?
-    var wsrArray : [WSR] = []
+    var wsrArray : [Wsr] = []
     var indexToRemove : IndexPath?
     var feedback: ListenerRegistration?
     
@@ -104,7 +104,7 @@ class ThirdViewController: UIViewController {
                         let reps = wsrData["Reps"] as! Double
                         let notes = wsrData["Notes"] as! String
 
-                        let newWSR = WSR(Day: self.selectedExercise!.day, Workout: self.selectedExercise!.workout, Exercise: self.selectedExercise!.exercise, Weight: weight, Reps: reps, Notes: notes, Key: document.reference)
+                        let newWSR = Wsr(Day: self.selectedExercise!.day, Workout: self.selectedExercise!.workout, Exercise: self.selectedExercise!.exercise, Weight: weight, Reps: reps, Notes: notes, Key: document.reference)
                         self.wsrArray.append(newWSR)
                     }
                     group.leave()
