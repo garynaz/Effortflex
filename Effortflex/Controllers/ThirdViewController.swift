@@ -55,9 +55,12 @@ class ThirdViewController: UIViewController {
     var selectedExercise : Exercise?
     var wsrArray : [Wsr] = []
     var indexToRemove : IndexPath?
-    var feedback: ListenerRegistration?
     
-
+    var feedback: ListenerRegistration?
+    var authHandle : AuthStateDidChangeListenerHandle?
+    
+    var userIdRef = ""
+    
 //MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,15 +75,20 @@ class ThirdViewController: UIViewController {
     }
 //MARK: - ViewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
+        
         navigationItem.title = selectedExercise?.exercise
-        let currentUser = Auth.auth().currentUser
-        wsrCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/WSR/")
-        loadWsr()
+
+        authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            self.userIdRef = user!.uid
+            self.wsrCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/WSR/")
+            self.loadWsr()
+        }
     }
     
-//MARK: - viewDidDisappear()
-    override func viewDidDisappear(_ animated: Bool) {
+//MARK: - viewWillDisappear()
+    override func viewWillDisappear(_ animated: Bool) {
         feedback?.remove()
+        Auth.auth().removeStateDidChangeListener(authHandle!)
     }
 
 //MARK: - Load Data

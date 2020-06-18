@@ -25,8 +25,11 @@ class SecondViewController: UITableViewController {
     var exerciseCollection : CollectionReference?
     var rootWsrCollection : CollectionReference?
     
+    var authHandle : AuthStateDidChangeListenerHandle?
     var feedback : ListenerRegistration?
     var deleteFeedback : ListenerRegistration?
+    
+    var userIdRef = ""
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -41,18 +44,23 @@ class SecondViewController: UITableViewController {
     
     //MARK: - viewWillAppear()
     override func viewWillAppear(_ awnimated: Bool) {
-        let currentUser = Auth.auth().currentUser
-        workoutCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/Workouts/")
-        exerciseCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/Exercises/")
-        rootWsrCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/WSR/")
-
-        loadExercises()
+        
+        authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            self.userIdRef = user!.uid
+            self.workoutCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts/")
+            self.exerciseCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Exercises/")
+            self.rootWsrCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/WSR/")
+            
+            self.loadExercises()
+        }
+        
     }
     
-    //MARK: - viewDidDisappear()
-    override func viewDidDisappear(_ animated: Bool) {
+    //MARK: - viewWillDisappear()
+    override func viewWillDisappear(_ animated: Bool) {
         feedback?.remove()
         deleteFeedback?.remove()
+        Auth.auth().removeStateDidChangeListener(authHandle!)
     }
     
     //MARK: - VC Background Image setup

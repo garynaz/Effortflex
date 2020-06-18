@@ -31,12 +31,12 @@ class FirstViewController: UITableViewController {
     var rootExerciseCollection : CollectionReference!
     var rootWsrCollection : CollectionReference!
     
-    var userIdRef = ""
-    
-    var addfeedback : ListenerRegistration?
+    var authHandle : AuthStateDidChangeListenerHandle?
+    var addFeedback : ListenerRegistration?
     var deleteExerciseFeedback : ListenerRegistration?
     var deleteWsrFeedback : ListenerRegistration?
 
+    var userIdRef = ""
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -57,7 +57,7 @@ class FirstViewController: UITableViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        Auth.auth().addStateDidChangeListener { (auth, user) in
+       authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
             self.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts")
             self.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Exercises")
@@ -66,16 +66,17 @@ class FirstViewController: UITableViewController {
         }
     }
     
-    //MARK: - viewDidDisappear()
-    override func viewDidDisappear(_ animated: Bool) {
-        addfeedback?.remove()
+    //MARK: - viewWillDisappear()
+    override func viewWillDisappear(_ animated: Bool) {
+        addFeedback?.remove()
         deleteExerciseFeedback?.remove()
         deleteWsrFeedback?.remove()
+        Auth.auth().removeStateDidChangeListener(authHandle!)
     }
     
     //MARK: - Load the Data
     func loadData(){
-        addfeedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
+        addFeedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
             
             let group = DispatchGroup()
             

@@ -12,6 +12,7 @@ import Firebase
 import FirebaseFirestoreSwift
 
 
+
 class Day : NSObject{
     
     var day:String
