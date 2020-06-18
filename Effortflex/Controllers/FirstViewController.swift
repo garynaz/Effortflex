@@ -279,9 +279,10 @@ class FirstViewController: UITableViewController {
             
             indexToRemove = indexPath
             
-            //Deletes all Exercises when deleting workouts...
+            
             let workoutRef = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
             
+            //Deletes all WSR's when deleting Workouts...
             deleteWsrFeedback = rootWsrCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
                 let group = DispatchGroup()
 
@@ -294,6 +295,7 @@ class FirstViewController: UITableViewController {
                 group.leave()
             }
             
+            //Deletes all Exercises when deleting Workouts...
             deleteExerciseFeedback = rootExerciseCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
                 let group = DispatchGroup()
                 
@@ -307,6 +309,7 @@ class FirstViewController: UITableViewController {
             }
 
             
+            //Deletes Workouts...
             let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
             rootWorkoutsCollection.document(selectedKey.documentID).delete()
             workoutsCollection.daysCollection[indexPath.section].workout.remove(at: indexPath.row)

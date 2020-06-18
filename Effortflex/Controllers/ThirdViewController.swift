@@ -494,6 +494,7 @@ class ThirdViewController: UIViewController {
 
                 indexToRemove = indexPath
                 
+                //Deletes WSR's...
                 let selectedWSR = wsrArray[indexPath.row].key!
                 wsrCollection!.document(selectedWSR.documentID).delete()
                 wsrArray.remove(at: indexPath.row)

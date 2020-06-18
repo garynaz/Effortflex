@@ -199,6 +199,7 @@ class SecondViewController: UITableViewController {
                 
                 let exerciseRef = exerciseArray[indexPath.row].exercise
                 
+                //Deletes all WSR's when deleting Exercises...
                 deleteFeedback = rootWsrCollection!.whereField("Exercise", isEqualTo: exerciseRef).addSnapshotListener { (querySnapshot, err) in
                     let group = DispatchGroup()
 
@@ -211,7 +212,7 @@ class SecondViewController: UITableViewController {
                     group.leave()
                 }
                 
-                
+                //Deletes Exercises...
                 let selectedExercise = exerciseArray[indexPath.row].key!
                 exerciseCollection!.document(selectedExercise.documentID).delete()
                 exerciseArray.remove(at: indexPath.row)
