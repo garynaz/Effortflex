@@ -23,8 +23,10 @@ class SecondViewController: UITableViewController {
     
     var workoutCollection : CollectionReference?
     var exerciseCollection : CollectionReference?
+    var rootWsrCollection : CollectionReference?
     
-    var feedback: ListenerRegistration?
+    var feedback : ListenerRegistration?
+    var deleteFeedback : ListenerRegistration?
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -42,13 +44,15 @@ class SecondViewController: UITableViewController {
         let currentUser = Auth.auth().currentUser
         workoutCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/Workouts/")
         exerciseCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/Exercises/")
-        
+        rootWsrCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/WSR/")
+
         loadExercises()
     }
     
     //MARK: - viewDidDisappear()
     override func viewDidDisappear(_ animated: Bool) {
         feedback?.remove()
+        deleteFeedback?.remove()
     }
     
     //MARK: - VC Background Image setup
@@ -128,7 +132,7 @@ class SecondViewController: UITableViewController {
                 if let err = err {
                     print("Error adding document: \(err)")
                 } else {
-                    print("Document added.")
+                    print("Exercise added.")
                 }
             }
         }
@@ -192,6 +196,21 @@ class SecondViewController: UITableViewController {
             if editingStyle == .delete {
     
                 indexToRemove = indexPath
+                
+                let exerciseRef = exerciseArray[indexPath.row].exercise
+                
+                deleteFeedback = rootWsrCollection!.whereField("Exercise", isEqualTo: exerciseRef).addSnapshotListener { (querySnapshot, err) in
+                    let group = DispatchGroup()
+
+                    guard let snapshot = querySnapshot else {return}
+
+                    group.enter()
+                    for exercise in snapshot.documents{
+                        self.rootWsrCollection!.document(exercise.documentID).delete()
+                    }
+                    group.leave()
+                }
+                
                 
                 let selectedExercise = exerciseArray[indexPath.row].key!
                 exerciseCollection!.document(selectedExercise.documentID).delete()

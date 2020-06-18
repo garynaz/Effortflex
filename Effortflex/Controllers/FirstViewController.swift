@@ -29,11 +29,14 @@ class FirstViewController: UITableViewController {
     var workoutsCollection : WorkoutsCollection = WorkoutsCollection()
     var rootWorkoutsCollection : CollectionReference!
     var rootExerciseCollection : CollectionReference!
+    var rootWsrCollection : CollectionReference!
     
     var userIdRef = ""
     
     var addfeedback : ListenerRegistration?
-    var deleteFeedback : ListenerRegistration?
+    var deleteExerciseFeedback : ListenerRegistration?
+    var deleteWsrFeedback : ListenerRegistration?
+
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -58,6 +61,7 @@ class FirstViewController: UITableViewController {
             self.userIdRef = user!.uid
             self.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts")
             self.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Exercises")
+            self.rootWsrCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/WSR")
             self.loadData()
         }
     }
@@ -65,7 +69,8 @@ class FirstViewController: UITableViewController {
     //MARK: - viewDidDisappear()
     override func viewDidDisappear(_ animated: Bool) {
         addfeedback?.remove()
-        deleteFeedback?.remove()
+        deleteExerciseFeedback?.remove()
+        deleteWsrFeedback?.remove()
     }
     
     //MARK: - Load the Data
@@ -176,7 +181,7 @@ class FirstViewController: UITableViewController {
                 if let err = err {
                     print("Error adding document: \(err)")
                 } else {
-                    print("Document added.")
+                    print("Workout added.")
                 }
             }
             
@@ -274,10 +279,22 @@ class FirstViewController: UITableViewController {
             
             indexToRemove = indexPath
             
-            //Don't forget to delete all Exercises when deleting workouts...
+            //Deletes all Exercises when deleting workouts...
             let workoutRef = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
             
-            deleteFeedback = rootExerciseCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
+            deleteWsrFeedback = rootWsrCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
+                let group = DispatchGroup()
+
+                guard let snapshot = querySnapshot else {return}
+
+                group.enter()
+                for wsr in snapshot.documents{
+                    self.rootWsrCollection.document(wsr.documentID).delete()
+                }
+                group.leave()
+            }
+            
+            deleteExerciseFeedback = rootExerciseCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
                 let group = DispatchGroup()
                 
                 guard let snapshot = querySnapshot else {return}
@@ -288,8 +305,7 @@ class FirstViewController: UITableViewController {
                 }
                 group.leave()
             }
-            
-            
+
             
             let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
             rootWorkoutsCollection.document(selectedKey.documentID).delete()

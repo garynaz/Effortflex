@@ -50,11 +50,11 @@ class ThirdViewController: UIViewController {
     var audioPlayer : AVAudioPlayer?
     let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
 
+    var wsrCollection : CollectionReference?
     var allExercises : [Exercise]?
-    var exerciseCollection : CollectionReference?
     var selectedExercise : Exercise?
-    var wsrArray : [WSR]?
-    
+    var wsrArray : [WSR] = []
+    var indexToRemove : IndexPath?
     var feedback: ListenerRegistration?
     
 
@@ -70,61 +70,58 @@ class ThirdViewController: UIViewController {
 
         historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
     }
-//MARK: - ViewDidAppear()
+//MARK: - ViewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = selectedExercise?.exercise
         let currentUser = Auth.auth().currentUser
-        exerciseCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/Exercises/")
+        wsrCollection = Firestore.firestore().collection("/Users/\(currentUser!.uid)/WSR/")
         loadWsr()
+    }
+    
+//MARK: - viewDidDisappear()
+    override func viewDidDisappear(_ animated: Bool) {
+        feedback?.remove()
     }
 
 //MARK: - Load Data
         func loadWsr() {
-            
-//            exerciseCollection?.document(selectedExercise!.key.documentID).addSnapshotListener
-            
-            feedback = exerciseCollection?.whereField("Exercise", isEqualTo: selectedExercise!.exercise).order(by: "ExerciseTimestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
+            feedback = self.wsrCollection!.whereField("Exercise", isEqualTo: selectedExercise!.exercise).order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
+
+            let group = DispatchGroup()
+
+            guard let snapshot = querySnapshot else {return}
+
+            snapshot.documentChanges.forEach { diff in
                 
-                let group = DispatchGroup()
+                if (diff.type == .added) {
+                    self.wsrArray.removeAll()
 
-                guard let snapshot = querySnapshot else {return}
+                    group.enter()
+                    for document in querySnapshot!.documents {
 
-                snapshot.documentChanges.forEach { diff in
-                    
-                    if (diff.type == .added) {
-//                        self.exerciseArray.removeAll()
+                        let wsrData = document.data()
+                        let weight = wsrData["Weight"] as! Double
+                        let reps = wsrData["Reps"] as! Double
+                        let notes = wsrData["Notes"] as! String
 
-                        group.enter()
-                        for document in querySnapshot!.documents {
-
-                            let wsrData = document.data()
-                            let wsr = wsrData["WSR"] as! [Any]
-//                            let wsr1 = wsr[0] as! [String : Any]
-                            print(wsr)
-//                            print(wsr1["Notes"] as! String)
-//                            print(wsr1["Reps"] as! String)
-//                            print(wsr1["Weight"] as! String)
-//
-//
-//                            let newExercise = Exercise(Day: self.selectedWorkout!.day, Workout: self.selectedWorkout!.workout, Exercise: exercise, Key: document.reference)
-//                            self.exerciseArray.append(newExercise)
-                        }
-                        group.leave()
-                        group.notify(queue: .main){
-//                            self.tableView.reloadData()
-                        }
+                        let newWSR = WSR(Day: self.selectedExercise!.day, Workout: self.selectedExercise!.workout, Exercise: self.selectedExercise!.exercise, Weight: weight, Reps: reps, Notes: notes, Key: document.reference)
+                        self.wsrArray.append(newWSR)
                     }
-                    
-                    if (diff.type == .removed) {
-//                         print("Document Removed")
-//
-//                         self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
+                    group.leave()
+                    group.notify(queue: .main){
+                        self.historyTableView.reloadData()
                     }
                 }
                 
-            })
-                        
-        }
+                if (diff.type == .removed) {
+                     print("Document Removed")
+
+                     self.historyTableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
+                }
+            }
+
+            }
+        )}
     
 //MARK: - Conforming the Delegate and Datasource
     func conformance(){
@@ -285,10 +282,21 @@ class ThirdViewController: UIViewController {
         let reps = Double(repsTextField.text!) ?? 0
         let notes = notesTextField.text!
         
-        exerciseCollection?.document("\(selectedExercise!.key!.documentID)").setData([
-            "WSR" : [["Weight":weight, "Reps":reps, "Notes" : notes]],
-            "ExerciseTimestamp": FieldValue.serverTimestamp()
-        ], merge: true)
+        wsrCollection?.addDocument(data: [
+            "Weight" : weight,
+            "Reps" : reps,
+            "Notes" : notes,
+            "Day" : selectedExercise!.day,
+            "Workout" : selectedExercise!.workout,
+            "Timestamp" : FieldValue.serverTimestamp(),
+            "Exercise" : selectedExercise!.exercise
+        ]){ err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("WSR added.")
+            }
+        }
         
     }
 
@@ -450,49 +458,46 @@ class ThirdViewController: UIViewController {
     extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
 
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 0
+            return wsrArray.count
         }
 //
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
-//            let wsr = selectedExercise?.wsr[indexPath.row]
+            let wsr = wsrArray[indexPath.row]
 
-//            cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr!.weight.removeZerosFromEnd()) lbs - \(wsr!.reps.removeZerosFromEnd()) Reps"
+            cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr.weight.removeZerosFromEnd()) lbs - \(wsr.reps.removeZerosFromEnd()) Reps"
 
-//            cell.layer.backgroundColor = UIColor.clear.cgColor
-//            cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
-
+            cell.layer.backgroundColor = UIColor.clear.cgColor
+            cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
 
             return cell
         }
         //Select Row To Display Notes For Selected Row
         
-//        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-//            notesTextField.text = selectedExercise?.wsr[indexPath.row].notes
-//            tableView.deselectRow(at: indexPath, animated: true)
-//        }
+            notesTextField.text = wsrArray[indexPath.row].notes
+            tableView.deselectRow(at: indexPath, animated: true)
+        
+        }
 
 
 
 //MARK: - Swipe To Delete Functionality
-//        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//            return true
-//        }
-//
-//        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//
-//            if editingStyle == .delete {
-//
-//                try! realm.write {
-//                    tableView.performBatchUpdates({
-//                        self.realm.delete((self.selectedExercise?.wsr[indexPath.row])!)
-//                        tableView.deleteRows(at: [indexPath], with: .automatic)
-//                    }) { (done) in
-//                        tableView.reloadData()
-//                    }
-//                }
-//
-//            }
-//        }
+        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+
+        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
+            if editingStyle == .delete {
+
+                indexToRemove = indexPath
+                
+                let selectedWSR = wsrArray[indexPath.row].key!
+                wsrCollection!.document(selectedWSR.documentID).delete()
+                wsrArray.remove(at: indexPath.row)
+
+            }
+        }
     }
