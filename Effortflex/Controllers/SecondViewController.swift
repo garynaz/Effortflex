@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestoreSwift
+import GoogleSignIn
 
 class SecondViewController: UITableViewController {
     

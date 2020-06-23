@@ -9,6 +9,7 @@ import UIKit
 import FirebaseAuth
 import Firebase
 import FirebaseFirestoreSwift
+import GoogleSignIn
 
 
 class SignUpViewController: UIViewController {
@@ -126,10 +127,10 @@ class SignUpViewController: UIViewController {
                     db.collection("Users").document("\(result!.user.uid)").setData(["firstName":firstName, "lastName":lastName, "uid":result!.user.uid]){ (error) in
                         if error != nil {
                             self.showError("Error saving user data")
+                        }else{
+                            self.transitionToHome()
                         }
                     }
-                    
-                    self.transitionToHome()
                                     
                 }
             }

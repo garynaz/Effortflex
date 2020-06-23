@@ -12,5 +12,6 @@ target 'Effortflex' do
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'FirebaseFirestoreSwift'
+  pod 'GoogleSignIn'
 
 end

@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseFirestoreSwift
+import GoogleSignIn
 
 class FirstViewController: UITableViewController {
     
@@ -157,10 +158,28 @@ class FirstViewController: UITableViewController {
     
     //MARK: - Navigation Bar Setup
     func navConAcc() {
-        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
-        navigationItem.rightBarButtonItem = addBarButton
+        let addWorkoutButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
+        let addSignoutButton = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOut))
+        
+        navigationItem.leftBarButtonItem = addSignoutButton
+        navigationItem.rightBarButtonItem = addWorkoutButton
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 0.4784, green: 0.0863, blue: 0, alpha: 1.0)]
         navigationItem.title = "My workouts"
+    }
+    
+    //MARK: - Sign Out Button
+    @objc func signOut(){
+         let firebaseAuth = Auth.auth()
+        do {
+          try firebaseAuth.signOut()
+            GIDSignIn.sharedInstance()?.disconnect()
+            
+            let loginVC = MainViewController()
+            UIApplication.shared.windows.first?.rootViewController = loginVC
+            
+        } catch let signOutError as NSError {
+          print ("Error signing out: %@", signOutError)
+        }
     }
     
     //MARK: - Add a New Workout

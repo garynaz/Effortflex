@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2D3A26223BAADFEABD582D2D /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF6338D0242355CE07CF81B0 /* Pods_Effortflex.framework */; };
+		0E96514E2694E6D0B7A1D7A6 /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 267B0C2E56F39C7E9067BFCD /* Pods_Effortflex.framework */; };
 		DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */; };
 		DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* LoginViewController.swift */; };
 		DD10614D240B316600448A2B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* MainViewController.swift */; };
@@ -29,8 +29,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		64062876C9E7CEC9D8FAA656 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
-		90B0E35A54C4523D5A6FD9D3 /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
+		267B0C2E56F39C7E9067BFCD /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		51B260284A9B00DBE6C80DD1 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
+		B62E614BB81CC738B50C2BBE /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
 		DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsCollection.swift; sourceTree = "<group>"; };
 		DD10614A240B313F00448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD10614C240B316600448A2B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -53,7 +54,6 @@
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF0E8C2248AEF0F007E25EC /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = SOURCE_ROOT; };
-		EF6338D0242355CE07CF81B0 /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D3A26223BAADFEABD582D2D /* Pods_Effortflex.framework in Frameworks */,
+				0E96514E2694E6D0B7A1D7A6 /* Pods_Effortflex.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +73,7 @@
 			children = (
 				DD8D826923F480130076BA3A /* RealmSwift.framework */,
 				DD8D826523F4800D0076BA3A /* Realm.framework */,
-				EF6338D0242355CE07CF81B0 /* Pods_Effortflex.framework */,
+				267B0C2E56F39C7E9067BFCD /* Pods_Effortflex.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -81,8 +81,8 @@
 		67EA33082F2C73CEB071C919 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				64062876C9E7CEC9D8FAA656 /* Pods-Effortflex.debug.xcconfig */,
-				90B0E35A54C4523D5A6FD9D3 /* Pods-Effortflex.release.xcconfig */,
+				51B260284A9B00DBE6C80DD1 /* Pods-Effortflex.debug.xcconfig */,
+				B62E614BB81CC738B50C2BBE /* Pods-Effortflex.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -146,8 +146,8 @@
 				DD1232C523F77B6900921D42 /* Sound Effects */,
 				DD19119623B949E400C5D995 /* Controllers */,
 				DD319C8B23A30B8B00222847 /* Data Model */,
-				DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */,
 				DD2C663A23C5121D007741FE /* ImageAssets.xcassets */,
+				DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */,
 				DD3B9CFB239D85E400095B05 /* AppDelegate.swift */,
 				DD3B9D09239D85E500095B05 /* Info.plist */,
 				DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */,
@@ -170,11 +170,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD3B9D0C239D85E500095B05 /* Build configuration list for PBXNativeTarget "Effortflex" */;
 			buildPhases = (
-				4D2DC0143A1DCA6FCC2990AF /* [CP] Check Pods Manifest.lock */,
+				AC88F38CFE570BA8FD6F378F /* [CP] Check Pods Manifest.lock */,
 				DD3B9CF4239D85E400095B05 /* Sources */,
 				DD3B9CF5239D85E400095B05 /* Frameworks */,
 				DD3B9CF6239D85E400095B05 /* Resources */,
-				939C985F8BC12C0B7F66C9C8 /* [CP] Embed Pods Frameworks */,
+				E30FC0BF1DC05BF58F989B84 /* [CP] Embed Pods Frameworks */,
+				89EDD73664229756C504495F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -233,7 +234,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4D2DC0143A1DCA6FCC2990AF /* [CP] Check Pods Manifest.lock */ = {
+		89EDD73664229756C504495F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Effortflex/Pods-Effortflex-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Effortflex/Pods-Effortflex-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Effortflex/Pods-Effortflex-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC88F38CFE570BA8FD6F378F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -255,7 +273,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		939C985F8BC12C0B7F66C9C8 /* [CP] Embed Pods Frameworks */ = {
+		E30FC0BF1DC05BF58F989B84 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -426,7 +444,7 @@
 		};
 		DD3B9D0D239D85E500095B05 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64062876C9E7CEC9D8FAA656 /* Pods-Effortflex.debug.xcconfig */;
+			baseConfigurationReference = 51B260284A9B00DBE6C80DD1 /* Pods-Effortflex.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
@@ -445,7 +463,7 @@
 		};
 		DD3B9D0E239D85E500095B05 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90B0E35A54C4523D5A6FD9D3 /* Pods-Effortflex.release.xcconfig */;
+			baseConfigurationReference = B62E614BB81CC738B50C2BBE /* Pods-Effortflex.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;

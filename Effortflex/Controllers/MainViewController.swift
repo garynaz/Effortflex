@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import Firebase
+import GoogleSignIn
 
 class MainViewController: UIViewController {
 
@@ -20,7 +21,8 @@ class MainViewController: UIViewController {
         
         buttonConfig()
         buttonConstraints()
-            
+        
+        handleGoogleSignIn()  //This is why the prompt is popping up...
     }
     
     //MARK: - Button Customization
@@ -45,6 +47,13 @@ class MainViewController: UIViewController {
         authStackView.spacing = 20.adjusted
         
         view.addSubview(authStackView)
+    }
+    
+    func handleGoogleSignIn(){
+        let loginButton = GIDSignInButton()
+        view.addSubview(loginButton)
+        loginButton.frame = CGRect(x: 16.adjusted, y: 116+60.adjusted, width: view.frame.width - 32.adjusted, height: 50.adjusted)
+        GIDSignIn.sharedInstance()?.presentingViewController = self
     }
     
     //MARK: - Button Constraints
