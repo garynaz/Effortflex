@@ -13,7 +13,7 @@ import GoogleSignIn
 import AVFoundation
 import UserNotifications
 
-class ThirdViewController: UIViewController {
+class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 
     var exerciseIndex : Int = 1
 
@@ -48,7 +48,7 @@ class ThirdViewController: UIViewController {
 
     let image1 = UIImage(named: "stopwatch")
 
-    var audioPlayer : AVAudioPlayer?
+    var audioPlayer : AVAudioPlayer!
     let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
 
     var wsrCollection : CollectionReference?
@@ -243,6 +243,10 @@ class ThirdViewController: UIViewController {
 
 //MARK: - Stopwatch Functionality
     @objc func timeClock(){
+        let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
+        do {audioPlayer = try AVAudioPlayer(contentsOf: soundURL!)}
+        catch{print(error)}
+        
         timerDisplayed = self.timerDisplayed > 0 ? timerDisplayed : Int(timeSelect[0])!
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (didAllow, error) in }
         let content = UNMutableNotificationContent()
@@ -271,6 +275,7 @@ class ThirdViewController: UIViewController {
             }
         }
         else {
+            audioPlayer.play()
             self.timer.invalidate()
             self.timerTextField.text = nil
             self.timerTextField.placeholder = "   Timer"
