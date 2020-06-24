@@ -23,6 +23,9 @@
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
 		DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD41FFA92496F6660019A9BD /* Exercise.swift */; };
 		DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */; };
+		DD69567B24A271BC00952A83 /* stretching480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DD69567A24A271BC00952A83 /* stretching480.mov */; };
+		DD69567E24A271CB00952A83 /* dumbbells2480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DD69567C24A271C800952A83 /* dumbbells2480.mov */; };
+		DD69567F24A271CB00952A83 /* dumbbells1480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DD69567D24A271CB00952A83 /* dumbbells1480.mov */; };
 		DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
 		DDF0E8C3248AEF0F007E25EC /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF0E8C2248AEF0F007E25EC /* Workout.swift */; };
@@ -49,6 +52,9 @@
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD41FFA92496F6660019A9BD /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotExtensions.swift; path = Effortflex/Controllers/SnapshotExtensions.swift; sourceTree = SOURCE_ROOT; };
+		DD69567A24A271BC00952A83 /* stretching480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = stretching480.mov; sourceTree = "<group>"; };
+		DD69567C24A271C800952A83 /* dumbbells2480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells2480.mov; sourceTree = "<group>"; };
+		DD69567D24A271CB00952A83 /* dumbbells1480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells1480.mov; sourceTree = "<group>"; };
 		DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +148,7 @@
 		DD3B9CFA239D85E400095B05 /* Effortflex */ = {
 			isa = PBXGroup;
 			children = (
+				DD69567924A271AB00952A83 /* Video Assets */,
 				DD896A9E23FF18BC00929D0A /* Miscelanious */,
 				DD1232C523F77B6900921D42 /* Sound Effects */,
 				DD19119623B949E400C5D995 /* Controllers */,
@@ -153,6 +160,16 @@
 				DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */,
 			);
 			path = Effortflex;
+			sourceTree = "<group>";
+		};
+		DD69567924A271AB00952A83 /* Video Assets */ = {
+			isa = PBXGroup;
+			children = (
+				DD69567D24A271CB00952A83 /* dumbbells1480.mov */,
+				DD69567C24A271C800952A83 /* dumbbells2480.mov */,
+				DD69567A24A271BC00952A83 /* stretching480.mov */,
+			);
+			path = "Video Assets";
 			sourceTree = "<group>";
 		};
 		DD896A9E23FF18BC00929D0A /* Miscelanious */ = {
@@ -225,9 +242,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD1232C723F77B9300921D42 /* note1.wav in Resources */,
+				DD69567F24A271CB00952A83 /* dumbbells1480.mov in Resources */,
+				DD69567E24A271CB00952A83 /* dumbbells2480.mov in Resources */,
 				DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */,
 				DD2C663B23C51226007741FE /* ImageAssets.xcassets in Resources */,
 				DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */,
+				DD69567B24A271BC00952A83 /* stretching480.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
