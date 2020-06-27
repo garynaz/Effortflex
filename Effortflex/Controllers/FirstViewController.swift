@@ -174,7 +174,7 @@ class FirstViewController: UITableViewController {
           try firebaseAuth.signOut()
             GIDSignIn.sharedInstance()?.disconnect()
             
-            let loginVC = MainViewController()
+            let loginVC = LoginViewController()
             UIApplication.shared.windows.first?.rootViewController = loginVC
             
         } catch let signOutError as NSError {

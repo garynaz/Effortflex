@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
        if let window = window {
-            let navController = UINavigationController(rootViewController: MainViewController())
+            let navController = UINavigationController(rootViewController: LoginViewController())
             window.backgroundColor = UIColor.white
             window.rootViewController = navController
             window.makeKeyAndVisible()

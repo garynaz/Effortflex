@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		0E96514E2694E6D0B7A1D7A6 /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 267B0C2E56F39C7E9067BFCD /* Pods_Effortflex.framework */; };
 		DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */; };
-		DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* LoginViewController.swift */; };
-		DD10614D240B316600448A2B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* MainViewController.swift */; };
+		DD10614B240B313F00448A2B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* SignInViewController.swift */; };
+		DD10614D240B316600448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* LoginViewController.swift */; };
 		DD10B6EB249936C10005ACFE /* Wsr.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10B6EA249936C10005ACFE /* Wsr.swift */; };
 		DD1232C723F77B9300921D42 /* note1.wav in Resources */ = {isa = PBXBuildFile; fileRef = DD1232C623F77B9300921D42 /* note1.wav */; };
 		DD138F8B248D90D3005BBE43 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD138F8A248D90D3005BBE43 /* Day.swift */; };
@@ -36,8 +36,8 @@
 		51B260284A9B00DBE6C80DD1 /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
 		B62E614BB81CC738B50C2BBE /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
 		DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsCollection.swift; sourceTree = "<group>"; };
-		DD10614A240B313F00448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		DD10614C240B316600448A2B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		DD10614A240B313F00448A2B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		DD10614C240B316600448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD10B6EA249936C10005ACFE /* Wsr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Wsr.swift; path = Effortflex/Controllers/Wsr.swift; sourceTree = SOURCE_ROOT; };
 		DD1232C623F77B9300921D42 /* note1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note1.wav; sourceTree = "<group>"; };
 		DD138F8A248D90D3005BBE43 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
@@ -104,9 +104,9 @@
 		DD19119623B949E400C5D995 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				DD10614C240B316600448A2B /* MainViewController.swift */,
+				DD10614C240B316600448A2B /* LoginViewController.swift */,
 				DD36315C240B30D50002D0BB /* SignUpViewController.swift */,
-				DD10614A240B313F00448A2B /* LoginViewController.swift */,
+				DD10614A240B313F00448A2B /* SignInViewController.swift */,
 				DD19119023B93ACA00C5D995 /* FirstViewController.swift */,
 				DD19119423B9481300C5D995 /* SecondViewController.swift */,
 				DD2E807323C15E120081C1A8 /* ThirdViewController.swift */,
@@ -321,14 +321,14 @@
 				DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */,
 				DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */,
 				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,
-				DD10614D240B316600448A2B /* MainViewController.swift in Sources */,
+				DD10614D240B316600448A2B /* LoginViewController.swift in Sources */,
 				DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */,
 				DD138F8B248D90D3005BBE43 /* Day.swift in Sources */,
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
 				DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */,
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
 				DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */,
-				DD10614B240B313F00448A2B /* LoginViewController.swift in Sources */,
+				DD10614B240B313F00448A2B /* SignInViewController.swift in Sources */,
 				DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */,
 				DDF0E8C3248AEF0F007E25EC /* Workout.swift in Sources */,
 			);

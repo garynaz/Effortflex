@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  AuthenticationViewController.swift
 //  Effortflex
 //
 //  Created by Gary Naz on 2/29/20.
@@ -8,116 +8,157 @@
 
 import UIKit
 import Firebase
-import FirebaseAuth
-import FirebaseFirestoreSwift
 import GoogleSignIn
+import AVFoundation
 
 class LoginViewController: UIViewController {
-
-    var emailTextField = UITextField()
-    var passwordTextField = UITextField()
-    var loginButton = UIButton()
-    var errorLabel = UILabel()
     
-    var loginStackView = UIStackView()
+    let loginButton = UIButton()
+    let signUpButton = UIButton()
+    var authStackView = UIStackView()
+    var player : AVPlayer?
+    var playerLayer : AVPlayerLayer?
+    
+    var line1 = UIView()
+    var line2 = UIView()
+    var lineText = UILabel()
+    var lineStackView = UIStackView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        playBackgroundVideo()
         buttonConfig()
-        textFieldConstraints()
-        view.backgroundColor = UIColor.white
-
+        handleGoogleSignIn()
     }
     
-    //MARK: - Configure TextFields
+    override func viewWillAppear(_ animated: Bool) {
+        let navigationBar = self.navigationController?.navigationBar
+
+        navigationBar?.setBackgroundImage(UIImage(), for: .default)
+        navigationBar?.shadowImage = UIImage()
+        navigationBar?.isTranslucent = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        let navigationBar = self.navigationController?.navigationBar
+
+        navigationBar?.shadowImage = nil
+        navigationBar?.setBackgroundImage(nil, for: .default)
+        navigationBar?.isTranslucent = false
+    }
+    
+    
+    
+    //MARK: - Button Customization
     func buttonConfig(){
+        signUpButton.setTitle("SIGN UP", for: .normal)
+        signUpButton.setTitleColor(.white, for: .normal)
+        signUpButton.layer.borderWidth = 0.5
+        signUpButton.layer.cornerRadius = 1
+        signUpButton.layer.borderColor = UIColor.white.cgColor
+        signUpButton.addTarget(self, action: #selector(goToSignupVC), for: .touchUpInside)
         
-        emailTextField.placeholder = "   Email Address"
-        emailTextField.layer.borderWidth = 1
-        emailTextField.layer.cornerRadius = 10
-        emailTextField.layer.borderColor = UIColor.lightGray.cgColor
+        loginButton.setTitle("LOG IN", for: .normal)
+        loginButton.setTitleColor(.white, for: .normal)
+        loginButton.layer.borderWidth = 0.5
+        loginButton.layer.cornerRadius = 1
+        loginButton.layer.borderColor = UIColor.white.cgColor
+        loginButton.addTarget(self, action: #selector(goToLoginVC), for: .touchUpInside)
         
-        passwordTextField.placeholder = "   Password"
-        passwordTextField.layer.borderWidth = 1
-        passwordTextField.layer.cornerRadius = 10
-        passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        authStackView = UIStackView(arrangedSubviews: [loginButton, signUpButton])
+        authStackView.axis = .vertical
+        authStackView.distribution = .fillEqually
+        authStackView.spacing = 20.adjusted
         
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.setTitleColor(.black, for: .normal)
-        loginButton.layer.borderWidth = 1
-        loginButton.layer.cornerRadius = 10
-        loginButton.layer.borderColor = UIColor.lightGray.cgColor
-        loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+        line1.backgroundColor = .white
+        line2.backgroundColor = .white
+        lineText.textColor = .white
+        lineText.text = "OR"
         
-        errorLabel.text = ""
-        errorLabel.textAlignment = .center
-        errorLabel.alpha = 0
-        errorLabel.numberOfLines = 0
+        line1.translatesAutoresizingMaskIntoConstraints = false
+        line2.translatesAutoresizingMaskIntoConstraints = false
+        lineText.translatesAutoresizingMaskIntoConstraints = false
         
-        loginStackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
-        loginStackView.axis = .vertical
-        loginStackView.distribution = .fillEqually
-        loginStackView.spacing = 20.adjusted
-                
         
-        [loginStackView, errorLabel].forEach{view.addSubview($0)}
-        
-    }
-    
-    
-    //MARK: - TextField Constraints
-    func textFieldConstraints(){
-        loginStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 200.adjusted))
-        
-        errorLabel.anchor(top: loginStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted))
-    }
-       
-       
-    func validateField() -> String?{
-           
-           if  emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-               passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-               
-               return "Please fill in all fields."
-           }
-                      
-           return nil
-       }
-    
+        line1.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        line1.widthAnchor.constraint(equalToConstant: 100).isActive = true
 
-    @objc func loginTapped(){
-        
-        let error = validateField()
-        
-        if error != nil {
-            showError(error!)
-        } else {
-            
-            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                if error != nil {
-                    self.showError(error!.localizedDescription)
-                }
-                else {
-                    self.transitionToHome()
-                }
-            }
-        }
-    }
-    
-    func transitionToHome(){
-        let navController = UINavigationController(rootViewController: FirstViewController())
-        let homeViewController = navController
-        view.window?.rootViewController = homeViewController
-        view.window?.makeKeyAndVisible()
-    }
-    
-    func showError(_ message: String) {
-        errorLabel.text = message
-        errorLabel.alpha = 1
-    }
+        line2.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        line2.widthAnchor.constraint(equalToConstant: 100).isActive = true
 
+        lineText.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        lineText.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        
+        lineStackView.distribution = .equalCentering
+        lineStackView.axis  = .horizontal
+        lineStackView.spacing = 20
+        lineStackView.alignment = .center
+        
+        [line1, lineText, line2].forEach{lineStackView.addArrangedSubview($0)}
+        view.addSubview(lineStackView)
+        
+        view.addSubview(authStackView)
+    }
+    
+    func handleGoogleSignIn(){
+        let googleLoginButton = GIDSignInButton()
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        googleLoginButton.colorScheme = .dark
+        view.addSubview(googleLoginButton)
+        view.bringSubviewToFront(googleLoginButton)
+        
+        
+        authStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: lineStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 580, left: 40.adjusted, bottom: 0, right: 40.adjusted))
+        
+        lineStackView.anchor(top: authStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: googleLoginButton.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 0, right: 40.adjusted))
+        
+        googleLoginButton.anchor(top: lineStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 20, right: 40.adjusted))
+    }
+    
+    
+    @objc func goToSignupVC(){
+        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
+        
+    }
+    
+    @objc func goToLoginVC(){
+        self.navigationController?.pushViewController(SignInViewController(), animated: true)
+    }
+    
+    
+    func playBackgroundVideo(){
+        guard let path = Bundle.main.path(forResource: "dumbbells2480", ofType: "mov") else { return }
+        player = AVPlayer(url: URL(fileURLWithPath: path))
+        player!.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer!.frame = self.view.frame
+        playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        self.view.layer.insertSublayer(playerLayer!, at: 0)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player!.currentItem)
+        NotificationCenter.default.addObserver(self,selector: #selector(playItem),name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        player!.seek(to: CMTime.zero)
+        player!.play()
+        self.player?.isMuted = true
+
+        view.bringSubviewToFront(authStackView)
+    }
+    
+    @objc func playerItemDidReachEnd(){
+        player!.seek(to: CMTime.zero)
+    }
+    
+    @objc private func playItem() {
+      playerItemDidReachEnd()
+      player?.play()
+
+      if let playerlayer = playerLayer {
+        view.layer.insertSublayer(playerlayer, at: 0)
+      }
+    }
+    
 }
