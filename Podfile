@@ -13,5 +13,8 @@ target 'Effortflex' do
   pod 'Firebase/Core'
   pod 'FirebaseFirestoreSwift'
   pod 'GoogleSignIn'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+
 
 end

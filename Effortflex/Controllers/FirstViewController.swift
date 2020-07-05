@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 import GoogleSignIn
+import FBSDKLoginKit
 
 class FirstViewController: UITableViewController {
     
@@ -169,16 +170,20 @@ class FirstViewController: UITableViewController {
     
     //MARK: - Sign Out Button
     @objc func signOut(){
-         let firebaseAuth = Auth.auth()
+        let firebaseAuth = Auth.auth()
+        let fbLoginManager = LoginManager()
         do {
-          try firebaseAuth.signOut()
+            try firebaseAuth.signOut()
+            
+            fbLoginManager.logOut()
             GIDSignIn.sharedInstance()?.disconnect()
             
-            let loginVC = LoginViewController()
-            UIApplication.shared.windows.first?.rootViewController = loginVC
-            
+            let navController = UINavigationController(rootViewController: LoginViewController())
+            view.window?.backgroundColor = UIColor.white
+            view.window?.rootViewController = navController
+            view.window?.makeKeyAndVisible()
         } catch let signOutError as NSError {
-          print ("Error signing out: %@", signOutError)
+            print ("Error signing out: %@", signOutError)
         }
     }
     
