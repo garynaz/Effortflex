@@ -10,6 +10,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestoreSwift
 import GoogleSignIn
+import AVFoundation
 
 
 class SignUpViewController: UIViewController {
@@ -23,9 +24,12 @@ class SignUpViewController: UIViewController {
     
     var signUpStackView = UIStackView()
     
+//    var player : AVPlayer?
+//    var playerLayer : AVPlayerLayer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        playBackgroundVideo()
         buttonConfig()
         textFieldConstraints()
         view.backgroundColor = UIColor.white
@@ -158,6 +162,39 @@ class SignUpViewController: UIViewController {
         view.window?.rootViewController = homeViewController
         view.window?.makeKeyAndVisible()
     }
+    
+    
+//    func playBackgroundVideo(){
+//        guard let path = Bundle.main.path(forResource: "dumbbells2480", ofType: "mov") else { return }
+//        player = AVPlayer(url: URL(fileURLWithPath: path))
+//        player!.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
+//        playerLayer = AVPlayerLayer(player: player)
+//        playerLayer!.frame = self.view.frame
+//        playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
+//        self.view.layer.insertSublayer(playerLayer!, at: 0)
+//
+//        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player!.currentItem)
+//        NotificationCenter.default.addObserver(self,selector: #selector(playItem),name: UIApplication.willEnterForegroundNotification, object: nil)
+//
+//        player!.seek(to: CMTime.zero)
+//        player!.play()
+//        self.player?.isMuted = true
+//
+//        view.bringSubviewToFront(signUpStackView)
+//    }
+//
+//    @objc func playerItemDidReachEnd(){
+//        player!.seek(to: CMTime.zero)
+//    }
+//
+//    @objc private func playItem() {
+//        playerItemDidReachEnd()
+//        player?.play()
+//
+//        if let playerlayer = playerLayer {
+//            view.layer.insertSublayer(playerlayer, at: 0)
+//        }
+//    }
     
 
 

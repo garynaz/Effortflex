@@ -19,13 +19,13 @@ class LoginViewController: UIViewController {
     
     var player : AVPlayer?
     var playerLayer : AVPlayerLayer?
+    
     var line1 = UIView()
     var line2 = UIView()
     var lineText = UILabel()
     
     var authStackView = UIStackView()
     var lineStackView = UIStackView()
-    
     
     var custGoogleButton = UIButton()
     var googleIcon = UIImage(named: "googleicon")
@@ -44,11 +44,12 @@ class LoginViewController: UIViewController {
         constraints()
         
         updateFbLoginButton(isLoggedIn: (AccessToken.current != nil))
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         let navigationBar = self.navigationController?.navigationBar
-        
         navigationBar?.setBackgroundImage(UIImage(), for: .default)
         navigationBar?.shadowImage = UIImage()
         navigationBar?.isTranslucent = true
@@ -105,22 +106,17 @@ class LoginViewController: UIViewController {
         
         fbImgView.image = fbIcon!
         custFbButton.addSubview(fbImgView)
-        custFbButton.layer.borderWidth = 0.5
-        custFbButton.layer.borderColor = UIColor.white.cgColor
-        custFbButton.layer.cornerRadius = 1
         custFbButton.setTitle("FACEBOOK", for: .normal)
-        custFbButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        custFbButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        custFbButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        custFbButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         custFbButton.addTarget(self, action: #selector(fbLogin), for: .touchUpInside)
         
         googleImageView.image = googleIcon!
         custGoogleButton.addSubview(googleImageView)
-        custGoogleButton.layer.borderWidth = 0.5
-        custGoogleButton.layer.borderColor = UIColor.white.cgColor
-        custGoogleButton.layer.cornerRadius = 1
         custGoogleButton.setTitle("GOOGLE", for: .normal)
-        custGoogleButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        custGoogleButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        custGoogleButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        custGoogleButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        custGoogleButton.addTarget(self, action: #selector(googleLogin), for: .touchUpInside)
         
         socialStackView = UIStackView(arrangedSubviews: [custFbButton, custGoogleButton])
         socialStackView.distribution = .fillEqually
@@ -143,23 +139,20 @@ class LoginViewController: UIViewController {
     
     
     func constraints(){
-        
         authStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: lineStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 10.adjusted, right: 40.adjusted))
         
         lineStackView.anchor(top: authStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: socialStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 15.adjusted, right: 40.adjusted))
         
+        googleImageView.anchor(top: custGoogleButton.topAnchor, leading: custGoogleButton.leadingAnchor, bottom: custGoogleButton.bottomAnchor, trailing: nil, size: .init(width: 40.adjusted, height: 40.adjusted))
         
-        googleImageView.anchor(top: custGoogleButton.topAnchor, leading: custGoogleButton.leadingAnchor, bottom: custGoogleButton.bottomAnchor, trailing: nil, size: .init(width: 30.adjusted, height: 40.adjusted))
+        fbImgView.anchor(top: custFbButton.topAnchor, leading: custFbButton.leadingAnchor, bottom: custFbButton.bottomAnchor, trailing: nil, size: .init(width: 40.adjusted, height: 50.adjusted))
         
-        fbImgView.anchor(top: custFbButton.topAnchor, leading: custFbButton.leadingAnchor, bottom: custFbButton.bottomAnchor, trailing: nil, size: .init(width: 30.adjusted, height: 40.adjusted))
-        
-        socialStackView.anchor(top: lineStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 40.adjusted, right: 40.adjusted))
+        socialStackView.anchor(top: lineStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 40.adjusted, right: 0.adjusted))
     }
     
     
     @objc func goToSignupVC(){
         self.navigationController?.pushViewController(SignUpViewController(), animated: true)
-        
     }
     
     @objc func goToLoginVC(){
@@ -175,7 +168,6 @@ class LoginViewController: UIViewController {
         playerLayer!.frame = self.view.frame
         playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
         self.view.layer.insertSublayer(playerLayer!, at: 0)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player!.currentItem)
         NotificationCenter.default.addObserver(self,selector: #selector(playItem),name: UIApplication.willEnterForegroundNotification, object: nil)
         
@@ -246,6 +238,7 @@ class LoginViewController: UIViewController {
     }
     }
     
+    
 }
 
 
@@ -255,4 +248,10 @@ extension LoginViewController {
         let title = isLoggedIn ? "Log Out" : "    FACEBOOK"
         custFbButton.setTitle(title, for: .normal)
     }
+    
+    
+    @objc func googleLogin(){
+        GIDSignIn.sharedInstance()?.signIn()
+    }
+    
 }
