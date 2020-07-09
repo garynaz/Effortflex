@@ -10,7 +10,6 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestoreSwift
 import GoogleSignIn
-import AVFoundation
 
 
 class SignUpViewController: UIViewController {
@@ -21,51 +20,59 @@ class SignUpViewController: UIViewController {
     var passwordTextField = UITextField()
     var signUpButton = UIButton()
     var errorLabel = UILabel()
-    
     var signUpStackView = UIStackView()
-    
-//    var player : AVPlayer?
-//    var playerLayer : AVPlayerLayer?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        playBackgroundVideo()
+        view.backgroundColor = UIColor.white
+        view.addBackground(image: "gloves")
         buttonConfig()
         textFieldConstraints()
-        view.backgroundColor = UIColor.white
-
     }
     
-
+    
+    
     //MARK: - Configure TextFields
     func buttonConfig(){
         
+        fNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        
         fNameTextField.placeholder = "   First Name"
-        fNameTextField.layer.borderWidth = 1
-        fNameTextField.layer.cornerRadius = 10
-        fNameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        fNameTextField.layer.borderWidth = 0.5
+        fNameTextField.layer.cornerRadius = 1
+        fNameTextField.layer.borderColor = UIColor.white.cgColor
+        fNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         lNameTextField.placeholder = "   Last Name"
-        lNameTextField.layer.borderWidth = 1
-        lNameTextField.layer.cornerRadius = 10
-        lNameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        lNameTextField.layer.borderWidth = 0.5
+        lNameTextField.layer.cornerRadius = 1
+        lNameTextField.layer.borderColor = UIColor.white.cgColor
+        lNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         emailTextField.placeholder = "   Email address"
-        emailTextField.layer.borderWidth = 1
-        emailTextField.layer.cornerRadius = 10
-        emailTextField.layer.borderColor = UIColor.lightGray.cgColor
+        emailTextField.layer.borderWidth = 0.5
+        emailTextField.layer.cornerRadius = 1
+        emailTextField.layer.borderColor = UIColor.white.cgColor
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         passwordTextField.placeholder = "   Password"
-        passwordTextField.layer.borderWidth = 1
-        passwordTextField.layer.cornerRadius = 10
-        passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        passwordTextField.layer.borderWidth = 0.5
+        passwordTextField.layer.cornerRadius = 1
+        passwordTextField.layer.borderColor = UIColor.white.cgColor
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.setTitleColor(.black, for: .normal)
-        signUpButton.layer.borderWidth = 1
-        signUpButton.layer.cornerRadius = 10
-        signUpButton.layer.borderColor = UIColor.lightGray.cgColor
+        signUpButton.layer.borderWidth = 0.5
+        signUpButton.layer.cornerRadius = 1
+        signUpButton.layer.borderColor = UIColor.white.cgColor
         
         errorLabel.text = ""
         errorLabel.textAlignment = .center
@@ -150,7 +157,7 @@ class SignUpViewController: UIViewController {
     
     //MARK: - TextField Constraints
     func textFieldConstraints(){
-        signUpStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 300))
+        signUpStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 150.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 300))
         
         errorLabel.anchor(top: signUpStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted))
     }
@@ -163,39 +170,5 @@ class SignUpViewController: UIViewController {
         view.window?.makeKeyAndVisible()
     }
     
-    
-//    func playBackgroundVideo(){
-//        guard let path = Bundle.main.path(forResource: "dumbbells2480", ofType: "mov") else { return }
-//        player = AVPlayer(url: URL(fileURLWithPath: path))
-//        player!.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
-//        playerLayer = AVPlayerLayer(player: player)
-//        playerLayer!.frame = self.view.frame
-//        playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
-//        self.view.layer.insertSublayer(playerLayer!, at: 0)
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player!.currentItem)
-//        NotificationCenter.default.addObserver(self,selector: #selector(playItem),name: UIApplication.willEnterForegroundNotification, object: nil)
-//
-//        player!.seek(to: CMTime.zero)
-//        player!.play()
-//        self.player?.isMuted = true
-//
-//        view.bringSubviewToFront(signUpStackView)
-//    }
-//
-//    @objc func playerItemDidReachEnd(){
-//        player!.seek(to: CMTime.zero)
-//    }
-//
-//    @objc private func playItem() {
-//        playerItemDidReachEnd()
-//        player?.play()
-//
-//        if let playerlayer = playerLayer {
-//            view.layer.insertSublayer(playerlayer, at: 0)
-//        }
-//    }
-    
-
 
 }

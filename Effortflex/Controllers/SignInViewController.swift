@@ -18,36 +18,39 @@ class SignInViewController: UIViewController {
     var passwordTextField = UITextField()
     var loginButton = UIButton()
     var errorLabel = UILabel()
-    
     var loginStackView = UIStackView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = UIColor.white
+        view.addBackground(image: "gloves")
         buttonConfig()
         textFieldConstraints()
-        view.backgroundColor = UIColor.white
-
     }
     
     //MARK: - Configure TextFields
     func buttonConfig(){
         
         emailTextField.placeholder = "   Email Address"
-        emailTextField.layer.borderWidth = 1
-        emailTextField.layer.cornerRadius = 10
-        emailTextField.layer.borderColor = UIColor.lightGray.cgColor
+        emailTextField.layer.borderWidth = 0.5
+        emailTextField.layer.cornerRadius = 1
+        emailTextField.layer.borderColor = UIColor.white.cgColor
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         passwordTextField.placeholder = "   Password"
-        passwordTextField.layer.borderWidth = 1
-        passwordTextField.layer.cornerRadius = 10
-        passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        passwordTextField.layer.borderWidth = 0.5
+        passwordTextField.layer.cornerRadius = 1
+        passwordTextField.layer.borderColor = UIColor.white.cgColor
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         loginButton.setTitle("Login", for: .normal)
         loginButton.setTitleColor(.black, for: .normal)
-        loginButton.layer.borderWidth = 1
-        loginButton.layer.cornerRadius = 10
-        loginButton.layer.borderColor = UIColor.lightGray.cgColor
+        loginButton.layer.borderWidth = 0.5
+        loginButton.layer.cornerRadius = 1
+        loginButton.layer.borderColor = UIColor.white.cgColor
         loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         
         errorLabel.text = ""
@@ -68,7 +71,7 @@ class SignInViewController: UIViewController {
     
     //MARK: - TextField Constraints
     func textFieldConstraints(){
-        loginStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 40.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 200.adjusted))
+        loginStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 150.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 200.adjusted))
         
         errorLabel.anchor(top: loginStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted))
     }

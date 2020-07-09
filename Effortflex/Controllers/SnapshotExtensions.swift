@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import FirebaseFirestore
 
 extension QuerySnapshot {
@@ -26,3 +27,4 @@ extension QueryDocumentSnapshot {
         return object
     }
 }
+
