@@ -26,6 +26,7 @@
 		DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */; };
 		DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
+		DDB898C924B810170085DF25 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB898C824B810170085DF25 /* UITextFieldExtension.swift */; };
 		DDE96A0624AFC9670080018F /* dumbbells1480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDE96A0424AFC9630080018F /* dumbbells1480.mov */; };
 		DDE96A0724AFC9670080018F /* dumbbells2480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDE96A0524AFC9670080018F /* dumbbells2480.mov */; };
 		DDF0E8C3248AEF0F007E25EC /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF0E8C2248AEF0F007E25EC /* Workout.swift */; };
@@ -57,6 +58,7 @@
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB898C824B810170085DF25 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		DDE96A0424AFC9630080018F /* dumbbells1480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells1480.mov; sourceTree = "<group>"; };
 		DDE96A0524AFC9670080018F /* dumbbells2480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells2480.mov; sourceTree = "<group>"; };
 		DDF0E8C2248AEF0F007E25EC /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = SOURCE_ROOT; };
@@ -124,6 +126,7 @@
 				DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */,
 				DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */,
 				DD24DB1C24B69E890002E901 /* UIViewBGImgExtension.swift */,
+				DDB898C824B810170085DF25 /* UITextFieldExtension.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
 				DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */,
 				DD24DB1D24B69E890002E901 /* UIViewBGImgExtension.swift in Sources */,
+				DDB898C924B810170085DF25 /* UITextFieldExtension.swift in Sources */,
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
 				DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */,
 				DD10614B240B313F00448A2B /* SignInViewController.swift in Sources */,

@@ -36,36 +36,33 @@ class SignUpViewController: UIViewController {
     //MARK: - Configure TextFields
     func buttonConfig(){
         
-        fNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        
-        fNameTextField.placeholder = "   First Name"
+        fNameTextField.setLeftPaddingPoints(25)
         fNameTextField.layer.borderWidth = 0.5
         fNameTextField.layer.cornerRadius = 1
         fNameTextField.layer.borderColor = UIColor.white.cgColor
         fNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        lNameTextField.placeholder = "   Last Name"
+        lNameTextField.setLeftPaddingPoints(25)
         lNameTextField.layer.borderWidth = 0.5
         lNameTextField.layer.cornerRadius = 1
         lNameTextField.layer.borderColor = UIColor.white.cgColor
-        lNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        lNameTextField.attributedPlaceholder = NSAttributedString(string: "   Last Name",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        emailTextField.placeholder = "   Email address"
+        emailTextField.setLeftPaddingPoints(25)
         emailTextField.layer.borderWidth = 0.5
         emailTextField.layer.cornerRadius = 1
         emailTextField.layer.borderColor = UIColor.white.cgColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "   Email address",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        passwordTextField.placeholder = "   Password"
+        passwordTextField.setLeftPaddingPoints(25)
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.cornerRadius = 1
         passwordTextField.layer.borderColor = UIColor.white.cgColor
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         signUpButton.setTitle("Sign Up", for: .normal)

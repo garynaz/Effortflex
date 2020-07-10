@@ -32,18 +32,18 @@ class SignInViewController: UIViewController {
     //MARK: - Configure TextFields
     func buttonConfig(){
         
-        emailTextField.placeholder = "   Email Address"
+        emailTextField.setLeftPaddingPoints(25)
         emailTextField.layer.borderWidth = 0.5
         emailTextField.layer.cornerRadius = 1
         emailTextField.layer.borderColor = UIColor.white.cgColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "   Email Address",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        passwordTextField.placeholder = "   Password"
+        passwordTextField.setLeftPaddingPoints(25)
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.cornerRadius = 1
         passwordTextField.layer.borderColor = UIColor.white.cgColor
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         loginButton.setTitle("Login", for: .normal)
