@@ -35,7 +35,6 @@ class SecondViewController: UITableViewController {
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         vcBackgroundImg()
         navConAcc()
         

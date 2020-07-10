@@ -46,7 +46,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 
     let timeSelect : [String] = ["300","240","180","120","90","60","45","30","15"]
 
-    let image1 = UIImage(named: "stopwatch")
+    let image1 = UIImage(named: "stopwatch2")
 
     var audioPlayer : AVAudioPlayer!
     let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
@@ -65,8 +65,8 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 //MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .white
+        view.addBackground(image: "brickWall")
 
         conformance()
         labelConfig()
@@ -151,7 +151,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 //MARK: - UILabel
     func labelConfig(){
         weightTextField.attributedPlaceholder = NSAttributedString(string: "Total weight...", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.5843, green: 0.6471, blue: 0.651, alpha: 1.0)])
-        weightTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        weightTextField.backgroundColor = .darkGray
         weightTextField.layer.cornerRadius = 10
         weightTextField.textColor = .white
         weightTextField.inputAccessoryView = toolBar1
@@ -164,7 +164,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
         weightLabel.textColor = .white
 
         repsTextField.attributedPlaceholder = NSAttributedString(string: "Number of Reps...", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.5843, green: 0.6471, blue: 0.651, alpha: 1.0)])
-        repsTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        repsTextField.backgroundColor = .darkGray
         repsTextField.layer.cornerRadius = 10
         repsTextField.textColor = .white
         repsTextField.inputAccessoryView = toolBar1
@@ -176,7 +176,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
         repsLabel.text = "  Repetitions: "
         repsLabel.textColor = .white
 
-        notesTextField.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        notesTextField.backgroundColor = .darkGray
         notesTextField.layer.cornerRadius = 10
         notesTextField.textColor = .white
         notesTextField.inputAccessoryView = toolBar1
@@ -188,13 +188,13 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
         notesLabel.text = "  Notes: "
         notesLabel.textColor = .white
 
-        nextSet.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        nextSet.backgroundColor = .darkGray
         nextSet.layer.cornerRadius = 10
         nextSet.setTitle("Next Set", for: .normal)
         nextSet.setTitleColor(.white, for: .normal)
         nextSet.addTarget(self, action: #selector(addNewSet), for: .touchUpInside)
 
-        nextExcersise.backgroundColor = UIColor(red: 0.6784, green: 0.1765, blue: 0.1843, alpha: 1.0)
+        nextExcersise.backgroundColor = .darkGray
         nextExcersise.layer.cornerRadius = 10
         nextExcersise.setTitle("Next Exercise", for: .normal)
         nextExcersise.setTitleColor(.white, for: .normal)
@@ -207,12 +207,12 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 
         timerTextField.text = ""
         timerTextField.font = UIFont(name: "HelveticaNeue", size: 25)
-        timerTextField.textColor = UIColor.darkGray
+        timerTextField.textColor = .black
         timerTextField.tintColor = UIColor.clear
         timerTextField.textAlignment = .left
         timerTextField.inputView = timePicker
         timerTextField.inputAccessoryView = toolBar2
-        timerTextField.attributedPlaceholder = NSAttributedString(string: "   Timer", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)])
+        timerTextField.attributedPlaceholder = NSAttributedString(string: "   Timer", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)])
 
         toolBar1.sizeToFit()
         toolBar1.setItems([doneButton1, flexibleSpace1, cancelButton1], animated: false)
@@ -482,7 +482,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
             cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr.weight.removeZerosFromEnd()) lbs - \(wsr.reps.removeZerosFromEnd()) Reps"
 
             cell.layer.backgroundColor = UIColor.clear.cgColor
-            cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
+            cell.textLabel?.textColor = .black
 
             return cell
         }
