@@ -21,7 +21,7 @@ extension UIView {
     imageViewBackground.alpha = 0.5
     // you can change the content mode:
     imageViewBackground.contentMode = UIView.ContentMode.scaleAspectFill
-
+    imageViewBackground.clipsToBounds = true
     self.addSubview(imageViewBackground)
     self.sendSubviewToBack(imageViewBackground)
 }}
