@@ -64,6 +64,7 @@ class SignUpViewController: UIViewController {
         passwordTextField.isSecureTextEntry = true
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        passwordTextField.isSecureTextEntry = true
         
         signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.setTitleColor(.black, for: .normal)

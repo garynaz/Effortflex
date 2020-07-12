@@ -45,6 +45,7 @@ class SignInViewController: UIViewController {
         passwordTextField.layer.borderColor = UIColor.white.cgColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        passwordTextField.isSecureTextEntry = true
         
         loginButton.setTitle("Login", for: .normal)
         loginButton.setTitleColor(.black, for: .normal)
