@@ -94,6 +94,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 
 //MARK: - Load Data
         func loadWsr() {
+            
             feedback = self.wsrCollection!.whereField("Exercise", isEqualTo: selectedExercise!.exercise).order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
 
             let group = DispatchGroup()
@@ -127,6 +128,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 
                      self.historyTableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
                 }
+
             }
 
             }
@@ -319,6 +321,10 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
 
         if  exerciseIndex <= allExercises!.count - 1 {
             selectedExercise = allExercises![exerciseIndex]
+            navigationItem.title = selectedExercise?.exercise
+            wsrArray.removeAll()
+            historyTableView.reloadData()
+            loadWsr()
             exerciseIndex += 1
         } else {
             let alert = UIAlertController(title: "Workout Completed", message: "Great job! Time to hit the showers!", preferredStyle: .alert)
