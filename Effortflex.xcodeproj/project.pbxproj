@@ -25,6 +25,7 @@
 		DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD41FFA92496F6660019A9BD /* Exercise.swift */; };
 		DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */; };
 		DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */; };
+		DD82C8EC24BBC04E000A985F /* WsrCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82C8EB24BBC04E000A985F /* WsrCell.swift */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
 		DDB898C924B810170085DF25 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB898C824B810170085DF25 /* UITextFieldExtension.swift */; };
 		DDE96A0624AFC9670080018F /* dumbbells1480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDE96A0424AFC9630080018F /* dumbbells1480.mov */; };
@@ -55,6 +56,7 @@
 		DD41FFA92496F6660019A9BD /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotExtensions.swift; path = Effortflex/Controllers/SnapshotExtensions.swift; sourceTree = SOURCE_ROOT; };
 		DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DD82C8EB24BBC04E000A985F /* WsrCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WsrCell.swift; sourceTree = "<group>"; };
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				DD69567924A271AB00952A83 /* Video Assets */,
+				DD82C8ED24BBC06A000A985F /* Custom Cell */,
 				DD896A9E23FF18BC00929D0A /* Miscelanious */,
 				DD1232C523F77B6900921D42 /* Sound Effects */,
 				DD19119623B949E400C5D995 /* Controllers */,
@@ -173,6 +176,14 @@
 				DDE96A0524AFC9670080018F /* dumbbells2480.mov */,
 			);
 			path = "Video Assets";
+			sourceTree = "<group>";
+		};
+		DD82C8ED24BBC06A000A985F /* Custom Cell */ = {
+			isa = PBXGroup;
+			children = (
+				DD82C8EB24BBC04E000A985F /* WsrCell.swift */,
+			);
+			path = "Custom Cell";
 			sourceTree = "<group>";
 		};
 		DD896A9E23FF18BC00929D0A /* Miscelanious */ = {
@@ -322,6 +333,7 @@
 				DD10B6EB249936C10005ACFE /* Wsr.swift in Sources */,
 				DD19119123B93ACA00C5D995 /* FirstViewController.swift in Sources */,
 				DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */,
+				DD82C8EC24BBC04E000A985F /* WsrCell.swift in Sources */,
 				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,
 				DD10614D240B316600448A2B /* LoginViewController.swift in Sources */,
 				DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */,

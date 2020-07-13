@@ -72,7 +72,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
         labelConfig()
         classConstraints()
 
-        historyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "historyCell")
+        historyTableView.register(WsrCell.self, forCellReuseIdentifier: "WsrCell")
     }
 //MARK: - ViewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
@@ -480,9 +480,9 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return wsrArray.count
         }
-//
+
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath)
+            let cell = historyTableView.dequeueReusableCell(withIdentifier: "WsrCell", for: indexPath)
             let wsr = wsrArray[indexPath.row]
 
             cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr.weight.removeZerosFromEnd()) lbs - \(wsr.reps.removeZerosFromEnd()) Reps"
