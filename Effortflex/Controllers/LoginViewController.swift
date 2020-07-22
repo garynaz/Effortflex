@@ -27,6 +27,9 @@ class LoginViewController: UIViewController {
     var authStackView = UIStackView()
     var lineStackView = UIStackView()
     
+    var mainLogo = UIImage(named: "main_logo_yellow")
+    var logoImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    
     var custGoogleButton = UIButton()
     var googleIcon = UIImage(named: "googleicon")
     var googleImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
@@ -103,6 +106,9 @@ class LoginViewController: UIViewController {
         lineStackView.spacing = 20.adjusted
         lineStackView.alignment = .center
         
+        logoImageView.image = mainLogo!
+        view.addSubview(logoImageView)
+        
         
         fbImgView.image = fbIcon!
         custFbButton.addSubview(fbImgView)
@@ -139,6 +145,9 @@ class LoginViewController: UIViewController {
     
     
     func constraints(){
+        
+        logoImageView.anchor(top: view.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 200.adjusted, left: 50.adjusted, bottom: 0, right: 50.adjusted),size: .init(width: 100.adjusted, height: 75.adjusted))
+        
         authStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: lineStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 10.adjusted, right: 40.adjusted))
         
         lineStackView.anchor(top: authStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: socialStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 15.adjusted, right: 40.adjusted))
