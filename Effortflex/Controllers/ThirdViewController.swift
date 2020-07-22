@@ -90,15 +90,14 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         feedback?.remove()
         Auth.auth().removeStateDidChangeListener(authHandle!)
+        wsrArray.removeAll()
     }
     
     //MARK: - Load Data
     func loadWsr() {
         
         feedback = self.wsrCollection!.whereField("Exercise", isEqualTo: selectedExercise!.exercise).order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
-            
-            let group = DispatchGroup()
-            
+                        
             guard let snapshot = querySnapshot else {return}
             
             snapshot.documentChanges.forEach { diff in
@@ -106,7 +105,6 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
                 if (diff.type == .added) {
                     self.wsrArray.removeAll()
                     
-                    group.enter()
                     for document in querySnapshot!.documents {
                         
                         let wsrData = document.data()
@@ -117,10 +115,8 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
                         let newWSR = Wsr(Day: self.selectedExercise!.day, Workout: self.selectedExercise!.workout, Exercise: self.selectedExercise!.exercise, Weight: weight, Reps: reps, Notes: notes, Key: document.reference)
                         self.wsrArray.append(newWSR)
                     }
-                    group.leave()
-                    group.notify(queue: .main){
+
                         self.historyTableView.reloadData()
-                    }
                 }
                 
                 if (diff.type == .removed) {
@@ -519,6 +515,7 @@ extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
             indexToRemove = indexPath
             //Deletes WSR's...
             let selectedWSR = wsrArray[indexPath.row].key!
+            
             wsrCollection!.document(selectedWSR.documentID).delete()
             wsrArray.remove(at: indexPath.row)
         }

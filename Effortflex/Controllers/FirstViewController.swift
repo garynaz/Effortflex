@@ -71,17 +71,20 @@ class FirstViewController: UITableViewController {
     //MARK: - viewWillDisappear()
     override func viewWillDisappear(_ animated: Bool) {
         addFeedback?.remove()
-        deleteExerciseFeedback?.remove()
-        deleteWsrFeedback?.remove()
+//        deleteExerciseFeedback?.remove()
+//        deleteWsrFeedback?.remove()
         Auth.auth().removeStateDidChangeListener(authHandle!)
+        workoutsCollection.daysCollection.removeAll()
+    }
+    
+    deinit {
+        print("Deinitialized first VC")
     }
     
     //MARK: - Load the Data
     func loadData(){
         addFeedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
-            
-            let group = DispatchGroup()
-            
+                        
             guard let snapshot = querySnapshot else {return}
             
             snapshot.documentChanges.forEach { diff in
@@ -89,7 +92,6 @@ class FirstViewController: UITableViewController {
                 if (diff.type == .added) {
                     self.workoutsCollection.daysCollection.removeAll()
                     
-                    group.enter()
                     for document in querySnapshot!.documents {
                         
                         var foundIt = false
@@ -126,14 +128,12 @@ class FirstViewController: UITableViewController {
                         }
                         
                     }
-                    group.leave()
-                    group.notify(queue: .main){
+
                         self.tableView.reloadData()
-                    }
                 }
                 
                 if (diff.type == .removed) {
-                    print("Document Removed")
+                    print("Removed document: \(diff.document.data())")
                     
                     self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
                     
@@ -142,9 +142,9 @@ class FirstViewController: UITableViewController {
                         let indexSet = IndexSet(arrayLiteral: self.indexToRemove!.section)
                         self.tableView.deleteSections(indexSet, with: .automatic)
                     }
+                    
                 }
             }
-            
             }
         )}
     
@@ -309,34 +309,32 @@ class FirstViewController: UITableViewController {
             
             //Deletes all WSR's when deleting Workouts...
             deleteWsrFeedback = rootWsrCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
-                let group = DispatchGroup()
-
+                
                 guard let snapshot = querySnapshot else {return}
 
-                group.enter()
                 for wsr in snapshot.documents{
+                    print("Deleting WSR \(wsr.data())")
                     self.rootWsrCollection.document(wsr.documentID).delete()
                 }
-                group.leave()
+                self.deleteWsrFeedback?.remove()
             }
             
             //Deletes all Exercises when deleting Workouts...
             deleteExerciseFeedback = rootExerciseCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
-                let group = DispatchGroup()
                 
                 guard let snapshot = querySnapshot else {return}
                 
-                group.enter()
                 for exercise in snapshot.documents{
+                    print("Deleting Exercise \(exercise.data())")
                     self.rootExerciseCollection.document(exercise.documentID).delete()
                 }
-                group.leave()
+                self.deleteExerciseFeedback?.remove()
             }
 
-            
             //Deletes Workouts...
             let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
             rootWorkoutsCollection.document(selectedKey.documentID).delete()
+            print("Workout Deleted: \(workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout)")
             workoutsCollection.daysCollection[indexPath.section].workout.remove(at: indexPath.row)
         }
     }

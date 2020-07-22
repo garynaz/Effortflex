@@ -59,8 +59,13 @@ class SecondViewController: UITableViewController {
     //MARK: - viewWillDisappear()
     override func viewWillDisappear(_ animated: Bool) {
         feedback?.remove()
-        deleteFeedback?.remove()
+//        deleteFeedback?.remove()
         Auth.auth().removeStateDidChangeListener(authHandle!)
+        exerciseArray.removeAll()
+    }
+    
+    deinit{
+        print("Deinitialized second VC successfully!")
     }
     
     //MARK: - VC Background Image setup
@@ -74,40 +79,36 @@ class SecondViewController: UITableViewController {
     
     //MARK: - Load the Data
     func loadExercises() {
-
+        
         feedback = self.exerciseCollection!.whereField("Workout", isEqualTo: selectedWorkout!.workout).order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
-
-            let group = DispatchGroup()
-
+            
             guard let snapshot = querySnapshot else {return}
-
+            
             snapshot.documentChanges.forEach { diff in
                 
                 if (diff.type == .added) {
                     self.exerciseArray.removeAll()
-
-                    group.enter()
+                    
                     for document in querySnapshot!.documents {
-
+                        
                         let workoutData = document.data()
                         let exercise = workoutData["Exercise"] as! String
-
+                        
                         let newExercise = Exercise(Day: self.selectedWorkout!.day, Workout: self.selectedWorkout!.workout, Exercise: exercise, Key: document.reference)
                         self.exerciseArray.append(newExercise)
+                        print("Document Added")
+                        print(self.exerciseArray.count)
                     }
-                    group.leave()
-                    group.notify(queue: .main){
-                        self.tableView.reloadData()
-                    }
+                    self.tableView.reloadData()
                 }
                 
                 if (diff.type == .removed) {
-                     print("Document Removed")
-
-                     self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
+                    print("Removed exercise: \(diff.document.data())")
+                    
+                    self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
                 }
             }
-
+            
             }
         )}
     
@@ -130,7 +131,7 @@ class SecondViewController: UITableViewController {
             alert.dismiss(animated: true, completion: nil)
         }
         let addAction = UIAlertAction(title: "Add Exercise", style: .default) { (UIAlertAction) in
-                        
+            
             self.exerciseCollection!.addDocument(data: [
                 "Day" : self.selectedWorkout!.day,
                 "Workout" : self.selectedWorkout!.workout,
@@ -164,68 +165,67 @@ class SecondViewController: UITableViewController {
     }
     
     // MARK: - TableView Data Source
-        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return exerciseArray.count
-        }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return exerciseArray.count
+    }
     
-        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseCell", for: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseCell", for: indexPath)
+        
+        cell.textLabel?.text = exerciseArray[indexPath.row].exercise
+        cell.accessoryType = .disclosureIndicator
+        cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
+        
+        return cell
+    }
     
-            cell.textLabel?.text = exerciseArray[indexPath.row].exercise
-            cell.accessoryType = .disclosureIndicator
-            cell.layer.backgroundColor = UIColor.clear.cgColor
-            cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
-            cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destinationVC = ThirdViewController()
+        destinationVC.allExercises = exerciseArray
+        destinationVC.selectedExercise = exerciseArray[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true )
+        
+        navigationController?.pushViewController(destinationVC, animated: true)
+    }
     
-            return cell
-        }
-    
-        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let destinationVC = ThirdViewController()
-            destinationVC.allExercises = exerciseArray
-            destinationVC.selectedExercise = exerciseArray[indexPath.row]
-            tableView.deselectRow(at: indexPath, animated: true )
-    
-            navigationController?.pushViewController(destinationVC, animated: true)
-        }
-    
-        @objc func textFieldChanged(_ sender: Any) {
-            let textfield = sender as! UITextField
-            buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
-        }
+    @objc func textFieldChanged(_ sender: Any) {
+        let textfield = sender as! UITextField
+        buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
+    }
     
     //MARK: - Swipe to Delete
-        override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            return true
-        }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
-        override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    
-            if editingStyle == .delete {
-    
-                indexToRemove = indexPath
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            indexToRemove = indexPath
+            
+            let exerciseRef = exerciseArray[indexPath.row].exercise
+            
+            //Deletes all WSR's when deleting Exercises...
+            deleteFeedback = rootWsrCollection!.whereField("Exercise", isEqualTo: exerciseRef).addSnapshotListener { (querySnapshot, err) in
                 
-                let exerciseRef = exerciseArray[indexPath.row].exercise
+                guard let snapshot = querySnapshot else {return}
                 
-                //Deletes all WSR's when deleting Exercises...
-                deleteFeedback = rootWsrCollection!.whereField("Exercise", isEqualTo: exerciseRef).addSnapshotListener { (querySnapshot, err) in
-                    let group = DispatchGroup()
-
-                    guard let snapshot = querySnapshot else {return}
-
-                    group.enter()
-                    for exercise in snapshot.documents{
-                        self.rootWsrCollection!.document(exercise.documentID).delete()
-                    }
-                    group.leave()
+                for exercise in snapshot.documents{
+                    self.rootWsrCollection!.document(exercise.documentID).delete()
                 }
-                
-                //Deletes Exercises...
-                let selectedExercise = exerciseArray[indexPath.row].key!
-                exerciseCollection!.document(selectedExercise.documentID).delete()
-                exerciseArray.remove(at: indexPath.row)
+                self.deleteFeedback?.remove()
             }
+            
+            //Deletes Exercises...
+            print("Deleting Exercise from second VC")
+            let selectedExercise = exerciseArray[indexPath.row].key!
+            exerciseCollection!.document(selectedExercise.documentID).delete()
+            exerciseArray.remove(at: indexPath.row)
         }
+    }
     
 }
 
