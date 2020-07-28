@@ -20,9 +20,10 @@ class SignInViewController: UIViewController {
     var errorLabel = UILabel()
     var loginStackView = UIStackView()
     
-    
+    //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = UIColor.white
         view.addBackground(image: "gloves")
         buttonConfig()
@@ -31,21 +32,18 @@ class SignInViewController: UIViewController {
     
     //MARK: - Configure TextFields
     func buttonConfig(){
-        
         emailTextField.setLeftPaddingPoints(25)
         emailTextField.layer.borderWidth = 0.5
         emailTextField.layer.cornerRadius = 1
         emailTextField.layer.borderColor = UIColor.white.cgColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "   Email Address",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "   Email Address", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         passwordTextField.setLeftPaddingPoints(25)
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.cornerRadius = 1
         passwordTextField.layer.borderColor = UIColor.white.cgColor
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         loginButton.setTitle("Login", for: .normal)
         loginButton.setTitleColor(.black, for: .normal)
@@ -64,11 +62,8 @@ class SignInViewController: UIViewController {
         loginStackView.distribution = .fillEqually
         loginStackView.spacing = 20.adjusted
                 
-        
         [loginStackView, errorLabel].forEach{view.addSubview($0)}
-        
     }
-    
     
     //MARK: - TextField Constraints
     func textFieldConstraints(){
@@ -77,9 +72,9 @@ class SignInViewController: UIViewController {
         errorLabel.anchor(top: loginStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted))
     }
        
-       
+    
+    //MARK: Login Validation
     func validateField() -> String?{
-           
            if  emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
                passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                
@@ -89,7 +84,6 @@ class SignInViewController: UIViewController {
            return nil
        }
     
-
     @objc func loginTapped(){
         
         let error = validateField()
@@ -112,6 +106,7 @@ class SignInViewController: UIViewController {
         }
     }
     
+    //MARK: - Transition to First VC.
     func transitionToHome(){
         let navController = UINavigationController(rootViewController: FirstViewController())
         let homeViewController = navController

@@ -40,17 +40,18 @@ class LoginViewController: UIViewController {
     
     var socialStackView = UIStackView()
     
+    //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         playBackgroundVideo()
         buttonConfig()
         constraints()
-        
         updateFbLoginButton(isLoggedIn: (AccessToken.current != nil))
-        
         GIDSignIn.sharedInstance()?.presentingViewController = self
     }
     
+    //MARK: - viewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
         let navigationBar = self.navigationController?.navigationBar
         navigationBar?.setBackgroundImage(UIImage(), for: .default)
@@ -58,10 +59,8 @@ class LoginViewController: UIViewController {
         navigationBar?.isTranslucent = true
     }
     
-    
-    //MARK: - Button Customization
+    //MARK: - Button and View Configuration
     func buttonConfig(){
-        
         loginButton.setTitle("SIGN IN", for: .normal)
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.layer.borderWidth = 0.5
@@ -134,8 +133,8 @@ class LoginViewController: UIViewController {
         view.addSubview(authStackView)
         view.addSubview(socialStackView)
     }
-
     
+    //MARK: - Transition to FirstViewController
     func transitionToHome(){
         let navController = UINavigationController(rootViewController: FirstViewController())
         let homeViewController = navController
@@ -143,10 +142,9 @@ class LoginViewController: UIViewController {
         view.window?.makeKeyAndVisible()
     }
     
-    
+    //MARK: - Login VC Constraints
     func constraints(){
-        
-        logoImageView.anchor(top: view.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 200.adjusted, left: 50.adjusted, bottom: 0, right: 50.adjusted),size: .init(width: 100.adjusted, height: 75.adjusted))
+        logoImageView.anchor(top: view.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 300.adjusted, left: 50.adjusted, bottom: 0, right: 50.adjusted),size: .init(width: 100.adjusted, height: 75.adjusted))
         
         authStackView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: lineStackView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 10.adjusted, right: 40.adjusted))
         
@@ -159,7 +157,7 @@ class LoginViewController: UIViewController {
         socialStackView.anchor(top: lineStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 40.adjusted, bottom: 40.adjusted, right: 0.adjusted))
     }
     
-    
+    //MARK: - Transition to SignUp VC or Login VC
     @objc func goToSignupVC(){
         self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
@@ -168,7 +166,7 @@ class LoginViewController: UIViewController {
         self.navigationController?.pushViewController(SignInViewController(), animated: true)
     }
     
-    
+    //MARK: - Background Video Looping
     func playBackgroundVideo(){
         guard let path = Bundle.main.path(forResource: "dumbbells2480", ofType: "mov") else { return }
         player = AVPlayer(url: URL(fileURLWithPath: path))
@@ -200,67 +198,66 @@ class LoginViewController: UIViewController {
         }
     }
     
+    //MARK: - Facebook Auth
     @objc func fbLogin(){
-    let loginManager = LoginManager()
-    
-    if let _ = AccessToken.current {
-
-        loginManager.logOut()
-        updateFbLoginButton(isLoggedIn: false)
+        let loginManager = LoginManager()
         
-    } else {
-
-        loginManager.logIn(permissions: [], from: self) { [weak self] (result, error) in
+        if let _ = AccessToken.current {
             
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-
-            guard let result = result, !result.isCancelled else {
-                print("User cancelled login")
-                return
-            }
-
-            self?.updateFbLoginButton(isLoggedIn: true)
+            loginManager.logOut()
+            updateFbLoginButton(isLoggedIn: false)
             
-            let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+        } else {
             
-            Auth.auth().signIn(with: credential) { (authResult, error) in
-                if let error = error {
-                    print("Unable to login to Facebook: error [\(error)]")
+            loginManager.logIn(permissions: [], from: self) { [weak self] (result, error) in
+                
+                guard error == nil else {
+                    print(error!.localizedDescription)
                     return
                 }
-                print("Facebook user is signed in \(String(describing: authResult?.user.uid))")
                 
-                let db = Firestore.firestore()
+                guard let result = result, !result.isCancelled else {
+                    print("User cancelled login")
+                    return
+                }
                 
-                db.collection("Users").document("\(authResult!.user.uid)").setData(["uid":authResult!.user.uid]){ (error) in
-                    if error != nil {
-                        print(error!.localizedDescription)
-                    }else{
-                        self!.transitionToHome()
+                self?.updateFbLoginButton(isLoggedIn: true)
+                
+                let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+                
+                Auth.auth().signIn(with: credential) { (authResult, error) in
+                    if let error = error {
+                        print("Unable to login to Facebook: error [\(error)]")
+                        return
+                    }
+                    print("Facebook user is signed in \(String(describing: authResult?.user.uid))")
+                    
+                    let db = Firestore.firestore()
+                    
+                    db.collection("Users").document("\(authResult!.user.uid)").setData(["uid":authResult!.user.uid]){ (error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        }else{
+                            self!.transitionToHome()
+                        }
                     }
                 }
             }
         }
     }
-    }
-    
     
 }
 
-
 extension LoginViewController {
     
+    //MARK: - Update Facebook Auth Button Status
     private func updateFbLoginButton(isLoggedIn: Bool) {
         let title = isLoggedIn ? "Log Out" : "    FACEBOOK"
         custFbButton.setTitle(title, for: .normal)
     }
     
-    
+    //MARK: - Google Auth
     @objc func googleLogin(){
         GIDSignIn.sharedInstance()?.signIn()
     }
-    
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A2DD7BE1324743DDC34B836 /* Pods_Effortflex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 473E6D8CA2FFB2F1BB56BA9D /* Pods_Effortflex.framework */; };
+		DD04DC3E24CF9F130034EB30 /* RemovingZerosExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD04DC3D24CF9F130034EB30 /* RemovingZerosExtension.swift */; };
 		DD0D1B15248AD9990098D615 /* WorkoutsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */; };
 		DD10614B240B313F00448A2B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614A240B313F00448A2B /* SignInViewController.swift */; };
 		DD10614D240B316600448A2B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD10614C240B316600448A2B /* LoginViewController.swift */; };
@@ -23,10 +24,10 @@
 		DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B9CFB239D85E400095B05 /* AppDelegate.swift */; };
 		DD3B9D08239D85E500095B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3B9D06239D85E500095B05 /* LaunchScreen.storyboard */; };
 		DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD41FFA92496F6660019A9BD /* Exercise.swift */; };
-		DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */; };
 		DD7AF790241DAE8000998361 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */; };
 		DD82C8EC24BBC04E000A985F /* WsrCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82C8EB24BBC04E000A985F /* WsrCell.swift */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
+		DD997E3E24CF98660085D0A8 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD997E3D24CF98660085D0A8 /* UIViewExtension.swift */; };
 		DDB898C924B810170085DF25 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB898C824B810170085DF25 /* UITextFieldExtension.swift */; };
 		DDE96A0624AFC9670080018F /* dumbbells1480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDE96A0424AFC9630080018F /* dumbbells1480.mov */; };
 		DDE96A0724AFC9670080018F /* dumbbells2480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDE96A0524AFC9670080018F /* dumbbells2480.mov */; };
@@ -37,6 +38,7 @@
 		2C1D2CF1399CE8CFD723059C /* Pods-Effortflex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.release.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.release.xcconfig"; sourceTree = "<group>"; };
 		473E6D8CA2FFB2F1BB56BA9D /* Pods_Effortflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Effortflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B12846D60C2665F8CA2782A /* Pods-Effortflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Effortflex.debug.xcconfig"; path = "Target Support Files/Pods-Effortflex/Pods-Effortflex.debug.xcconfig"; sourceTree = "<group>"; };
+		DD04DC3D24CF9F130034EB30 /* RemovingZerosExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemovingZerosExtension.swift; sourceTree = "<group>"; };
 		DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsCollection.swift; sourceTree = "<group>"; };
 		DD10614A240B313F00448A2B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		DD10614C240B316600448A2B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -54,12 +56,12 @@
 		DD3B9D07239D85E500095B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3B9D09239D85E500095B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD41FFA92496F6660019A9BD /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
-		DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotExtensions.swift; path = Effortflex/Controllers/SnapshotExtensions.swift; sourceTree = SOURCE_ROOT; };
 		DD7AF78F241DAE7F00998361 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD82C8EB24BBC04E000A985F /* WsrCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WsrCell.swift; sourceTree = "<group>"; };
 		DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustForScreenSize.swift; sourceTree = "<group>"; };
 		DD8D826523F4800D0076BA3A /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD997E3D24CF98660085D0A8 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		DDB898C824B810170085DF25 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		DDE96A0424AFC9630080018F /* dumbbells1480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells1480.mov; sourceTree = "<group>"; };
 		DDE96A0524AFC9670080018F /* dumbbells2480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells2480.mov; sourceTree = "<group>"; };
@@ -126,9 +128,6 @@
 				DD41FFA92496F6660019A9BD /* Exercise.swift */,
 				DD10B6EA249936C10005ACFE /* Wsr.swift */,
 				DD0D1B14248AD9990098D615 /* WorkoutsCollection.swift */,
-				DD67C215246B36FE00A57C6A /* SnapshotExtensions.swift */,
-				DD24DB1C24B69E890002E901 /* UIViewBGImgExtension.swift */,
-				DDB898C824B810170085DF25 /* UITextFieldExtension.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -156,7 +155,7 @@
 			children = (
 				DD69567924A271AB00952A83 /* Video Assets */,
 				DD82C8ED24BBC06A000A985F /* Custom Cell */,
-				DD896A9E23FF18BC00929D0A /* Miscelanious */,
+				DD896A9E23FF18BC00929D0A /* Extensions */,
 				DD1232C523F77B6900921D42 /* Sound Effects */,
 				DD19119623B949E400C5D995 /* Controllers */,
 				DD319C8B23A30B8B00222847 /* Data Model */,
@@ -186,12 +185,16 @@
 			path = "Custom Cell";
 			sourceTree = "<group>";
 		};
-		DD896A9E23FF18BC00929D0A /* Miscelanious */ = {
+		DD896A9E23FF18BC00929D0A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */,
+				DD997E3D24CF98660085D0A8 /* UIViewExtension.swift */,
+				DD24DB1C24B69E890002E901 /* UIViewBGImgExtension.swift */,
+				DD04DC3D24CF9F130034EB30 /* RemovingZerosExtension.swift */,
+				DDB898C824B810170085DF25 /* UITextFieldExtension.swift */,
 			);
-			path = Miscelanious;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,16 +339,17 @@
 				DD82C8EC24BBC04E000A985F /* WsrCell.swift in Sources */,
 				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,
 				DD10614D240B316600448A2B /* LoginViewController.swift in Sources */,
+				DD997E3E24CF98660085D0A8 /* UIViewExtension.swift in Sources */,
 				DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */,
 				DD138F8B248D90D3005BBE43 /* Day.swift in Sources */,
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
 				DD3B9CFC239D85E400095B05 /* AppDelegate.swift in Sources */,
 				DD24DB1D24B69E890002E901 /* UIViewBGImgExtension.swift in Sources */,
 				DDB898C924B810170085DF25 /* UITextFieldExtension.swift in Sources */,
+				DD04DC3E24CF9F130034EB30 /* RemovingZerosExtension.swift in Sources */,
 				DD19119523B9481300C5D995 /* SecondViewController.swift in Sources */,
 				DD41FFAA2496F6670019A9BD /* Exercise.swift in Sources */,
 				DD10614B240B313F00448A2B /* SignInViewController.swift in Sources */,
-				DD67C216246B36FE00A57C6A /* SnapshotExtensions.swift in Sources */,
 				DDF0E8C3248AEF0F007E25EC /* Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

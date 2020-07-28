@@ -13,7 +13,7 @@ import GoogleSignIn
 
 
 class SignUpViewController: UIViewController {
-
+    
     var fNameTextField = UITextField()
     var lNameTextField = UITextField()
     var emailTextField = UITextField()
@@ -21,50 +21,43 @@ class SignUpViewController: UIViewController {
     var signUpButton = UIButton()
     var errorLabel = UILabel()
     var signUpStackView = UIStackView()
-
     
+    //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = UIColor.white
         view.addBackground(image: "gloves")
         buttonConfig()
         textFieldConstraints()
     }
     
-    
-    
-    //MARK: - Configure TextFields
+    //MARK: - TextField and View Configuration
     func buttonConfig(){
-        
         fNameTextField.setLeftPaddingPoints(25)
         fNameTextField.layer.borderWidth = 0.5
         fNameTextField.layer.cornerRadius = 1
         fNameTextField.layer.borderColor = UIColor.white.cgColor
-        fNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        fNameTextField.attributedPlaceholder = NSAttributedString(string: "   First Name",attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         lNameTextField.setLeftPaddingPoints(25)
         lNameTextField.layer.borderWidth = 0.5
         lNameTextField.layer.cornerRadius = 1
         lNameTextField.layer.borderColor = UIColor.white.cgColor
-        lNameTextField.attributedPlaceholder = NSAttributedString(string: "   Last Name",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        lNameTextField.attributedPlaceholder = NSAttributedString(string: "   Last Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         emailTextField.setLeftPaddingPoints(25)
         emailTextField.layer.borderWidth = 0.5
         emailTextField.layer.cornerRadius = 1
         emailTextField.layer.borderColor = UIColor.white.cgColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "   Email address",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "   Email address", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         passwordTextField.setLeftPaddingPoints(25)
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.cornerRadius = 1
         passwordTextField.layer.borderColor = UIColor.white.cgColor
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        passwordTextField.isSecureTextEntry = true
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "   Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
         signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.setTitleColor(.black, for: .normal)
@@ -82,19 +75,18 @@ class SignUpViewController: UIViewController {
         signUpStackView.distribution = .fillEqually
         signUpStackView.spacing = 20.adjusted
         signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
-                
+        
         [signUpStackView, errorLabel].forEach{view.addSubview($0)}
     }
     
+    //MARK: - Registration Validation
     func isPasswordValid(_ password : String) -> Bool {
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
         
         return passwordTest.evaluate(with: password)
     }
     
-    
     func validateField() -> String?{
-        
         if  fNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             lNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
@@ -113,7 +105,6 @@ class SignUpViewController: UIViewController {
     }
     
     @objc func signUpTapped(){
-        
         let error = validateField()
         
         if error != nil {
@@ -140,10 +131,8 @@ class SignUpViewController: UIViewController {
                             self.transitionToHome()
                         }
                     }
-                                    
                 }
             }
-            
         }
     }
     
@@ -152,7 +141,6 @@ class SignUpViewController: UIViewController {
         errorLabel.alpha = 1
     }
     
-    
     //MARK: - TextField Constraints
     func textFieldConstraints(){
         signUpStackView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 150.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted), size: .init(width: 0, height: 300))
@@ -160,7 +148,7 @@ class SignUpViewController: UIViewController {
         errorLabel.anchor(top: signUpStackView.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 20.adjusted, left: 40.adjusted, bottom: 0, right: 40.adjusted))
     }
     
-    
+    //MARK: - Transition to First VC.
     func transitionToHome(){
         let navController = UINavigationController(rootViewController: FirstViewController())
         let homeViewController = navController
@@ -168,5 +156,4 @@ class SignUpViewController: UIViewController {
         view.window?.makeKeyAndVisible()
     }
     
-
 }

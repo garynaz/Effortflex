@@ -35,6 +35,7 @@ class SecondViewController: UITableViewController {
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         vcBackgroundImg()
         navConAcc()
         
@@ -44,7 +45,6 @@ class SecondViewController: UITableViewController {
     
     //MARK: - viewWillAppear()
     override func viewWillAppear(_ awnimated: Bool) {
-        
         authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
             self.workoutCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts/")
@@ -58,14 +58,16 @@ class SecondViewController: UITableViewController {
     
     //MARK: - viewWillDisappear()
     override func viewWillDisappear(_ animated: Bool) {
-        feedback?.remove()
-//        deleteFeedback?.remove()
         Auth.auth().removeStateDidChangeListener(authHandle!)
         exerciseArray.removeAll()
     }
     
-    deinit{
-        print("Deinitialized second VC successfully!")
+    //MARK: - DEINIT
+    deinit {
+        if feedback != nil {
+            feedback!.remove()
+        }
+        print("OS reclaiming memory for Second VC")
     }
     
     //MARK: - VC Background Image setup
@@ -79,7 +81,6 @@ class SecondViewController: UITableViewController {
     
     //MARK: - Load the Data
     func loadExercises() {
-        
         feedback = self.exerciseCollection!.whereField("Workout", isEqualTo: selectedWorkout!.workout).order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
             
             guard let snapshot = querySnapshot else {return}
@@ -121,10 +122,8 @@ class SecondViewController: UITableViewController {
         navigationItem.rightBarButtonItem = addBarButton
     }
     
-    
     //MARK: - Add a New Exercise
     @objc func addExercise() {
-        
         let alert = UIAlertController(title: "New Exercise", message: "Please name your Exercise...", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (UIAlertAction) in
@@ -190,6 +189,7 @@ class SecondViewController: UITableViewController {
         navigationController?.pushViewController(destinationVC, animated: true)
     }
     
+    //MARK: - TextField Validation
     @objc func textFieldChanged(_ sender: Any) {
         let textfield = sender as! UITextField
         buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "

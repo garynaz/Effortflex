@@ -65,6 +65,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
     //MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         view.addBackground(image: "brickWall")
         
@@ -74,9 +75,9 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
         
         historyTableView.register(WsrCell.self, forCellReuseIdentifier: "WsrCell")
     }
+    
     //MARK: - ViewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
-        
         navigationItem.title = selectedExercise?.exercise
         
         authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
@@ -88,16 +89,22 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
     
     //MARK: - viewWillDisappear()
     override func viewWillDisappear(_ animated: Bool) {
-        feedback?.remove()
         Auth.auth().removeStateDidChangeListener(authHandle!)
         wsrArray.removeAll()
     }
     
+    //MARK: - DEINIT
+    deinit {
+        if feedback != nil {
+            feedback!.remove()
+        }
+        print("OS reclaiming memory for Third VC")
+    }
+    
     //MARK: - Load Data
     func loadWsr() {
-        
         feedback = self.wsrCollection!.whereField("Exercise", isEqualTo: selectedExercise!.exercise).order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
-                        
+            
             guard let snapshot = querySnapshot else {return}
             
             snapshot.documentChanges.forEach { diff in
@@ -115,8 +122,8 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
                         let newWSR = Wsr(Day: self.selectedExercise!.day, Workout: self.selectedExercise!.workout, Exercise: self.selectedExercise!.exercise, Weight: weight, Reps: reps, Notes: notes, Key: document.reference)
                         self.wsrArray.append(newWSR)
                     }
-
-                        self.historyTableView.reloadData()
+                    
+                    self.historyTableView.reloadData()
                 }
                 
                 if (diff.type == .removed) {
@@ -137,20 +144,16 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
     //MARK: - Conforming the Delegate and Datasource
     func conformance(){
         notesTextField.delegate = self
-        
         historyTableView.delegate = self
         historyTableView.dataSource = self
-        
         timePicker.delegate = self
         timePicker.dataSource = self
-        
         weightTextField.delegate = self
         repsTextField.delegate = self
-        
         timerTextField.delegate = self
     }
     
-    //MARK: - UILabel
+    //MARK: - TextField and View Configuration
     func labelConfig(){
         weightTextField.attributedPlaceholder = NSAttributedString(string: "Total weight...", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.5843, green: 0.6471, blue: 0.651, alpha: 1.0)])
         weightTextField.backgroundColor = .darkGray
@@ -293,7 +296,6 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
     
     //MARK: - UIButton Functions
     @objc func addNewSet(){
-        
         let weight = Double(weightTextField.text!) ?? 0
         let reps = Double(repsTextField.text!) ?? 0
         let notes = notesTextField.text!
@@ -359,41 +361,6 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
     
 }
 
-
-//MARK: - Constraints Extensions
-extension UIView {
-    func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero){
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        if let top = top {
-            topAnchor.constraint(equalTo: top, constant: padding.top).isActive = true
-        }
-        
-        if let leading = leading {
-            leadingAnchor.constraint(equalTo: leading, constant: padding.left).isActive = true
-        }
-        
-        if let bottom = bottom {
-            bottomAnchor.constraint(equalTo: bottom, constant: -padding.bottom).isActive = true
-        }
-        
-        if let trailing = trailing {
-            trailingAnchor.constraint(equalTo: trailing, constant: -padding.right).isActive = true
-        }
-        
-        if size.width != 0 {
-            widthAnchor.constraint(equalToConstant: size.width).isActive = true
-        }
-        
-        if size.height != 0 {
-            heightAnchor.constraint(equalToConstant: size.height).isActive = true
-        }
-    }
-}
-
-
-
 //MARK: - UIPickerView Methods
 extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -411,11 +378,9 @@ extension ThirdViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         timerDisplayed = Int(timeSelect[row])!
-        
     }
     
 }
-
 
 //MARK: - UITextField Delegate Methods
 extension ThirdViewController : UITextFieldDelegate {
@@ -461,19 +426,6 @@ extension ThirdViewController : UITextFieldDelegate {
     }
 }
 
-
-//MARK: - Extension for Double (Remove Trailing Zeroes)
-extension Double {
-    func removeZerosFromEnd() -> String {
-        let formatter = NumberFormatter()
-        let number = NSNumber(value: self)
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 16 //maximum digits in Double after dot (maximum precision)
-        return String(formatter.string(from: number) ?? "")
-    }
-}
-
-
 //MARK: - TableView Methods
 extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
     
@@ -482,23 +434,19 @@ extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = historyTableView.dequeueReusableCell(withIdentifier: "WsrCell", for: indexPath)
         let wsr = wsrArray[indexPath.row]
         
         cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr.weight.removeZerosFromEnd()) lbs - \(wsr.reps.removeZerosFromEnd()) Reps"
-        
         cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.textLabel?.textColor = .black
         return cell
     }
-    //Select Row To Display Notes For Selected Row
     
+    //Select Row To Display Notes For Selected Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         notesTextField.text = wsrArray[indexPath.row].notes
         tableView.deselectRow(at: indexPath, animated: true)
-        
     }
     
     

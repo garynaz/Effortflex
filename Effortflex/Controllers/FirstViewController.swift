@@ -14,10 +14,9 @@ import FBSDKLoginKit
 
 class FirstViewController: UITableViewController {
     
-    
     var daysOfWeek : [String] = ["Monday", "Tuesday", "Wednsday", "Thursday", "Friday", "Saturday", "Sunday"]
     
-    weak var buttonActionToEnable: UIAlertAction?
+    var buttonActionToEnable: UIAlertAction?
     
     let cellID = "WorkoutCell"
     
@@ -27,7 +26,7 @@ class FirstViewController: UITableViewController {
     
     var textField1 = UITextField()
     var textField2 = UITextField()
-        
+    
     var workoutsCollection : WorkoutsCollection = WorkoutsCollection()
     var rootWorkoutsCollection : CollectionReference!
     var rootExerciseCollection : CollectionReference!
@@ -37,7 +36,7 @@ class FirstViewController: UITableViewController {
     var addFeedback : ListenerRegistration?
     var deleteExerciseFeedback : ListenerRegistration?
     var deleteWsrFeedback : ListenerRegistration?
-
+    
     var userIdRef = ""
     
     //MARK: - viewDidLoad()
@@ -57,9 +56,10 @@ class FirstViewController: UITableViewController {
     //MARK: - viewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         navigationController?.navigationBar.prefersLargeTitles = false
         
-       authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
+        authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
             self.userIdRef = user!.uid
             self.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts")
             self.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Exercises")
@@ -70,21 +70,28 @@ class FirstViewController: UITableViewController {
     
     //MARK: - viewWillDisappear()
     override func viewWillDisappear(_ animated: Bool) {
-        addFeedback?.remove()
-//        deleteExerciseFeedback?.remove()
-//        deleteWsrFeedback?.remove()
         Auth.auth().removeStateDidChangeListener(authHandle!)
         workoutsCollection.daysCollection.removeAll()
     }
     
+    //MARK: - DEINIT
     deinit {
-        print("Deinitialized first VC")
+        if deleteExerciseFeedback != nil {
+            deleteExerciseFeedback!.remove()
+        }
+        if deleteWsrFeedback != nil {
+            deleteWsrFeedback!.remove()
+        }
+        if addFeedback != nil {
+            addFeedback!.remove()
+        }
+        print("OS reclaiming memory for First VC")
     }
     
     //MARK: - Load the Data
     func loadData(){
         addFeedback = self.rootWorkoutsCollection.order(by: "Timestamp", descending: false).addSnapshotListener({ (querySnapshot, err) in
-                        
+            
             guard let snapshot = querySnapshot else {return}
             
             snapshot.documentChanges.forEach { diff in
@@ -128,8 +135,7 @@ class FirstViewController: UITableViewController {
                         }
                         
                     }
-
-                        self.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
                 
                 if (diff.type == .removed) {
@@ -189,7 +195,6 @@ class FirstViewController: UITableViewController {
     
     //MARK: - Add a New Workout
     @objc func addWorkout() {
-        
         let alert = UIAlertController(title: "New Workout", message: "Please name your workout...", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (UIAlertAction) in
@@ -209,7 +214,6 @@ class FirstViewController: UITableViewController {
                     print("Workout added.")
                 }
             }
-            
         }
         
         alert.addTextField { (alertTextField1) in
@@ -237,13 +241,11 @@ class FirstViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    
-    
+    //MARK: - TextField Validation
     @objc func textFieldChanged(_ sender: Any) {
         let textfield = sender as! UITextField
         buttonActionToEnable!.isEnabled = textfield.text!.count > 0 && String((textfield.text?.prefix(1))!) != " "
     }
-    
     
     //MARK: - TableView DataSource and Delegate Methods
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -271,7 +273,6 @@ class FirstViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellID, for: indexPath)
         cell.textLabel?.text = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
         cell.textLabel?.textAlignment = .center
@@ -284,14 +285,12 @@ class FirstViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let destinationVC = SecondViewController()
         destinationVC.selectedWorkout = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         
         navigationController?.pushViewController(destinationVC, animated: true)
     }
-    
     
     //MARK: - Swipe To Delete
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -304,14 +303,13 @@ class FirstViewController: UITableViewController {
             
             indexToRemove = indexPath
             
-            
             let workoutRef = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
             
             //Deletes all WSR's when deleting Workouts...
             deleteWsrFeedback = rootWsrCollection.whereField("Workout", isEqualTo: workoutRef).addSnapshotListener { (querySnapshot, err) in
                 
                 guard let snapshot = querySnapshot else {return}
-
+                
                 for wsr in snapshot.documents{
                     print("Deleting WSR \(wsr.data())")
                     self.rootWsrCollection.document(wsr.documentID).delete()
@@ -330,7 +328,7 @@ class FirstViewController: UITableViewController {
                 }
                 self.deleteExerciseFeedback?.remove()
             }
-
+            
             //Deletes Workouts...
             let selectedKey = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].key!
             rootWorkoutsCollection.document(selectedKey.documentID).delete()
@@ -340,7 +338,6 @@ class FirstViewController: UITableViewController {
     }
     
 }
-
 
 //MARK: - PickerView Delegate Methods
 extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
@@ -363,8 +360,9 @@ extension FirstViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     
 }
 
-//MARK: - Textfield Delegate Methods
+//MARK: - Textfield Delegate Methods for Validation
 extension FirstViewController : UITextFieldDelegate {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         guard let text = textField.text else { return true }
