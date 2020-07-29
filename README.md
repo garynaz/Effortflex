@@ -1,4 +1,5 @@
 # Effortflex
+<img src = "main_logo@3x.png">
 > A clean and simple workout log app created with Swift 5.
 
 ## Table of contents
