@@ -30,16 +30,16 @@ I also wanted to avoid cluttering the UI as much as possible, which is why I kep
 * Swift 5
 * Firebase SDK
 * Cocoapods Version 1.9.3
-* Pods used: 
-* pod 'RealmSwift'
-* pod 'IQKeyboardManagerSwift'
-* pod 'Firebase/Analytics'
-* pod 'Firebase/Auth'
-* pod 'Firebase/Core'
-* pod 'FirebaseFirestoreSwift'
-* pod 'GoogleSignIn'
-* pod 'FBSDKCoreKit'
-* pod 'FBSDKLoginKit'
+* DEPENDENCIES:
+  - FBSDKCoreKit (7.1.1)
+  - FBSDKLoginKit (7.1.1)
+  - Firebase/Analytics (6.6.1)
+  - Firebase/Auth (6.6.0)
+  - Firebase/Core (6.8.0)
+  - FirebaseFirestoreSwift (0.3.0)
+  - GoogleSignIn (5.0.2)
+  - IQKeyboardManagerSwift (6.5.5)
+  - RealmSwift (5.2.0)
 
 ## Setup
 Describe how to install / setup your local environement / add link to demo version.
