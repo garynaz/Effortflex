@@ -24,7 +24,7 @@ I also wanted to avoid cluttering the UI as much as possible, which is why I kep
 
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![](images/login.png)
 
 ## Technologies
 * Tech 1 - version 1.0
