@@ -6,6 +6,7 @@
 * [General info](#general-info)
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
+* [Requirements](#requirements)
 * [Setup](#setup)
 * [Features](#features)
 * [Status](#status)
@@ -41,6 +42,10 @@ I also wanted to avoid cluttering the UI as much as possible, which is why I kep
   - GoogleSignIn (5.0.2)
   - IQKeyboardManagerSwift (6.5.5)
   - RealmSwift (5.2.0)
+  
+## Requirements
+* iOS 13+
+* Xcode 11+
 
 ## Setup
 Describe how to install / setup your local environement / add link to demo version.
