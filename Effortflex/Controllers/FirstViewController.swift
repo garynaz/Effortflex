@@ -71,6 +71,7 @@ class FirstViewController: UITableViewController {
     //MARK: - viewWillDisappear()
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(authHandle!)
+        addFeedback?.remove()
         workoutsCollection.daysCollection.removeAll()
     }
     
