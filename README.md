@@ -24,7 +24,7 @@ I also wanted to avoid cluttering the UI as much as possible, which is why I kep
 
 
 ## Screenshots
-<img src="images/login.png" width=200> <img src="images/workout.png" width=200> <img src="images/exercise.png" width=200> <img src="images/wsr1.png" width=200><img src="images/wsr3.png" width=200>
+<img src="images/login.png" width=180> <img src="images/workout.png" width=180> <img src="images/exercise.png" width=180> <img src="images/wsr1.png" width=180><img src="images/wsr3.png" width=180>
 
 ## Technologies
 * Tech 1 - version 1.0
