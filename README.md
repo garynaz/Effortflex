@@ -20,16 +20,26 @@ As an avid gym goer and fitness enthusiast, I was motivated to build this app wh
 that were very simple and rudimentary in function and deisgn. Most apps that I would come across would have a myriad of customizable options 
 and would have you select from a number of pre-determined workouts or exercises, which was nice but it wasn't quite what I was looking for. 
 What I wanted to achieve was the freedom to name my own workouts/muscle groups/exercises without having to choose from a limited list of options. 
-I also wanted to avoid cluttering the UI as much as possible, which is why I kept the UI very simple and to the point.
+I also wanted to avoid cluttering the UI as much as possible, which is why I kept the UI simple and to the point.
 
 
 ## Screenshots
 <img src="images/login.png" width=180> <img src="images/workout.png" width=180> <img src="images/exercise.png" width=180> <img src="images/wsr1.png" width=180> <img src="images/wsr3.png" width=180>
 
 ## Technologies
-* Tech 1 - version 1.0
-* Tech 2 - version 2.0
-* Tech 3 - version 3.0
+* Swift 5
+* Firebase SDK
+* Cocoapods Version 1.9.3
+* Pods used: 
+* pod 'RealmSwift'
+* pod 'IQKeyboardManagerSwift'
+* pod 'Firebase/Analytics'
+* pod 'Firebase/Auth'
+* pod 'Firebase/Core'
+* pod 'FirebaseFirestoreSwift'
+* pod 'GoogleSignIn'
+* pod 'FBSDKCoreKit'
+* pod 'FBSDKLoginKit'
 
 ## Setup
 Describe how to install / setup your local environement / add link to demo version.
