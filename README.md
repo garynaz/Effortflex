@@ -24,7 +24,7 @@ I also wanted to avoid cluttering the UI as much as possible, which is why I kep
 
 
 ## Screenshots
-![](images/login.png)
+<img src="images/login.png" width=200>
 
 ## Technologies
 * Tech 1 - version 1.0
