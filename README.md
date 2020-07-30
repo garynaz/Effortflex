@@ -72,4 +72,4 @@ The inspiration for this app came from my passion for fitness and bodybuilding a
 my newfound love for coding and learning to build iOS applications.
 
 ## Contact
-Created by [](https://www.effortflex.net/) - feel free to contact me!
+Created by Gary Nazarian - feel free to contact me at garynaz@icloud.com
