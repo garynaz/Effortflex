@@ -55,11 +55,11 @@ I also wanted to avoid cluttering the UI as much as possible, which is why I kep
 ## Cocoapods
 The app uses some cocoapods. These should not need touching in general as a copy
 of the code and project files is included in the repo. Just remember to open the
-Gitter.xcworkspace, not the Gitter.xcproject.
+Effortflex.xcworkspace, not the Effortflex.xcproject.
 To update the pods to latest versions matching our version constraints, install
 cocoapods (sudo gem install cocoapods) and run pod update.
-If you're having build issues due to missing dependencies, you migth want to run
-pod install and commit the changes to Podfile, Podfile.lock and Pods/
+If you're having build issues due to missing dependencies, you might want to run
+pod install and commit the changes to Podfile, Podfile.lock and Pods.
 
 ## Code Examples
 Show examples of usage:
@@ -82,4 +82,4 @@ Project is: _in progress_, _finished_, _no longer continue_ and why?
 Add here credits. Project inspired by..., based on...
 
 ## Contact
-Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
+Created by [](https://www.effortflex.com/) - feel free to contact me!
