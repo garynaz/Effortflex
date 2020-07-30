@@ -64,7 +64,7 @@ pod install and commit the changes to Podfile, Podfile.lock and Pods.
 * Countdown Timer.
 
 To-do list:
-* Integrate RealmSwift to offer an client-side database alternative.
+* Integrate RealmSwift to offer a client-side database alternative.
 * Add a library of exercise images for the end-user to add as an option.
 
 ## Inspiration
