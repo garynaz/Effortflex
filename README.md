@@ -10,7 +10,6 @@
 * [Setup](#setup)
 * [Cocoapods](#cocoapods)
 * [Features](#features)
-* [Status](#status)
 * [Inspiration](#inspiration)
 * [Contact](#contact)
 
@@ -24,7 +23,6 @@ that were very simple and rudimentary in function and deisgn. Most apps that I w
 and would have you select from a number of pre-determined workouts or exercises, which was nice but it wasn't quite what I was looking for. 
 What I wanted to achieve was the freedom to name my own workouts/muscle groups/exercises without having to choose from a limited list of options. 
 I also wanted to avoid cluttering the UI as much as possible, which is why I kept the UI simple and to the point.
-
 
 ## Screenshots
 <img src="images/login.png" width=180> <img src="images/workout.png" width=180> <img src="images/exercise.png" width=180> <img src="images/wsr1.png" width=180> <img src="images/wsr3.png" width=180>
@@ -69,11 +67,9 @@ To-do list:
 * Integrate RealmSwift to offer an client-side database alternative.
 * Add a library of exercise images for the end-user to add as an option.
 
-## Status
-Project is: _in progress_, _finished_, _no longer continue_ and why?
-
 ## Inspiration
-Add here credits. Project inspired by..., based on...
+The inspiration for this app came from my passion for fitness and bodybuilding as well as 
+my newfound love for coding and learning to build iOS applications.
 
 ## Contact
-Created by [](https://www.effortflex.com/) - feel free to contact me!
+Created by [](https://www.effortflex.net/) - feel free to contact me!
