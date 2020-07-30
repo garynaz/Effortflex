@@ -61,19 +61,13 @@ cocoapods (sudo gem install cocoapods) and run pod update.
 If you're having build issues due to missing dependencies, you might want to run
 pod install and commit the changes to Podfile, Podfile.lock and Pods.
 
-## Code Examples
-Show examples of usage:
-`put-your-code-here`
-
 ## Features
-List of features ready and TODOs for future development
-* Awesome feature 1
-* Awesome feature 2
-* Awesome feature 3
+* Google, Facebook, and Email Authentication.
+* Countdown Timer.
 
 To-do list:
-* Wow improvement to be done 1
-* Wow improvement to be done 2
+* Integrate RealmSwift to offer an client-side database alternative.
+* Add a library of exercise images for the end-user to add as an option.
 
 ## Status
 Project is: _in progress_, _finished_, _no longer continue_ and why?
