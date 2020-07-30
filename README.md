@@ -25,7 +25,7 @@ What I wanted to achieve was the freedom to name my own workouts/muscle groups/e
 I also wanted to avoid cluttering the UI as much as possible, which is why I kept the UI simple and to the point.
 
 ## Screenshots
-<img src="images/login.png" width=180> <img src="images/workout.png" width=180> <img src="images/exercise.png" width=180> <img src="images/wsr1.png" width=180> <img src="images/wsr3.png" width=180>
+<img src="images/login.png" width=170> <img src="images/workout.png" width=170> <img src="images/exercise.png" width=170> <img src="images/wsr1.png" width=170> <img src="images/wsr3.png" width=170>
 
 ## Technologies
 * Swift 5
