@@ -19,7 +19,7 @@ to emphasize the most essential components of a workout app, namely the date, th
 the exercises, the weight and repetitions for each workout set, as well as a timer to keep track of breaks in between sets. 
 
 As an avid gym goer and fitness enthusiast, I was motivated to build this app when I started looking for workout logging apps 
-that were very simple and rudimentary in function and deisgn. Most apps that I would come across would have a myriad of customizable options 
+that were very simple and rudimentary in function and design. Most apps that I would come across would have a myriad of customizable options 
 and would have you select from a number of pre-determined workouts or exercises, which was nice but it wasn't quite what I was looking for. 
 What I wanted to achieve was the freedom to name my own workouts/muscle groups/exercises without having to choose from a limited list of options. 
 I also wanted to avoid cluttering the UI as much as possible, which is why I kept the UI simple and to the point.
