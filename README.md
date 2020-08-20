@@ -1,4 +1,4 @@
-<img src = "images/main_logo@3x.png">
+<a href="https://www.garynazdev.com/"><img src = "images/main_logo@3x.png">
 
 > A clean and simple workout log app created with Swift 5.
 
