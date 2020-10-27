@@ -20,8 +20,8 @@ class WsrCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(wsrLabel)
-        addSubview(deleteImageView)
+        
+        [wsrLabel, deleteImageView].forEach{addSubview($0)}
         
         configureDeleteButton()
     }
