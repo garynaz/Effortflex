@@ -23,7 +23,6 @@ class FirstViewController: UITableViewController {
     let picker = UIPickerView()
     
     var indexToRemove : IndexPath?
-    
     var textField1 = UITextField()
     var textField2 = UITextField()
     
@@ -284,7 +283,7 @@ class FirstViewController: UITableViewController {
         
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = SecondViewController()
         destinationVC.selectedWorkout = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row]

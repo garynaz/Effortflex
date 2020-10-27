@@ -12,16 +12,18 @@ import UIKit
 
 extension UIView {
     func addBackground(image:String) {
-    // screen width and height:
-    let width = UIScreen.main.bounds.size.width
-    let height = UIScreen.main.bounds.size.height
-
-    let imageViewBackground = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
-    imageViewBackground.image = UIImage(named: "\(image)")
-    imageViewBackground.alpha = 0.5
-    // you can change the content mode:
-    imageViewBackground.contentMode = UIView.ContentMode.scaleAspectFill
-    imageViewBackground.clipsToBounds = true
-    self.addSubview(imageViewBackground)
-    self.sendSubviewToBack(imageViewBackground)
-}}
+        // screen width and height:
+        let width = UIScreen.main.bounds.size.width
+        let height = UIScreen.main.bounds.size.height
+        
+        let imageViewBackground = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        imageViewBackground.image = UIImage(named: "\(image)")
+        imageViewBackground.alpha = 0.5
+        // you can change the content mode:
+        imageViewBackground.contentMode = UIView.ContentMode.scaleAspectFill
+        imageViewBackground.clipsToBounds = true
+        self.addSubview(imageViewBackground)
+        self.sendSubviewToBack(imageViewBackground)
+    }
+    
+}
