@@ -28,6 +28,7 @@ class SignInViewController: UIViewController {
         view.addBackground(image: "gloves")
         buttonConfig()
         textFieldConstraints()
+        
     }
     
     //MARK: - Configure TextFields
