@@ -10,10 +10,9 @@ import UIKit
 
 class WsrCell: UITableViewCell {
     
-    var wsrLabel = UILabel()
-    
-    var deleteIcon = UIImage(systemName: "delete.left")
-    var deleteImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 45, height: 35))
+    private var wsrLabel = UILabel()
+    private var deleteIcon = UIImage(systemName: "delete.left")
+    private var deleteImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 45, height: 35))
 
     
     
@@ -31,7 +30,7 @@ class WsrCell: UITableViewCell {
     }
     
     
-    func configureDeleteButton(){
+    private func configureDeleteButton(){
         deleteImageView.image = deleteIcon!
         
         deleteImageView.widthAnchor.constraint(equalToConstant: 45.adjusted).isActive = true

@@ -45,13 +45,13 @@ class SecondViewController: UITableViewController {
     
     //MARK: - viewWillAppear()
     override func viewWillAppear(_ awnimated: Bool) {
-        authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            self.userIdRef = user!.uid
-            self.workoutCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts/")
-            self.exerciseCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Exercises/")
-            self.rootWsrCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/WSR/")
+        authHandle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
+            self?.userIdRef = user!.uid
+            self?.workoutCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Workouts/")
+            self?.exerciseCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Exercises/")
+            self?.rootWsrCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/WSR/")
             
-            self.loadExercises()
+            self?.loadExercises()
         }
         
     }

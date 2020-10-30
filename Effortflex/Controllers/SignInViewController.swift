@@ -31,6 +31,11 @@ class SignInViewController: UIViewController {
         
     }
     
+    //MARK: - DEINIT
+    deinit {
+        print("OS reclaiming memory for SignIn VC")
+    }
+    
     //MARK: - Configure TextFields
     func buttonConfig(){
         emailTextField.setLeftPaddingPoints(25)

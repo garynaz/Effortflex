@@ -53,10 +53,15 @@ class LoginViewController: UIViewController {
     
     //MARK: - viewWillAppear()
     override func viewWillAppear(_ animated: Bool) {
-        let navigationBar = self.navigationController?.navigationBar
+        let navigationBar = navigationController?.navigationBar
         navigationBar?.setBackgroundImage(UIImage(), for: .default)
         navigationBar?.shadowImage = UIImage()
         navigationBar?.isTranslucent = true
+    }
+    
+    //MARK: - DEINIT
+    deinit {
+        print("OS reclaiming memory for Login VC")
     }
     
     //MARK: - Button and View Configuration
@@ -159,11 +164,11 @@ class LoginViewController: UIViewController {
     
     //MARK: - Transition to SignUp VC or Login VC
     @objc func goToSignupVC(){
-        self.navigationController?.pushViewController(SignUpViewController(), animated: true)
+        navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
     
     @objc func goToLoginVC(){
-        self.navigationController?.pushViewController(SignInViewController(), animated: true)
+        navigationController?.pushViewController(SignInViewController(), animated: true)
     }
     
     //MARK: - Background Video Looping
@@ -225,7 +230,7 @@ class LoginViewController: UIViewController {
                 
                 let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
                 
-                Auth.auth().signIn(with: credential) { (authResult, error) in
+                Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
                     if let error = error {
                         print("Unable to login to Facebook: error [\(error)]")
                         return

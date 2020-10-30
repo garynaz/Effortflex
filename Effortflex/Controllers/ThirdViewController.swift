@@ -80,10 +80,10 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = selectedExercise?.exercise
         
-        authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            self.userIdRef = user!.uid
-            self.wsrCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/WSR/")
-            self.loadWsr()
+        authHandle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
+            self?.userIdRef = user!.uid
+            self?.wsrCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/WSR/")
+            self?.loadWsr()
         }
     }
     
@@ -437,7 +437,6 @@ extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = historyTableView.dequeueReusableCell(withIdentifier: "WsrCell", for: indexPath)
         let wsr = wsrArray[indexPath.row]
-        
         cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr.weight.removeZerosFromEnd()) lbs - \(wsr.reps.removeZerosFromEnd()) Reps"
         cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.textLabel?.textColor = .black

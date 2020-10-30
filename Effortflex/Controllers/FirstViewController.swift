@@ -58,12 +58,12 @@ class FirstViewController: UITableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            self.userIdRef = user!.uid
-            self.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Workouts")
-            self.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/Exercises")
-            self.rootWsrCollection = Firestore.firestore().collection("/Users/\(self.userIdRef)/WSR")
-            self.loadData()
+        authHandle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
+            self?.userIdRef = user!.uid
+            self?.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Workouts")
+            self?.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Exercises")
+            self?.rootWsrCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/WSR")
+            self?.loadData()
         }
     }
     

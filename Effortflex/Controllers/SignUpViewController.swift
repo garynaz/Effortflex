@@ -32,6 +32,11 @@ class SignUpViewController: UIViewController {
         textFieldConstraints()
     }
     
+    //MARK: - DEINIT
+    deinit {
+        print("OS reclaiming memory for SignUp VC")
+    }
+    
     //MARK: - TextField and View Configuration
     func buttonConfig(){
         fNameTextField.setLeftPaddingPoints(25)

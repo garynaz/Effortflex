@@ -41,13 +41,4 @@ class WorkoutsCollection {
         
     }
     
-    
-    func removeWorkout(Dow: Day, Workout: Workout ){
-        
-        let db : Firestore!
-        db = Firestore.firestore()
-        db.collection("Users").document("\(Auth.auth().currentUser!.uid)").collection("Workouts").document(Dow.key.documentID).delete()
-        
-    }
-    
 }
