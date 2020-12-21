@@ -438,7 +438,7 @@ extension ThirdViewController:  UITableViewDelegate, UITableViewDataSource {
         let cell = historyTableView.dequeueReusableCell(withIdentifier: "WsrCell", for: indexPath)
         let wsr = wsrArray[indexPath.row]
         cell.textLabel?.text = "Set \(indexPath.row + 1)   \(wsr.weight.removeZerosFromEnd()) lbs - \(wsr.reps.removeZerosFromEnd()) Reps"
-        cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.backgroundColor = .clear
         cell.textLabel?.textColor = .black
         return cell
     }

@@ -277,7 +277,7 @@ class FirstViewController: UITableViewController {
         cell.textLabel?.text = workoutsCollection.daysCollection[indexPath.section].workout[indexPath.row].workout
         cell.textLabel?.textAlignment = .center
         cell.accessoryType = .disclosureIndicator
-        cell.layer.backgroundColor = UIColor.clear.cgColor
+        cell.backgroundColor = .clear
         cell.textLabel?.textColor = UIColor(red: 0.1333, green: 0.2863, blue: 0.4, alpha: 1.0)
         cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20)
         
