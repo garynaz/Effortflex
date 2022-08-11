@@ -118,7 +118,7 @@ class FirstViewController: UITableViewController {
                         if !foundIt{
                             for dayObject in self.workoutsCollection.daysCollection{
                                 for dow in dayObject.workout{
-                                    if dow.day == day{
+                                    if dow.day == day {
                                         let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
                                         dayObject.workout.append(newWorkout)
                                         foundIt = true

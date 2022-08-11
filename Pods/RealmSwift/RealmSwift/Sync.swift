@@ -241,7 +241,7 @@ public typealias Provider = RLMIdentityProvider
 
     func asConfig() -> RLMSyncConfiguration {
         let c = RLMSyncConfiguration(user: user,
-                                     partitionValue: ObjectiveCSupport.convert(object: partitionValue),
+                                     partitionValue: partitionValue.map(ObjectiveCSupport.convertBson),
                                      stopPolicy: stopPolicy)
         c.cancelAsyncOpenOnNonFatalErrors = cancelAsyncOpenOnNonFatalErrors
         return c
@@ -268,7 +268,8 @@ import Combine
 /// This handler is executed on a non-main global `DispatchQueue`.
 @dynamicMemberLookup
 @frozen public struct Functions {
-    weak var user: User?
+
+    private let user: User
 
     fileprivate init(user: User) {
         self.user = user
@@ -283,9 +284,9 @@ import Combine
     /// The implementation of @dynamicMemberLookup that allows for dynamic remote function calls.
     public subscript(dynamicMember string: String) -> Function {
         return { (arguments: [AnyBSON], completionHandler: @escaping FunctionCompletionHandler) in
-            let objcArgs = arguments.map(ObjectiveCSupport.convert) as! [RLMBSON]
-            self.user?.__callFunctionNamed(string, arguments: objcArgs) { (bson: RLMBSON?, error: Error?) in
-                completionHandler(ObjectiveCSupport.convert(object: bson), error)
+            let objcArgs = arguments.map(ObjectiveCSupport.convertBson)
+            self.user.__callFunctionNamed(string, arguments: objcArgs) { (bson: RLMBSON?, error: Error?) in
+                completionHandler(bson.map(ObjectiveCSupport.convertBson) ?? .none, error)
             }
         }
     }
@@ -299,9 +300,9 @@ import Combine
     /// The implementation of @dynamicMemberLookup that allows for dynamic remote function calls.
     public subscript(dynamicMember string: String) -> ResultFunction {
         return { (arguments: [AnyBSON], completionHandler: @escaping ResultFunctionCompletionHandler) in
-            let objcArgs = arguments.map(ObjectiveCSupport.convert) as! [RLMBSON]
-            self.user?.__callFunctionNamed(string, arguments: objcArgs) { (bson: RLMBSON?, error: Error?) in
-                if let bson = ObjectiveCSupport.convert(object: bson) {
+            let objcArgs = arguments.map(ObjectiveCSupport.convertBson)
+            self.user.__callFunctionNamed(string, arguments: objcArgs) { (bson: RLMBSON?, error: Error?) in
+                if let b = bson.map(ObjectiveCSupport.convertBson), let bson = b {
                     completionHandler(.success(bson))
                 } else {
                     completionHandler(.failure(error ?? Realm.Error.callFailed))
@@ -335,7 +336,7 @@ public extension User {
      - warning: NEVER disable SSL validation for a system running in production.
      */
     func configuration<T: BSON>(partitionValue: T) -> Realm.Configuration {
-        let config = self.__configuration(withPartitionValue: ObjectiveCSupport.convert(object: AnyBSON(partitionValue))!)
+        let config = self.__configuration(withPartitionValue: ObjectiveCSupport.convert(object: AnyBSON(partitionValue)))
         return ObjectiveCSupport.convert(object: config)
     }
 
@@ -374,7 +375,7 @@ public extension User {
      */
     func configuration<T: BSON>(partitionValue: T,
                                 cancelAsyncOpenOnNonFatalErrors: Bool = false) -> Realm.Configuration {
-        let config = self.__configuration(withPartitionValue: ObjectiveCSupport.convert(object: AnyBSON(partitionValue))!)
+        let config = self.__configuration(withPartitionValue: ObjectiveCSupport.convert(object: AnyBSON(partitionValue)))
         let syncConfig = config.syncConfiguration!
         syncConfig.cancelAsyncOpenOnNonFatalErrors = cancelAsyncOpenOnNonFatalErrors
         config.syncConfiguration = syncConfig

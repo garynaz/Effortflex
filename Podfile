@@ -12,7 +12,7 @@ target 'Effortflex' do
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'FirebaseFirestoreSwift'
-  pod 'GoogleSignIn'
+  pod 'GoogleSignIn', '~> 5.0'
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
 

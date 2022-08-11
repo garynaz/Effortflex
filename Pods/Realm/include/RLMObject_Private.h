@@ -72,13 +72,24 @@ FOUNDATION_EXTERN const NSUInteger RLMDescriptionMaxDepth;
 
 FOUNDATION_EXTERN id RLMObjectFreeze(RLMObjectBase *obj) NS_RETURNS_RETAINED;
 
+FOUNDATION_EXTERN id RLMObjectThaw(RLMObjectBase *obj);
+
 // Gets an object identifier suitable for use with Combine. This value may
 // change when an unmanaged object is added to the Realm.
 FOUNDATION_EXTERN uint64_t RLMObjectBaseGetCombineId(RLMObjectBase *);
 
+// An accessor object which is used to interact with Swift properties from obj-c
 @interface RLMManagedPropertyAccessor : NSObject
-+ (void)initializeObject:(void *)object parent:(RLMObjectBase *)parent property:(RLMProperty *)property;
-+ (id)get:(void *)pointer;
+// Perform any initialization required for KVO on a *unmanaged* object
++ (void)observe:(RLMProperty *)property on:(RLMObjectBase *)parent;
+// Initialize the given property on a *managed* object which previous was unmanaged
++ (void)promote:(RLMProperty *)property on:(RLMObjectBase *)parent;
+// Initialize the given property on a newly created *managed* object
++ (void)initialize:(RLMProperty *)property on:(RLMObjectBase *)parent;
+// Read the value of the property, on either kind of object
++ (id)get:(RLMProperty *)property on:(RLMObjectBase *)parent;
+// Set the property to the given value, on either kind of object
++ (void)set:(RLMProperty *)property on:(RLMObjectBase *)parent to:(id)value;
 @end
 
 NS_ASSUME_NONNULL_END
