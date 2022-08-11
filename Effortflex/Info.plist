@@ -60,30 +60,5 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
-
-
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb587828105207792</string>
-			</array>
-		</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>587828105207792</string>
-	<key>FacebookClientToken</key>
-	<string>ba6c61378b9811fb5e698a7f483d5707</string>
-	<key>FacebookDisplayName</key>
-	<string>Effortflex</string>
-
-
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fb-messenger-share-api</string>
-	</array>
-
 </dict>
 </plist>
