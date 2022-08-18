@@ -17,6 +17,7 @@ class SignInViewController: UIViewController {
     var emailTextField = UITextField()
     var passwordTextField = UITextField()
     var loginButton = UIButton()
+	var forgotPasswordButton = UIButton()
     var errorLabel = UILabel()
     var loginStackView = UIStackView()
     
@@ -28,7 +29,6 @@ class SignInViewController: UIViewController {
         view.addBackground(image: "gloves")
         buttonConfig()
         textFieldConstraints()
-        
     }
     
     //MARK: - DEINIT
@@ -57,13 +57,17 @@ class SignInViewController: UIViewController {
         loginButton.layer.cornerRadius = 1
         loginButton.layer.borderColor = UIColor.white.cgColor
         loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+
+		forgotPasswordButton.setTitle("Forget Password?", for: .normal)
+		forgotPasswordButton.setTitleColor(.systemBlue, for: .normal)
+		forgotPasswordButton.addTarget(self, action: #selector(goToPasswordRecoveryVC), for: .touchUpInside)
         
         errorLabel.text = ""
         errorLabel.textAlignment = .center
         errorLabel.alpha = 0
         errorLabel.numberOfLines = 0
         
-        loginStackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
+        loginStackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton, forgotPasswordButton])
         loginStackView.axis = .vertical
         loginStackView.distribution = .fillEqually
         loginStackView.spacing = 20.adjusted
@@ -119,6 +123,10 @@ class SignInViewController: UIViewController {
         view.window?.rootViewController = homeViewController
         view.window?.makeKeyAndVisible()
     }
+
+	@objc func goToPasswordRecoveryVC(){
+		navigationController?.pushViewController(ForgotPasswordViewController(), animated: true)
+	}
     
     func showError(_ message: String) {
         errorLabel.text = message

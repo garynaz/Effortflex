@@ -28,6 +28,7 @@
 		DD82C8EC24BBC04E000A985F /* WsrCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD82C8EB24BBC04E000A985F /* WsrCell.swift */; };
 		DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD896A9C23FF185100929D0A /* AdjustForScreenSize.swift */; };
 		DD997E3E24CF98660085D0A8 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD997E3D24CF98660085D0A8 /* UIViewExtension.swift */; };
+		DDA12B3B28A6EEFC007D1055 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA12B3A28A6EEFC007D1055 /* ForgotPasswordViewController.swift */; };
 		DDB898C924B810170085DF25 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB898C824B810170085DF25 /* UITextFieldExtension.swift */; };
 		DDE96A0624AFC9670080018F /* dumbbells1480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDE96A0424AFC9630080018F /* dumbbells1480.mov */; };
 		DDE96A0724AFC9670080018F /* dumbbells2480.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDE96A0524AFC9670080018F /* dumbbells2480.mov */; };
@@ -63,6 +64,7 @@
 		DD8D826923F480130076BA3A /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD997E3D24CF98660085D0A8 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		DDA12B3928A40A57007D1055 /* Effortflex.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Effortflex.entitlements; sourceTree = "<group>"; };
+		DDA12B3A28A6EEFC007D1055 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		DDB898C824B810170085DF25 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		DDE96A0424AFC9630080018F /* dumbbells1480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells1480.mov; sourceTree = "<group>"; };
 		DDE96A0524AFC9670080018F /* dumbbells2480.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = dumbbells2480.mov; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				DD10614C240B316600448A2B /* LoginViewController.swift */,
 				DD36315C240B30D50002D0BB /* SignUpViewController.swift */,
 				DD10614A240B313F00448A2B /* SignInViewController.swift */,
+				DDA12B3A28A6EEFC007D1055 /* ForgotPasswordViewController.swift */,
 				DD19119023B93ACA00C5D995 /* FirstViewController.swift */,
 				DD19119423B9481300C5D995 /* SecondViewController.swift */,
 				DD2E807323C15E120081C1A8 /* ThirdViewController.swift */,
@@ -342,6 +345,7 @@
 				DD896A9D23FF185100929D0A /* AdjustForScreenSize.swift in Sources */,
 				DD10614D240B316600448A2B /* LoginViewController.swift in Sources */,
 				DD997E3E24CF98660085D0A8 /* UIViewExtension.swift in Sources */,
+				DDA12B3B28A6EEFC007D1055 /* ForgotPasswordViewController.swift in Sources */,
 				DD36315D240B30D50002D0BB /* SignUpViewController.swift in Sources */,
 				DD138F8B248D90D3005BBE43 /* Day.swift in Sources */,
 				DD2E807423C15E120081C1A8 /* ThirdViewController.swift in Sources */,
