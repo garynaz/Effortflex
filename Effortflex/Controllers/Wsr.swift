@@ -21,7 +21,7 @@ class Wsr : NSObject{
     var notes : String
     var key : DocumentReference!
 
-    
+
     init(Day: String, Workout: String, Exercise: String, Weight: Double, Reps: Double, Notes: String, Key: DocumentReference) {
         self.day = Day
         self.workout = Workout

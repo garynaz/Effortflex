@@ -37,6 +37,24 @@ class FirstViewController: UITableViewController {
     var deleteWsrFeedback : ListenerRegistration?
     
     var userIdRef = ""
+
+	var menuItems: [UIAction] {
+		return [
+			UIAction(title: "Sign Out", handler: { [weak self] (_) in
+				self?.signOut()
+			}),
+			UIAction(title: "Clear All Data", attributes: .disabled, handler: { (_) in
+
+			}),
+			UIAction(title: "Delete Account", attributes: .destructive, handler: { (_) in
+
+			})
+		]
+	}
+
+	var demoMenu: UIMenu {
+		return UIMenu(title: "Account Options", image: nil, identifier: nil, options: [], children: menuItems)
+	}
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -166,8 +184,8 @@ class FirstViewController: UITableViewController {
     //MARK: - Navigation Bar Setup
     func navConAcc() {
         let addWorkoutButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWorkout))
-        let addSignoutButton = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOut))
-        
+        let addSignoutButton = UIBarButtonItem(title: "Sign Out", image: nil, primaryAction: nil, menu: demoMenu)
+
         navigationItem.leftBarButtonItem = addSignoutButton
         navigationItem.rightBarButtonItem = addWorkoutButton
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 0.4784, green: 0.0863, blue: 0, alpha: 1.0)]
@@ -175,7 +193,7 @@ class FirstViewController: UITableViewController {
     }
     
     //MARK: - Sign Out Button
-    @objc func signOut(){
+	func signOut(){
         let firebaseAuth = Auth.auth()
         let fbLoginManager = LoginManager()
         do {
