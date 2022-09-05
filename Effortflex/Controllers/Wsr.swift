@@ -19,10 +19,11 @@ class Wsr : NSObject{
     var weight : Double
     var reps : Double
     var notes : String
+	var uid: String
     var key : DocumentReference!
 
 
-    init(Day: String, Workout: String, Exercise: String, Weight: Double, Reps: Double, Notes: String, Key: DocumentReference) {
+	init(Day: String, Workout: String, Exercise: String, Weight: Double, Reps: Double, Notes: String, Key: DocumentReference, IdRef: String) {
         self.day = Day
         self.workout = Workout
         self.exercise = Exercise
@@ -30,5 +31,6 @@ class Wsr : NSObject{
         self.reps = Reps
         self.notes = Notes
         self.key = Key
+		self.uid = IdRef
     }
 }

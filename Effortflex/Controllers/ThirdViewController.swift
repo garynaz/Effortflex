@@ -120,7 +120,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
                         let reps = wsrData["Reps"] as! Double
                         let notes = wsrData["Notes"] as! String
                         
-                        let newWSR = Wsr(Day: self.selectedExercise!.day, Workout: self.selectedExercise!.workout, Exercise: self.selectedExercise!.exercise, Weight: weight, Reps: reps, Notes: notes, Key: document.reference)
+						let newWSR = Wsr(Day: self.selectedExercise!.day, Workout: self.selectedExercise!.workout, Exercise: self.selectedExercise!.exercise, Weight: weight, Reps: reps, Notes: notes, Key: document.reference, IdRef: self.userIdRef)
                         self.wsrArray.append(newWSR)
                     }
                     
@@ -308,7 +308,8 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
             "Day" : selectedExercise!.day,
             "Workout" : selectedExercise!.workout,
             "Timestamp" : FieldValue.serverTimestamp(),
-            "Exercise" : selectedExercise!.exercise
+            "Exercise" : selectedExercise!.exercise,
+			"uid" : self.userIdRef
         ]){ err in
             if let err = err {
                 print("Error adding document: \(err)")

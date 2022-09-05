@@ -27,6 +27,7 @@ class FirstViewController: UITableViewController {
     var textField2 = UITextField()
     
     var workoutsCollection : WorkoutsCollection = WorkoutsCollection()
+	var rootUserCollection: CollectionReference!
     var rootWorkoutsCollection : CollectionReference!
     var rootExerciseCollection : CollectionReference!
     var rootWsrCollection : CollectionReference!
@@ -43,11 +44,11 @@ class FirstViewController: UITableViewController {
 			UIAction(title: "Sign Out", handler: { [weak self] (_) in
 				self?.signOut()
 			}),
-			UIAction(title: "Clear All Data", attributes: .disabled, handler: { (_) in
-
+			UIAction(title: "Clear All Data", handler: { [weak self] (_) in
+				self?.deleteAllUserTicketData{}
 			}),
-			UIAction(title: "Delete Account", attributes: .destructive, handler: { (_) in
-
+			UIAction(title: "Delete Account", attributes: .destructive, handler: { [weak self] (_) in
+				self?.deleteUserAccount()
 			})
 		]
 	}
@@ -77,11 +78,18 @@ class FirstViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         
         authHandle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
-            self?.userIdRef = user!.uid
-            self?.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Workouts")
-            self?.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Exercises")
-            self?.rootWsrCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/WSR")
-            self?.loadData()
+			if let user = auth.currentUser {
+				self?.userIdRef = user.uid
+				self?.rootUserCollection = Firestore.firestore().collection("/Users/")
+				self?.rootWorkoutsCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Workouts")
+				self?.rootExerciseCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/Exercises")
+				self?.rootWsrCollection = Firestore.firestore().collection("/Users/\(self!.userIdRef)/WSR")
+				self?.loadData()
+			} else {
+				self?.signOut()
+			}
+
+
         }
     }
     
@@ -127,7 +135,7 @@ class FirstViewController: UITableViewController {
                         
                         if self.workoutsCollection.daysCollection.isEmpty {
                             
-                            let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+							let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference, IdRef: self.userIdRef)
                             let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
                             self.workoutsCollection.daysCollection.append(newDay)
                             continue
@@ -137,7 +145,7 @@ class FirstViewController: UITableViewController {
                             for dayObject in self.workoutsCollection.daysCollection{
                                 for dow in dayObject.workout{
                                     if dow.day == day {
-                                        let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+										let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference, IdRef: self.userIdRef)
                                         dayObject.workout.append(newWorkout)
                                         foundIt = true
                                         break
@@ -147,7 +155,7 @@ class FirstViewController: UITableViewController {
                         }
                         
                         if foundIt == false{
-                            let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference)
+							let newWorkout = Workout(Day: day, Workout: workout, Ref: document.reference, IdRef: self.userIdRef)
                             let newDay = Day(Day: day, Workout: newWorkout, Ref: newWorkout.key)
                             self.workoutsCollection.daysCollection.append(newDay)
                         }
@@ -158,14 +166,18 @@ class FirstViewController: UITableViewController {
                 
                 if (diff.type == .removed) {
                     print("Removed document: \(diff.document.data())")
-                    
-                    self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
-                    
-                    if self.workoutsCollection.daysCollection[self.indexToRemove!.section].workout.isEmpty {
-                        self.workoutsCollection.daysCollection.remove(at: self.indexToRemove!.section)
-                        let indexSet = IndexSet(arrayLiteral: self.indexToRemove!.section)
-                        self.tableView.deleteSections(indexSet, with: .automatic)
-                    }
+
+					if self.indexToRemove == nil {
+						self.tableView.reloadData()
+					} else {
+						self.tableView.deleteRows(at: [self.indexToRemove!], with: .automatic)
+
+						if self.workoutsCollection.daysCollection[self.indexToRemove!.section].workout.isEmpty {
+							self.workoutsCollection.daysCollection.remove(at: self.indexToRemove!.section)
+							let indexSet = IndexSet(arrayLiteral: self.indexToRemove!.section)
+							self.tableView.deleteSections(indexSet, with: .automatic)
+						}
+					}
                     
                 }
             }
@@ -224,7 +236,8 @@ class FirstViewController: UITableViewController {
             self.rootWorkoutsCollection.addDocument(data: [
                 "Day" : self.daysOfWeek[self.picker.selectedRow(inComponent: 0)],
                 "Workout" : self.textField2.text!,
-                "Timestamp" : FieldValue.serverTimestamp()
+                "Timestamp" : FieldValue.serverTimestamp(),
+				"uid" : self.userIdRef
             ]){ err in
                 if let err = err {
                     print("Error adding document: \(err)")
@@ -316,7 +329,7 @@ class FirstViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
+
         if editingStyle == .delete {
             
             indexToRemove = indexPath
@@ -354,6 +367,56 @@ class FirstViewController: UITableViewController {
             workoutsCollection.daysCollection[indexPath.section].workout.remove(at: indexPath.row)
         }
     }
+
+	//MARK: - Delete User Account and Data
+
+	func deleteAllUserTicketData(completion: @escaping () -> Void) {
+		self.rootWsrCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+			guard let snapshot = querySnapshot else { return }
+			for wsr in snapshot.documents{
+				print("Deleting WSR's")
+				self.rootWsrCollection!.document(wsr.documentID).delete()
+			}
+		}
+
+		self.rootExerciseCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+			guard let snapshot = querySnapshot else { return }
+			for exercise in snapshot.documents {
+				print("Deleting Exercises")
+				self.rootExerciseCollection!.document(exercise.documentID).delete()
+			}
+		}
+
+		self.rootWorkoutsCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+			guard let snapshot = querySnapshot else { return }
+			for workout in snapshot.documents {
+				print("Deleting Workouts")
+				self.rootWorkoutsCollection!.document(workout.documentID).delete()
+			}
+		}
+
+		self.workoutsCollection.daysCollection.removeAll()
+		completion()
+	}
+
+	//This method will only delete the user from the Firestore, but will not delete the User Auth credentials.
+	func deleteUserFromFirestore(completion: @escaping () -> Void) {
+		self.rootUserCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+			guard let snapshot = querySnapshot else { return }
+			for user in snapshot.documents {
+				self.rootUserCollection!.document(user.documentID).delete()
+			}
+			completion()
+		}
+	}
+
+	func deleteUserAccount() {
+		deleteAllUserTicketData {
+			self.deleteUserFromFirestore { [weak self] in
+				Auth.auth().currentUser?.delete()
+			}
+		}
+	}
     
 }
 

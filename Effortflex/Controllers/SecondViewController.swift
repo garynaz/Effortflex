@@ -96,7 +96,7 @@ class SecondViewController: UITableViewController {
                         let workoutData = document.data()
                         let exercise = workoutData["Exercise"] as! String
                         
-                        let newExercise = Exercise(Day: self.selectedWorkout!.day, Workout: self.selectedWorkout!.workout, Exercise: exercise, Key: document.reference)
+						let newExercise = Exercise(Day: self.selectedWorkout!.day, Workout: self.selectedWorkout!.workout, Exercise: exercise, Key: document.reference, IdRef: self.userIdRef)
                         self.exerciseArray.append(newExercise)
                         print("Document Added")
                         print(self.exerciseArray.count)
@@ -136,7 +136,8 @@ class SecondViewController: UITableViewController {
                 "Day" : self.selectedWorkout!.day,
                 "Workout" : self.selectedWorkout!.workout,
                 "Timestamp" : FieldValue.serverTimestamp(),
-                "Exercise" : "\(self.textField1.text!)"
+                "Exercise" : "\(self.textField1.text!)",
+				"uid" : self.userIdRef
             ]){ err in
                 if let err = err {
                     print("Error adding document: \(err)")
