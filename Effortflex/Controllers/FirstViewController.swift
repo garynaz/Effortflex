@@ -371,40 +371,66 @@ class FirstViewController: UITableViewController {
 	//MARK: - Delete User Account and Data
 
 	func deleteAllUserTicketData(completion: @escaping () -> Void) {
-		self.rootWsrCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+
+		var group = DispatchGroup()
+
+		group.enter()
+		self.rootWsrCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
+			if let error = err {
+				print(error.localizedDescription)
+				return
+			}
 			guard let snapshot = querySnapshot else { return }
 			for wsr in snapshot.documents{
 				print("Deleting WSR's")
-				self.rootWsrCollection!.document(wsr.documentID).delete()
+				wsr.reference.delete()
 			}
+			group.leave()
 		}
 
-		self.rootExerciseCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+		group.enter()
+		self.rootExerciseCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
+			if let error = err {
+				print(error.localizedDescription)
+				return
+			}
 			guard let snapshot = querySnapshot else { return }
 			for exercise in snapshot.documents {
 				print("Deleting Exercises")
-				self.rootExerciseCollection!.document(exercise.documentID).delete()
+				exercise.reference.delete()
 			}
+			group.leave()
 		}
 
-		self.rootWorkoutsCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+		group.enter()
+		self.rootWorkoutsCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
+			if let error = err {
+				print(error.localizedDescription)
+				return
+			}
 			guard let snapshot = querySnapshot else { return }
 			for workout in snapshot.documents {
 				print("Deleting Workouts")
-				self.rootWorkoutsCollection!.document(workout.documentID).delete()
+				workout.reference.delete()
 			}
+			group.leave()
 		}
 
-		self.workoutsCollection.daysCollection.removeAll()
-		completion()
+		group.notify(queue: DispatchQueue.global()) { [weak self] in
+			self?.workoutsCollection.daysCollection.removeAll()
+			print("Calling Notify Method")
+			completion()
+		}
+
 	}
 
 	//This method will only delete the user from the Firestore, but will not delete the User Auth credentials.
 	func deleteUserFromFirestore(completion: @escaping () -> Void) {
-		self.rootUserCollection?.whereField("uid", isEqualTo: userIdRef).addSnapshotListener { (querySnapshot, err) in
+		self.rootUserCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
 			guard let snapshot = querySnapshot else { return }
 			for user in snapshot.documents {
-				self.rootUserCollection!.document(user.documentID).delete()
+				print("Deleting User")
+				user.reference.delete()
 			}
 			completion()
 		}
@@ -412,7 +438,9 @@ class FirstViewController: UITableViewController {
 
 	func deleteUserAccount() {
 		deleteAllUserTicketData {
-			self.deleteUserFromFirestore { [weak self] in
+			print("First Completion is called")
+			self.deleteUserFromFirestore {
+				print("Second Completion is called")
 				Auth.auth().currentUser?.delete()
 			}
 		}
