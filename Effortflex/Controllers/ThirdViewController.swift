@@ -317,7 +317,7 @@ class ThirdViewController: UIViewController, AVAudioPlayerDelegate {
                 print("WSR added.")
             }
         }
-        
+		repsTextField.text = ""
     }
     
     @objc func goToNextExercise(){

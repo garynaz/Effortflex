@@ -372,76 +372,93 @@ class FirstViewController: UITableViewController {
 
 	func deleteAllUserTicketData(completion: @escaping () -> Void) {
 
-		var group = DispatchGroup()
+		let dispatchGroup = DispatchGroup()
 
-		group.enter()
-		self.rootWsrCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
-			if let error = err {
-				print(error.localizedDescription)
+		// Inner function
+		func deleteWithWaiting(snapShot: QuerySnapshot?) {
+			guard let snapshot = snapShot else {
+				dispatchGroup.leave() // leave 1 after fetching documents
+				print("Exiting Group without a snapshot")
 				return
 			}
-			guard let snapshot = querySnapshot else { return }
-			for wsr in snapshot.documents{
-				print("Deleting WSR's")
-				wsr.reference.delete()
+
+			for document in snapshot.documents {
+				dispatchGroup.enter() // enter 2 before async delete
+				document.reference.delete() { err in
+					if let err = err {
+						print("Error removing document: \(err)")
+					} else {
+						print("Document successfully removed!")
+					}
+					dispatchGroup.leave() // leave 2 after async delete
+				}
 			}
-			group.leave()
+			print("Exiting Group")
+			dispatchGroup.leave() // leave 1 after fetching documents
 		}
 
-		group.enter()
-		self.rootExerciseCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
-			if let error = err {
-				print(error.localizedDescription)
-				return
-			}
-			guard let snapshot = querySnapshot else { return }
-			for exercise in snapshot.documents {
-				print("Deleting Exercises")
-				exercise.reference.delete()
-			}
-			group.leave()
+		dispatchGroup.enter() // enter 1 before fetching documents
+		print("Entering First Group")
+		self.rootWsrCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments() { (querySnapshot, err) in
+			deleteWithWaiting(snapShot: querySnapshot)
 		}
 
-		group.enter()
-		self.rootWorkoutsCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
-			if let error = err {
-				print(error.localizedDescription)
-				return
-			}
-			guard let snapshot = querySnapshot else { return }
-			for workout in snapshot.documents {
-				print("Deleting Workouts")
-				workout.reference.delete()
-			}
-			group.leave()
+		dispatchGroup.enter() // enter 1 before fetching documents
+		print("Entering Second Group")
+		self.rootExerciseCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments() { (querySnapshot, err) in
+			deleteWithWaiting(snapShot: querySnapshot)
 		}
 
-		group.notify(queue: DispatchQueue.global()) { [weak self] in
+		dispatchGroup.enter() // enter 1 before fetching documents
+		print("Entering Third Group")
+		self.rootWorkoutsCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments() { (querySnapshot, err) in
+			deleteWithWaiting(snapShot: querySnapshot)
+		}
+
+		dispatchGroup.notify(queue: .global(qos: .background)) { [weak self] in
+			print("Calling FIRST Completion Handler")
 			self?.workoutsCollection.daysCollection.removeAll()
-			print("Calling Notify Method")
 			completion()
 		}
-
 	}
 
-	//This method will only delete the user from the Firestore, but will not delete the User Auth credentials.
 	func deleteUserFromFirestore(completion: @escaping () -> Void) {
-		self.rootUserCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments { (querySnapshot, err) in
-			guard let snapshot = querySnapshot else { return }
-			for user in snapshot.documents {
-				print("Deleting User")
-				user.reference.delete()
+		let dispatchGroup = DispatchGroup()
+
+		dispatchGroup.enter() // enter 1 before fetching documents
+		self.rootUserCollection?.whereField("uid", isEqualTo: userIdRef).getDocuments() { (querySnapshot, err) in
+			guard let snapshot = querySnapshot else {
+				dispatchGroup.leave() // leave 1 after fetching documents
+				return
 			}
-			completion()
+
+			for document in snapshot.documents {
+				dispatchGroup.enter() // enter 2 before async delete
+				document.reference.delete() { err in
+					if let err = err {
+						print("Error removing document: \(err)")
+					} else {
+						print("User successfully removed!")
+					}
+					dispatchGroup.leave() // leave 2 after async delete
+				}
+			}
+			dispatchGroup.leave() // leave 1 after fetching documents
+		}
+
+		dispatchGroup.notify(queue: DispatchQueue.global()) {
+			print("Notifying User Completion Handler")
+			completion() // now we finished the deleting
 		}
 	}
 
 	func deleteUserAccount() {
-		deleteAllUserTicketData {
-			print("First Completion is called")
-			self.deleteUserFromFirestore {
-				print("Second Completion is called")
-				Auth.auth().currentUser?.delete()
+		DispatchQueue.global().async { [weak self] in
+			self?.deleteAllUserTicketData {
+				self?.deleteUserFromFirestore {
+					print("Calling FINAL Completion Handler")
+					Auth.auth().currentUser?.delete()
+				}
 			}
 		}
 	}
